@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+/*
+ * Light "cream + indigo" theme tokens.
+ * The surface ramp goes: page (cream) -> card (warm white) -> inset well (cream)
+ * with a warm border. Indigo is the single brand accent; emerald/amber/rose are
+ * reserved for success / caution / danger states.
+ */
+:root {
+  color-scheme: light;
+
+  --font-body: 'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Sora', 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', 'Consolas', monospace;
+
+  --page: #F3EDDF;      /* app background (cream) */
+  --card: #FCFAF4;      /* panels / cards (warm white) */
+  --surface: #EFE8D8;   /* inputs, chips, secondary surfaces */
+  --well: #F3EDDF;      /* recessed wells inside cards */
+  --border: #E6DDC9;    /* hairline borders */
+  --border-strong: #DED4BE;
+  --ink: #1E1B2E;       /* primary text (deep indigo-slate) */
+  --brand: #4f46e5;     /* indigo-600 */
+}
+
+/* Make the humanist body face + cream ground the default for the whole page. */
+html, body {
+  font-family: var(--font-body);
+  background: var(--page);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+  .font-body {
+    font-family: var(--font-body);
+  }
+  .font-mono-code {
+    font-family: var(--font-mono);
+  }
+  .glass-panel {
+    background: #FCFAF4;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid #E6DDC9;
+  }
+  .glass-panel-light {
+    background: #EFE8D8;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid #E6DDC9;
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.8);
+    box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7);
+  }
+  70% {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 10px rgba(52, 211, 153, 0);
+  }
+  100% {
+    transform: scale(0.8);
+    box-shadow: 0 0 0 0 rgba(52, 211, 153, 0);
+  }
+}
+
+.pulse-ring {
+  animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 15px rgba(99, 102, 241, 0.2); }
+  50% { box-shadow: 0 0 30px rgba(99, 102, 241, 0.6); }
+}
+
+.status-pulse {
+  animation: pulse-glow 2s infinite;
+}
+
+/* Custom Scrollbar to match the light cream theme */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F3EDDF;
+}
+::-webkit-scrollbar-thumb {
+  background: #E6DDC9;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #6366f1;
+}
+
+

@@ -1,0 +1,6 @@
+{
+  "name": "ECHOLYTIX",
+  "description": "Assistive AI communication platform featuring Blink-to-Text, Sign Language Recognition, Morse Translator, and Text-to-Speech.",
+  "requestFramePermissions": ["camera", "microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_API"]
+}

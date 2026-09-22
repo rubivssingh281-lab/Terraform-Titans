@@ -1,0 +1,25 @@
+node_modules/
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+
+# SQLite database (created fresh on server)
+*.db
+*.db-shm
+*.db-wal
+
+# Large dataset files (not needed for deployment)
+WLASL/
+WLASAL_v0.3.json
+WLASL_v1.0.json
+MSASL_train.json
+MSASL_classes.json
+msasl_subset_index.json
+videos/
+videos_msasl/
+extracted_landmarks_cache*.json
+
