@@ -1,0 +1,4345 @@
+{
+  "starts": [
+    {
+      "word": "i",
+      "prob": 0.3161
+    },
+    {
+      "word": "we",
+      "prob": 0.2787
+    },
+    {
+      "word": "they",
+      "prob": 0.2787
+    },
+    {
+      "word": "please",
+      "prob": 0.1071
+    },
+    {
+      "word": "could",
+      "prob": 0.0065
+    }
+  ],
+  "transitions": {
+    "i": [
+      {
+        "word": "want",
+        "prob": 0.2531
+      },
+      {
+        "word": "need",
+        "prob": 0.2408
+      },
+      {
+        "word": "require",
+        "prob": 0.2204
+      },
+      {
+        "word": "desire",
+        "prob": 0.2204
+      },
+      {
+        "word": "am",
+        "prob": 0.0408
+      }
+    ],
+    "need": [
+      {
+        "word": "water",
+        "prob": 0.1138
+      },
+      {
+        "word": "food",
+        "prob": 0.1138
+      },
+      {
+        "word": "help",
+        "prob": 0.1078
+      },
+      {
+        "word": "medicine",
+        "prob": 0.1078
+      },
+      {
+        "word": "blanket",
+        "prob": 0.1078
+      }
+    ],
+    "my": [
+      {
+        "word": "medicine",
+        "prob": 0.125
+      },
+      {
+        "word": "phone",
+        "prob": 0.125
+      },
+      {
+        "word": "nurse",
+        "prob": 0.0625
+      },
+      {
+        "word": "pillow",
+        "prob": 0.0625
+      },
+      {
+        "word": "bed",
+        "prob": 0.0625
+      }
+    ],
+    "medicine": [
+      {
+        "word": "immediately",
+        "prob": 0.209
+      },
+      {
+        "word": "now",
+        "prob": 0.209
+      },
+      {
+        "word": "please",
+        "prob": 0.194
+      },
+      {
+        "word": "thank",
+        "prob": 0.194
+      },
+      {
+        "word": "urgently",
+        "prob": 0.194
+      }
+    ],
+    "am": [
+      {
+        "word": "feeling",
+        "prob": 0.8
+      },
+      {
+        "word": "having",
+        "prob": 0.1
+      },
+      {
+        "word": "doing",
+        "prob": 0.1
+      }
+    ],
+    "feeling": [
+      {
+        "word": "pain",
+        "prob": 0.5
+      },
+      {
+        "word": "too",
+        "prob": 0.25
+      },
+      {
+        "word": "tired",
+        "prob": 0.125
+      },
+      {
+        "word": "sleepy",
+        "prob": 0.125
+      }
+    ],
+    "pain": [
+      {
+        "word": "in",
+        "prob": 0.75
+      },
+      {
+        "word": "please",
+        "prob": 0.25
+      }
+    ],
+    "please": [
+      {
+        "word": "give",
+        "prob": 0.6471
+      },
+      {
+        "word": "call",
+        "prob": 0.0706
+      },
+      {
+        "word": "turn",
+        "prob": 0.0706
+      },
+      {
+        "word": "help",
+        "prob": 0.0588
+      },
+      {
+        "word": "adjust",
+        "prob": 0.0353
+      }
+    ],
+    "call": [
+      {
+        "word": "the",
+        "prob": 0.3333
+      },
+      {
+        "word": "my",
+        "prob": 0.1667
+      },
+      {
+        "word": "an",
+        "prob": 0.1667
+      },
+      {
+        "word": "saksham",
+        "prob": 0.1667
+      },
+      {
+        "word": "sachin",
+        "prob": 0.1667
+      }
+    ],
+    "nurse": [
+      {
+        "word": "or",
+        "prob": 0.5
+      },
+      {
+        "word": "immediately",
+        "prob": 0.5
+      }
+    ],
+    "or": [
+      {
+        "word": "family",
+        "prob": 0.3333
+      },
+      {
+        "word": "a",
+        "prob": 0.3333
+      },
+      {
+        "word": "something",
+        "prob": 0.3333
+      }
+    ],
+    "water": [
+      {
+        "word": "now",
+        "prob": 0.209
+      },
+      {
+        "word": "please",
+        "prob": 0.194
+      },
+      {
+        "word": "thank",
+        "prob": 0.194
+      },
+      {
+        "word": "immediately",
+        "prob": 0.194
+      },
+      {
+        "word": "urgently",
+        "prob": 0.194
+      }
+    ],
+    "a": [
+      {
+        "word": "drink",
+        "prob": 0.25
+      },
+      {
+        "word": "blanket",
+        "prob": 0.25
+      },
+      {
+        "word": "nice",
+        "prob": 0.25
+      },
+      {
+        "word": "glass",
+        "prob": 0.25
+      }
+    ],
+    "food": [
+      {
+        "word": "now",
+        "prob": 0.209
+      },
+      {
+        "word": "please",
+        "prob": 0.194
+      },
+      {
+        "word": "thank",
+        "prob": 0.194
+      },
+      {
+        "word": "immediately",
+        "prob": 0.194
+      },
+      {
+        "word": "urgently",
+        "prob": 0.194
+      }
+    ],
+    "something": [
+      {
+        "word": "to",
+        "prob": 1
+      }
+    ],
+    "to": [
+      {
+        "word": "rest",
+        "prob": 0.1429
+      },
+      {
+        "word": "me",
+        "prob": 0.1429
+      },
+      {
+        "word": "eat",
+        "prob": 0.0714
+      },
+      {
+        "word": "use",
+        "prob": 0.0714
+      },
+      {
+        "word": "sit",
+        "prob": 0.0714
+      }
+    ],
+    "use": [
+      {
+        "word": "the",
+        "prob": 1
+      }
+    ],
+    "the": [
+      {
+        "word": "air",
+        "prob": 0.1176
+      },
+      {
+        "word": "room",
+        "prob": 0.1176
+      },
+      {
+        "word": "bedroom",
+        "prob": 0.1176
+      },
+      {
+        "word": "window",
+        "prob": 0.1176
+      },
+      {
+        "word": "television",
+        "prob": 0.1176
+      }
+    ],
+    "bathroom": [
+      {
+        "word": "now",
+        "prob": 0.2121
+      },
+      {
+        "word": "please",
+        "prob": 0.197
+      },
+      {
+        "word": "thank",
+        "prob": 0.197
+      },
+      {
+        "word": "immediately",
+        "prob": 0.197
+      },
+      {
+        "word": "urgently",
+        "prob": 0.197
+      }
+    ],
+    "help": [
+      {
+        "word": "please",
+        "prob": 0.1884
+      },
+      {
+        "word": "thank",
+        "prob": 0.1884
+      },
+      {
+        "word": "immediately",
+        "prob": 0.1884
+      },
+      {
+        "word": "now",
+        "prob": 0.1884
+      },
+      {
+        "word": "urgently",
+        "prob": 0.1884
+      }
+    ],
+    "me": [
+      {
+        "word": "water",
+        "prob": 0.0952
+      },
+      {
+        "word": "food",
+        "prob": 0.0952
+      },
+      {
+        "word": "help",
+        "prob": 0.0952
+      },
+      {
+        "word": "medicine",
+        "prob": 0.0952
+      },
+      {
+        "word": "blanket",
+        "prob": 0.0952
+      }
+    ],
+    "sit": [
+      {
+        "word": "up",
+        "prob": 0.3333
+      },
+      {
+        "word": "in",
+        "prob": 0.3333
+      },
+      {
+        "word": "down",
+        "prob": 0.3333
+      }
+    ],
+    "having": [
+      {
+        "word": "trouble",
+        "prob": 1
+      }
+    ],
+    "trouble": [
+      {
+        "word": "breathing",
+        "prob": 1
+      }
+    ],
+    "an": [
+      {
+        "word": "ambulance",
+        "prob": 1
+      }
+    ],
+    "saksham": [
+      {
+        "word": "caregiver",
+        "prob": 1
+      }
+    ],
+    "adjust": [
+      {
+        "word": "my",
+        "prob": 0.6667
+      },
+      {
+        "word": "the",
+        "prob": 0.3333
+      }
+    ],
+    "pillow": [
+      {
+        "word": "please",
+        "prob": 0.197
+      },
+      {
+        "word": "thank",
+        "prob": 0.197
+      },
+      {
+        "word": "immediately",
+        "prob": 0.197
+      },
+      {
+        "word": "now",
+        "prob": 0.197
+      },
+      {
+        "word": "urgently",
+        "prob": 0.197
+      }
+    ],
+    "can": [
+      {
+        "word": "you",
+        "prob": 1
+      }
+    ],
+    "you": [
+      {
+        "word": "get",
+        "prob": 0.2667
+      },
+      {
+        "word": "turn",
+        "prob": 0.1333
+      },
+      {
+        "word": "today",
+        "prob": 0.0667
+      },
+      {
+        "word": "so",
+        "prob": 0.0667
+      },
+      {
+        "word": "doing",
+        "prob": 0.0667
+      }
+    ],
+    "turn": [
+      {
+        "word": "on",
+        "prob": 0.375
+      },
+      {
+        "word": "off",
+        "prob": 0.375
+      },
+      {
+        "word": "up",
+        "prob": 0.125
+      },
+      {
+        "word": "down",
+        "prob": 0.125
+      }
+    ],
+    "up": [
+      {
+        "word": "the",
+        "prob": 1
+      }
+    ],
+    "air": [
+      {
+        "word": "conditioner",
+        "prob": 1
+      }
+    ],
+    "down": [
+      {
+        "word": "the",
+        "prob": 0.3333
+      },
+      {
+        "word": "for",
+        "prob": 0.3333
+      },
+      {
+        "word": "next",
+        "prob": 0.3333
+      }
+    ],
+    "dim": [
+      {
+        "word": "the",
+        "prob": 1
+      }
+    ],
+    "room": [
+      {
+        "word": "lighting",
+        "prob": 0.5
+      },
+      {
+        "word": "temperature",
+        "prob": 0.5
+      }
+    ],
+    "on": [
+      {
+        "word": "the",
+        "prob": 1
+      }
+    ],
+    "bedroom": [
+      {
+        "word": "light",
+        "prob": 1
+      }
+    ],
+    "off": [
+      {
+        "word": "the",
+        "prob": 1
+      }
+    ],
+    "would": [
+      {
+        "word": "like",
+        "prob": 1
+      }
+    ],
+    "like": [
+      {
+        "word": "to",
+        "prob": 1
+      }
+    ],
+    "rest": [
+      {
+        "word": "now",
+        "prob": 0.2239
+      },
+      {
+        "word": "please",
+        "prob": 0.194
+      },
+      {
+        "word": "thank",
+        "prob": 0.194
+      },
+      {
+        "word": "immediately",
+        "prob": 0.194
+      },
+      {
+        "word": "urgently",
+        "prob": 0.194
+      }
+    ],
+    "too": [
+      {
+        "word": "cold",
+        "prob": 0.5
+      },
+      {
+        "word": "hot",
+        "prob": 0.5
+      }
+    ],
+    "cold": [
+      {
+        "word": "here",
+        "prob": 1
+      }
+    ],
+    "hot": [
+      {
+        "word": "here",
+        "prob": 1
+      }
+    ],
+    "open": [
+      {
+        "word": "the",
+        "prob": 1
+      }
+    ],
+    "window": [
+      {
+        "word": "for",
+        "prob": 1
+      }
+    ],
+    "for": [
+      {
+        "word": "fresh",
+        "prob": 0.3333
+      },
+      {
+        "word": "helping",
+        "prob": 0.3333
+      },
+      {
+        "word": "me",
+        "prob": 0.3333
+      }
+    ],
+    "fresh": [
+      {
+        "word": "air",
+        "prob": 1
+      }
+    ],
+    "close": [
+      {
+        "word": "the",
+        "prob": 1
+      }
+    ],
+    "blanket": [
+      {
+        "word": "please",
+        "prob": 0.2121
+      },
+      {
+        "word": "thank",
+        "prob": 0.197
+      },
+      {
+        "word": "immediately",
+        "prob": 0.197
+      },
+      {
+        "word": "now",
+        "prob": 0.197
+      },
+      {
+        "word": "urgently",
+        "prob": 0.197
+      }
+    ],
+    "bed": [
+      {
+        "word": "position",
+        "prob": 0.5
+      },
+      {
+        "word": "sheets",
+        "prob": 0.5
+      }
+    ],
+    "want": [
+      {
+        "word": "water",
+        "prob": 0.1059
+      },
+      {
+        "word": "food",
+        "prob": 0.1059
+      },
+      {
+        "word": "help",
+        "prob": 0.1059
+      },
+      {
+        "word": "medicine",
+        "prob": 0.1059
+      },
+      {
+        "word": "blanket",
+        "prob": 0.1059
+      }
+    ],
+    "in": [
+      {
+        "word": "my",
+        "prob": 1
+      }
+    ],
+    "listen": [
+      {
+        "word": "to",
+        "prob": 1
+      }
+    ],
+    "hello": [
+      {
+        "word": "it",
+        "prob": 1
+      }
+    ],
+    "it": [
+      {
+        "word": "is",
+        "prob": 0.5
+      },
+      {
+        "word": "down",
+        "prob": 0.5
+      }
+    ],
+    "is": [
+      {
+        "word": "great",
+        "prob": 1
+      }
+    ],
+    "great": [
+      {
+        "word": "to",
+        "prob": 1
+      }
+    ],
+    "see": [
+      {
+        "word": "you",
+        "prob": 1
+      }
+    ],
+    "thank": [
+      {
+        "word": "you",
+        "prob": 1
+      }
+    ],
+    "so": [
+      {
+        "word": "much",
+        "prob": 1
+      }
+    ],
+    "much": [
+      {
+        "word": "for",
+        "prob": 1
+      }
+    ],
+    "helping": [
+      {
+        "word": "me",
+        "prob": 1
+      }
+    ],
+    "how": [
+      {
+        "word": "are",
+        "prob": 1
+      }
+    ],
+    "are": [
+      {
+        "word": "you",
+        "prob": 0.5
+      },
+      {
+        "word": "saying",
+        "prob": 0.5
+      }
+    ],
+    "doing": [
+      {
+        "word": "today",
+        "prob": 0.5
+      },
+      {
+        "word": "okay",
+        "prob": 0.5
+      }
+    ],
+    "yes": [
+      {
+        "word": "that",
+        "prob": 1
+      }
+    ],
+    "that": [
+      {
+        "word": "sounds",
+        "prob": 1
+      }
+    ],
+    "sounds": [
+      {
+        "word": "good",
+        "prob": 1
+      }
+    ],
+    "good": [
+      {
+        "word": "to",
+        "prob": 0.3333
+      },
+      {
+        "word": "morning",
+        "prob": 0.3333
+      },
+      {
+        "word": "night",
+        "prob": 0.3333
+      }
+    ],
+    "no": [
+      {
+        "word": "thank",
+        "prob": 1
+      }
+    ],
+    "very": [
+      {
+        "word": "much",
+        "prob": 1
+      }
+    ],
+    "morning": [
+      {
+        "word": "hope",
+        "prob": 1
+      }
+    ],
+    "hope": [
+      {
+        "word": "you",
+        "prob": 1
+      }
+    ],
+    "slept": [
+      {
+        "word": "well",
+        "prob": 1
+      }
+    ],
+    "night": [
+      {
+        "word": "see",
+        "prob": 1
+      }
+    ],
+    "appreciate": [
+      {
+        "word": "your",
+        "prob": 1
+      }
+    ],
+    "your": [
+      {
+        "word": "kind",
+        "prob": 1
+      }
+    ],
+    "kind": [
+      {
+        "word": "assistance",
+        "prob": 1
+      }
+    ],
+    "give": [
+      {
+        "word": "me",
+        "prob": 1
+      }
+    ],
+    "some": [
+      {
+        "word": "time",
+        "prob": 0.25
+      },
+      {
+        "word": "water",
+        "prob": 0.25
+      },
+      {
+        "word": "food",
+        "prob": 0.25
+      },
+      {
+        "word": "warm",
+        "prob": 0.25
+      }
+    ],
+    "time": [
+      {
+        "word": "to",
+        "prob": 1
+      }
+    ],
+    "could": [
+      {
+        "word": "you",
+        "prob": 1
+      }
+    ],
+    "repeat": [
+      {
+        "word": "that",
+        "prob": 1
+      }
+    ],
+    "understand": [
+      {
+        "word": "what",
+        "prob": 1
+      }
+    ],
+    "what": [
+      {
+        "word": "you",
+        "prob": 1
+      }
+    ],
+    "do": [
+      {
+        "word": "not",
+        "prob": 1
+      }
+    ],
+    "not": [
+      {
+        "word": "understand",
+        "prob": 1
+      }
+    ],
+    "write": [
+      {
+        "word": "it",
+        "prob": 1
+      }
+    ],
+    "okay": [
+      {
+        "word": "thank",
+        "prob": 1
+      }
+    ],
+    "feel": [
+      {
+        "word": "better",
+        "prob": 1
+      }
+    ],
+    "better": [
+      {
+        "word": "now",
+        "prob": 1
+      }
+    ],
+    "now": [
+      {
+        "word": "thanks",
+        "prob": 1
+      }
+    ],
+    "next": [
+      {
+        "word": "to",
+        "prob": 1
+      }
+    ],
+    "have": [
+      {
+        "word": "a",
+        "prob": 1
+      }
+    ],
+    "nice": [
+      {
+        "word": "day",
+        "prob": 1
+      }
+    ],
+    "day": [
+      {
+        "word": "ahead",
+        "prob": 1
+      }
+    ],
+    "doctor": [
+      {
+        "word": "immediately",
+        "prob": 1
+      }
+    ],
+    "sachin": [
+      {
+        "word": "gupta",
+        "prob": 1
+      }
+    ],
+    "sleep": [
+      {
+        "word": "now",
+        "prob": 1
+      }
+    ],
+    "tired": [
+      {
+        "word": "today",
+        "prob": 1
+      }
+    ],
+    "sleepy": [
+      {
+        "word": "now",
+        "prob": 1
+      }
+    ],
+    "change": [
+      {
+        "word": "my",
+        "prob": 1
+      }
+    ],
+    "clean": [
+      {
+        "word": "the",
+        "prob": 1
+      }
+    ],
+    "brush": [
+      {
+        "word": "my",
+        "prob": 1
+      }
+    ],
+    "wash": [
+      {
+        "word": "my",
+        "prob": 1
+      }
+    ],
+    "drink": [
+      {
+        "word": "this",
+        "prob": 1
+      }
+    ],
+    "eat": [
+      {
+        "word": "this",
+        "prob": 1
+      }
+    ],
+    "get": [
+      {
+        "word": "me",
+        "prob": 1
+      }
+    ],
+    "glass": [
+      {
+        "word": "of",
+        "prob": 1
+      }
+    ],
+    "of": [
+      {
+        "word": "water",
+        "prob": 1
+      }
+    ],
+    "warm": [
+      {
+        "word": "food",
+        "prob": 1
+      }
+    ],
+    "charge": [
+      {
+        "word": "my",
+        "prob": 1
+      }
+    ],
+    "check": [
+      {
+        "word": "the",
+        "prob": 1
+      }
+    ],
+    "assistance": [
+      {
+        "word": "please",
+        "prob": 0.2
+      },
+      {
+        "word": "thank",
+        "prob": 0.2
+      },
+      {
+        "word": "immediately",
+        "prob": 0.2
+      },
+      {
+        "word": "now",
+        "prob": 0.2
+      },
+      {
+        "word": "urgently",
+        "prob": 0.2
+      }
+    ],
+    "require": [
+      {
+        "word": "water",
+        "prob": 0.1111
+      },
+      {
+        "word": "food",
+        "prob": 0.1111
+      },
+      {
+        "word": "help",
+        "prob": 0.1111
+      },
+      {
+        "word": "medicine",
+        "prob": 0.1111
+      },
+      {
+        "word": "blanket",
+        "prob": 0.1111
+      }
+    ],
+    "desire": [
+      {
+        "word": "water",
+        "prob": 0.1111
+      },
+      {
+        "word": "food",
+        "prob": 0.1111
+      },
+      {
+        "word": "help",
+        "prob": 0.1111
+      },
+      {
+        "word": "medicine",
+        "prob": 0.1111
+      },
+      {
+        "word": "blanket",
+        "prob": 0.1111
+      }
+    ],
+    "we": [
+      {
+        "word": "need",
+        "prob": 0.25
+      },
+      {
+        "word": "want",
+        "prob": 0.25
+      },
+      {
+        "word": "require",
+        "prob": 0.25
+      },
+      {
+        "word": "desire",
+        "prob": 0.25
+      }
+    ],
+    "they": [
+      {
+        "word": "need",
+        "prob": 0.25
+      },
+      {
+        "word": "want",
+        "prob": 0.25
+      },
+      {
+        "word": "require",
+        "prob": 0.25
+      },
+      {
+        "word": "desire",
+        "prob": 0.25
+      }
+    ]
+  },
+  "corpus": [
+    {
+      "original": "I need my medicine immediately.",
+      "clean": "i need my medicine immediately"
+    },
+    {
+      "original": "I am feeling pain, please help.",
+      "clean": "i am feeling pain please help"
+    },
+    {
+      "original": "Please call my nurse or family.",
+      "clean": "please call my nurse or family"
+    },
+    {
+      "original": "I need water or a drink.",
+      "clean": "i need water or a drink"
+    },
+    {
+      "original": "I need food or something to eat.",
+      "clean": "i need food or something to eat"
+    },
+    {
+      "original": "I need to use the bathroom now.",
+      "clean": "i need to use the bathroom now"
+    },
+    {
+      "original": "Please help me sit up.",
+      "clean": "please help me sit up"
+    },
+    {
+      "original": "I am having trouble breathing.",
+      "clean": "i am having trouble breathing"
+    },
+    {
+      "original": "Please call an ambulance.",
+      "clean": "please call an ambulance"
+    },
+    {
+      "original": "Please call saksham caregiver.",
+      "clean": "please call saksham caregiver"
+    },
+    {
+      "original": "Please adjust my pillow position.",
+      "clean": "please adjust my pillow position"
+    },
+    {
+      "original": "Can you turn up the air conditioner?",
+      "clean": "can you turn up the air conditioner"
+    },
+    {
+      "original": "Can you turn down the air conditioner?",
+      "clean": "can you turn down the air conditioner"
+    },
+    {
+      "original": "Please dim the room lighting.",
+      "clean": "please dim the room lighting"
+    },
+    {
+      "original": "Please turn on the bedroom light.",
+      "clean": "please turn on the bedroom light"
+    },
+    {
+      "original": "Please turn off the bedroom light.",
+      "clean": "please turn off the bedroom light"
+    },
+    {
+      "original": "I would like to rest now.",
+      "clean": "i would like to rest now"
+    },
+    {
+      "original": "I am feeling too cold here.",
+      "clean": "i am feeling too cold here"
+    },
+    {
+      "original": "I am feeling too hot here.",
+      "clean": "i am feeling too hot here"
+    },
+    {
+      "original": "Please open the window for fresh air.",
+      "clean": "please open the window for fresh air"
+    },
+    {
+      "original": "Please close the window.",
+      "clean": "please close the window"
+    },
+    {
+      "original": "I need a blanket please.",
+      "clean": "i need a blanket please"
+    },
+    {
+      "original": "Please adjust my bed position.",
+      "clean": "please adjust my bed position"
+    },
+    {
+      "original": "I want to sit in my wheelchair.",
+      "clean": "i want to sit in my wheelchair"
+    },
+    {
+      "original": "Please turn on the television.",
+      "clean": "please turn on the television"
+    },
+    {
+      "original": "Please turn off the television.",
+      "clean": "please turn off the television"
+    },
+    {
+      "original": "I would like to listen to music.",
+      "clean": "i would like to listen to music"
+    },
+    {
+      "original": "Hello, it is great to see you today!",
+      "clean": "hello it is great to see you today"
+    },
+    {
+      "original": "Thank you so much for helping me.",
+      "clean": "thank you so much for helping me"
+    },
+    {
+      "original": "How are you doing today?",
+      "clean": "how are you doing today"
+    },
+    {
+      "original": "Yes, that sounds good to me.",
+      "clean": "yes that sounds good to me"
+    },
+    {
+      "original": "No, thank you very much.",
+      "clean": "no thank you very much"
+    },
+    {
+      "original": "Good morning, hope you slept well.",
+      "clean": "good morning hope you slept well"
+    },
+    {
+      "original": "Good night, see you tomorrow.",
+      "clean": "good night see you tomorrow"
+    },
+    {
+      "original": "I appreciate your kind assistance.",
+      "clean": "i appreciate your kind assistance"
+    },
+    {
+      "original": "Please give me some time to think.",
+      "clean": "please give me some time to think"
+    },
+    {
+      "original": "Could you please repeat that?",
+      "clean": "could you please repeat that"
+    },
+    {
+      "original": "I understand what you are saying.",
+      "clean": "i understand what you are saying"
+    },
+    {
+      "original": "I do not understand what you mean.",
+      "clean": "i do not understand what you mean"
+    },
+    {
+      "original": "Please write it down for me.",
+      "clean": "please write it down for me"
+    },
+    {
+      "original": "I am doing okay, thank you.",
+      "clean": "i am doing okay thank you"
+    },
+    {
+      "original": "I feel better now, thanks.",
+      "clean": "i feel better now thanks"
+    },
+    {
+      "original": "Please sit down next to me.",
+      "clean": "please sit down next to me"
+    },
+    {
+      "original": "Have a nice day ahead.",
+      "clean": "have a nice day ahead"
+    },
+    {
+      "original": "I need water please.",
+      "clean": "i need water please"
+    },
+    {
+      "original": "I need food please.",
+      "clean": "i need food please"
+    },
+    {
+      "original": "I need help please.",
+      "clean": "i need help please"
+    },
+    {
+      "original": "I need medicine please.",
+      "clean": "i need medicine please"
+    },
+    {
+      "original": "Please call the doctor immediately.",
+      "clean": "please call the doctor immediately"
+    },
+    {
+      "original": "Please call the nurse immediately.",
+      "clean": "please call the nurse immediately"
+    },
+    {
+      "original": "Please call Sachin Gupta.",
+      "clean": "please call sachin gupta"
+    },
+    {
+      "original": "I want some water now.",
+      "clean": "i want some water now"
+    },
+    {
+      "original": "I want some food now.",
+      "clean": "i want some food now"
+    },
+    {
+      "original": "I want my medicine now.",
+      "clean": "i want my medicine now"
+    },
+    {
+      "original": "I want to sleep now.",
+      "clean": "i want to sleep now"
+    },
+    {
+      "original": "I want to rest now.",
+      "clean": "i want to rest now"
+    },
+    {
+      "original": "I am feeling tired today.",
+      "clean": "i am feeling tired today"
+    },
+    {
+      "original": "I am feeling sleepy now.",
+      "clean": "i am feeling sleepy now"
+    },
+    {
+      "original": "I am feeling pain in my head.",
+      "clean": "i am feeling pain in my head"
+    },
+    {
+      "original": "I am feeling pain in my chest.",
+      "clean": "i am feeling pain in my chest"
+    },
+    {
+      "original": "I am feeling pain in my stomach.",
+      "clean": "i am feeling pain in my stomach"
+    },
+    {
+      "original": "Please adjust the room temperature.",
+      "clean": "please adjust the room temperature"
+    },
+    {
+      "original": "Please change my clothes.",
+      "clean": "please change my clothes"
+    },
+    {
+      "original": "Please clean the bed sheets.",
+      "clean": "please clean the bed sheets"
+    },
+    {
+      "original": "I want to brush my teeth.",
+      "clean": "i want to brush my teeth"
+    },
+    {
+      "original": "I want to wash my face.",
+      "clean": "i want to wash my face"
+    },
+    {
+      "original": "Please help me wash my hands.",
+      "clean": "please help me wash my hands"
+    },
+    {
+      "original": "Please help me drink this.",
+      "clean": "please help me drink this"
+    },
+    {
+      "original": "Please help me eat this.",
+      "clean": "please help me eat this"
+    },
+    {
+      "original": "Could you get me a glass of water?",
+      "clean": "could you get me a glass of water"
+    },
+    {
+      "original": "Could you get me some warm food?",
+      "clean": "could you get me some warm food"
+    },
+    {
+      "original": "Could you get me my book?",
+      "clean": "could you get me my book"
+    },
+    {
+      "original": "Could you get me my phone?",
+      "clean": "could you get me my phone"
+    },
+    {
+      "original": "Please charge my phone.",
+      "clean": "please charge my phone"
+    },
+    {
+      "original": "Please check the door.",
+      "clean": "please check the door"
+    },
+    {
+      "original": "Please turn off the fan.",
+      "clean": "please turn off the fan"
+    },
+    {
+      "original": "Please turn on the fan.",
+      "clean": "please turn on the fan"
+    },
+    {
+      "original": "I need water thank you.",
+      "clean": "i need water thank you"
+    },
+    {
+      "original": "I need water immediately.",
+      "clean": "i need water immediately"
+    },
+    {
+      "original": "I need water now.",
+      "clean": "i need water now"
+    },
+    {
+      "original": "I need water urgently.",
+      "clean": "i need water urgently"
+    },
+    {
+      "original": "I need water.",
+      "clean": "i need water"
+    },
+    {
+      "original": "I need food thank you.",
+      "clean": "i need food thank you"
+    },
+    {
+      "original": "I need food immediately.",
+      "clean": "i need food immediately"
+    },
+    {
+      "original": "I need food now.",
+      "clean": "i need food now"
+    },
+    {
+      "original": "I need food urgently.",
+      "clean": "i need food urgently"
+    },
+    {
+      "original": "I need food.",
+      "clean": "i need food"
+    },
+    {
+      "original": "I need help thank you.",
+      "clean": "i need help thank you"
+    },
+    {
+      "original": "I need help immediately.",
+      "clean": "i need help immediately"
+    },
+    {
+      "original": "I need help now.",
+      "clean": "i need help now"
+    },
+    {
+      "original": "I need help urgently.",
+      "clean": "i need help urgently"
+    },
+    {
+      "original": "I need help.",
+      "clean": "i need help"
+    },
+    {
+      "original": "I need medicine thank you.",
+      "clean": "i need medicine thank you"
+    },
+    {
+      "original": "I need medicine immediately.",
+      "clean": "i need medicine immediately"
+    },
+    {
+      "original": "I need medicine now.",
+      "clean": "i need medicine now"
+    },
+    {
+      "original": "I need medicine urgently.",
+      "clean": "i need medicine urgently"
+    },
+    {
+      "original": "I need medicine.",
+      "clean": "i need medicine"
+    },
+    {
+      "original": "I need blanket please.",
+      "clean": "i need blanket please"
+    },
+    {
+      "original": "I need blanket thank you.",
+      "clean": "i need blanket thank you"
+    },
+    {
+      "original": "I need blanket immediately.",
+      "clean": "i need blanket immediately"
+    },
+    {
+      "original": "I need blanket now.",
+      "clean": "i need blanket now"
+    },
+    {
+      "original": "I need blanket urgently.",
+      "clean": "i need blanket urgently"
+    },
+    {
+      "original": "I need blanket.",
+      "clean": "i need blanket"
+    },
+    {
+      "original": "I need pillow please.",
+      "clean": "i need pillow please"
+    },
+    {
+      "original": "I need pillow thank you.",
+      "clean": "i need pillow thank you"
+    },
+    {
+      "original": "I need pillow immediately.",
+      "clean": "i need pillow immediately"
+    },
+    {
+      "original": "I need pillow now.",
+      "clean": "i need pillow now"
+    },
+    {
+      "original": "I need pillow urgently.",
+      "clean": "i need pillow urgently"
+    },
+    {
+      "original": "I need pillow.",
+      "clean": "i need pillow"
+    },
+    {
+      "original": "I need rest please.",
+      "clean": "i need rest please"
+    },
+    {
+      "original": "I need rest thank you.",
+      "clean": "i need rest thank you"
+    },
+    {
+      "original": "I need rest immediately.",
+      "clean": "i need rest immediately"
+    },
+    {
+      "original": "I need rest now.",
+      "clean": "i need rest now"
+    },
+    {
+      "original": "I need rest urgently.",
+      "clean": "i need rest urgently"
+    },
+    {
+      "original": "I need rest.",
+      "clean": "i need rest"
+    },
+    {
+      "original": "I need assistance please.",
+      "clean": "i need assistance please"
+    },
+    {
+      "original": "I need assistance thank you.",
+      "clean": "i need assistance thank you"
+    },
+    {
+      "original": "I need assistance immediately.",
+      "clean": "i need assistance immediately"
+    },
+    {
+      "original": "I need assistance now.",
+      "clean": "i need assistance now"
+    },
+    {
+      "original": "I need assistance urgently.",
+      "clean": "i need assistance urgently"
+    },
+    {
+      "original": "I need assistance.",
+      "clean": "i need assistance"
+    },
+    {
+      "original": "I need bathroom please.",
+      "clean": "i need bathroom please"
+    },
+    {
+      "original": "I need bathroom thank you.",
+      "clean": "i need bathroom thank you"
+    },
+    {
+      "original": "I need bathroom immediately.",
+      "clean": "i need bathroom immediately"
+    },
+    {
+      "original": "I need bathroom now.",
+      "clean": "i need bathroom now"
+    },
+    {
+      "original": "I need bathroom urgently.",
+      "clean": "i need bathroom urgently"
+    },
+    {
+      "original": "I need bathroom.",
+      "clean": "i need bathroom"
+    },
+    {
+      "original": "I want water please.",
+      "clean": "i want water please"
+    },
+    {
+      "original": "I want water thank you.",
+      "clean": "i want water thank you"
+    },
+    {
+      "original": "I want water immediately.",
+      "clean": "i want water immediately"
+    },
+    {
+      "original": "I want water now.",
+      "clean": "i want water now"
+    },
+    {
+      "original": "I want water urgently.",
+      "clean": "i want water urgently"
+    },
+    {
+      "original": "I want water.",
+      "clean": "i want water"
+    },
+    {
+      "original": "I want food please.",
+      "clean": "i want food please"
+    },
+    {
+      "original": "I want food thank you.",
+      "clean": "i want food thank you"
+    },
+    {
+      "original": "I want food immediately.",
+      "clean": "i want food immediately"
+    },
+    {
+      "original": "I want food now.",
+      "clean": "i want food now"
+    },
+    {
+      "original": "I want food urgently.",
+      "clean": "i want food urgently"
+    },
+    {
+      "original": "I want food.",
+      "clean": "i want food"
+    },
+    {
+      "original": "I want help please.",
+      "clean": "i want help please"
+    },
+    {
+      "original": "I want help thank you.",
+      "clean": "i want help thank you"
+    },
+    {
+      "original": "I want help immediately.",
+      "clean": "i want help immediately"
+    },
+    {
+      "original": "I want help now.",
+      "clean": "i want help now"
+    },
+    {
+      "original": "I want help urgently.",
+      "clean": "i want help urgently"
+    },
+    {
+      "original": "I want help.",
+      "clean": "i want help"
+    },
+    {
+      "original": "I want medicine please.",
+      "clean": "i want medicine please"
+    },
+    {
+      "original": "I want medicine thank you.",
+      "clean": "i want medicine thank you"
+    },
+    {
+      "original": "I want medicine immediately.",
+      "clean": "i want medicine immediately"
+    },
+    {
+      "original": "I want medicine now.",
+      "clean": "i want medicine now"
+    },
+    {
+      "original": "I want medicine urgently.",
+      "clean": "i want medicine urgently"
+    },
+    {
+      "original": "I want medicine.",
+      "clean": "i want medicine"
+    },
+    {
+      "original": "I want blanket please.",
+      "clean": "i want blanket please"
+    },
+    {
+      "original": "I want blanket thank you.",
+      "clean": "i want blanket thank you"
+    },
+    {
+      "original": "I want blanket immediately.",
+      "clean": "i want blanket immediately"
+    },
+    {
+      "original": "I want blanket now.",
+      "clean": "i want blanket now"
+    },
+    {
+      "original": "I want blanket urgently.",
+      "clean": "i want blanket urgently"
+    },
+    {
+      "original": "I want blanket.",
+      "clean": "i want blanket"
+    },
+    {
+      "original": "I want pillow please.",
+      "clean": "i want pillow please"
+    },
+    {
+      "original": "I want pillow thank you.",
+      "clean": "i want pillow thank you"
+    },
+    {
+      "original": "I want pillow immediately.",
+      "clean": "i want pillow immediately"
+    },
+    {
+      "original": "I want pillow now.",
+      "clean": "i want pillow now"
+    },
+    {
+      "original": "I want pillow urgently.",
+      "clean": "i want pillow urgently"
+    },
+    {
+      "original": "I want pillow.",
+      "clean": "i want pillow"
+    },
+    {
+      "original": "I want rest please.",
+      "clean": "i want rest please"
+    },
+    {
+      "original": "I want rest thank you.",
+      "clean": "i want rest thank you"
+    },
+    {
+      "original": "I want rest immediately.",
+      "clean": "i want rest immediately"
+    },
+    {
+      "original": "I want rest now.",
+      "clean": "i want rest now"
+    },
+    {
+      "original": "I want rest urgently.",
+      "clean": "i want rest urgently"
+    },
+    {
+      "original": "I want rest.",
+      "clean": "i want rest"
+    },
+    {
+      "original": "I want assistance please.",
+      "clean": "i want assistance please"
+    },
+    {
+      "original": "I want assistance thank you.",
+      "clean": "i want assistance thank you"
+    },
+    {
+      "original": "I want assistance immediately.",
+      "clean": "i want assistance immediately"
+    },
+    {
+      "original": "I want assistance now.",
+      "clean": "i want assistance now"
+    },
+    {
+      "original": "I want assistance urgently.",
+      "clean": "i want assistance urgently"
+    },
+    {
+      "original": "I want assistance.",
+      "clean": "i want assistance"
+    },
+    {
+      "original": "I want bathroom please.",
+      "clean": "i want bathroom please"
+    },
+    {
+      "original": "I want bathroom thank you.",
+      "clean": "i want bathroom thank you"
+    },
+    {
+      "original": "I want bathroom immediately.",
+      "clean": "i want bathroom immediately"
+    },
+    {
+      "original": "I want bathroom now.",
+      "clean": "i want bathroom now"
+    },
+    {
+      "original": "I want bathroom urgently.",
+      "clean": "i want bathroom urgently"
+    },
+    {
+      "original": "I want bathroom.",
+      "clean": "i want bathroom"
+    },
+    {
+      "original": "I require water please.",
+      "clean": "i require water please"
+    },
+    {
+      "original": "I require water thank you.",
+      "clean": "i require water thank you"
+    },
+    {
+      "original": "I require water immediately.",
+      "clean": "i require water immediately"
+    },
+    {
+      "original": "I require water now.",
+      "clean": "i require water now"
+    },
+    {
+      "original": "I require water urgently.",
+      "clean": "i require water urgently"
+    },
+    {
+      "original": "I require water.",
+      "clean": "i require water"
+    },
+    {
+      "original": "I require food please.",
+      "clean": "i require food please"
+    },
+    {
+      "original": "I require food thank you.",
+      "clean": "i require food thank you"
+    },
+    {
+      "original": "I require food immediately.",
+      "clean": "i require food immediately"
+    },
+    {
+      "original": "I require food now.",
+      "clean": "i require food now"
+    },
+    {
+      "original": "I require food urgently.",
+      "clean": "i require food urgently"
+    },
+    {
+      "original": "I require food.",
+      "clean": "i require food"
+    },
+    {
+      "original": "I require help please.",
+      "clean": "i require help please"
+    },
+    {
+      "original": "I require help thank you.",
+      "clean": "i require help thank you"
+    },
+    {
+      "original": "I require help immediately.",
+      "clean": "i require help immediately"
+    },
+    {
+      "original": "I require help now.",
+      "clean": "i require help now"
+    },
+    {
+      "original": "I require help urgently.",
+      "clean": "i require help urgently"
+    },
+    {
+      "original": "I require help.",
+      "clean": "i require help"
+    },
+    {
+      "original": "I require medicine please.",
+      "clean": "i require medicine please"
+    },
+    {
+      "original": "I require medicine thank you.",
+      "clean": "i require medicine thank you"
+    },
+    {
+      "original": "I require medicine immediately.",
+      "clean": "i require medicine immediately"
+    },
+    {
+      "original": "I require medicine now.",
+      "clean": "i require medicine now"
+    },
+    {
+      "original": "I require medicine urgently.",
+      "clean": "i require medicine urgently"
+    },
+    {
+      "original": "I require medicine.",
+      "clean": "i require medicine"
+    },
+    {
+      "original": "I require blanket please.",
+      "clean": "i require blanket please"
+    },
+    {
+      "original": "I require blanket thank you.",
+      "clean": "i require blanket thank you"
+    },
+    {
+      "original": "I require blanket immediately.",
+      "clean": "i require blanket immediately"
+    },
+    {
+      "original": "I require blanket now.",
+      "clean": "i require blanket now"
+    },
+    {
+      "original": "I require blanket urgently.",
+      "clean": "i require blanket urgently"
+    },
+    {
+      "original": "I require blanket.",
+      "clean": "i require blanket"
+    },
+    {
+      "original": "I require pillow please.",
+      "clean": "i require pillow please"
+    },
+    {
+      "original": "I require pillow thank you.",
+      "clean": "i require pillow thank you"
+    },
+    {
+      "original": "I require pillow immediately.",
+      "clean": "i require pillow immediately"
+    },
+    {
+      "original": "I require pillow now.",
+      "clean": "i require pillow now"
+    },
+    {
+      "original": "I require pillow urgently.",
+      "clean": "i require pillow urgently"
+    },
+    {
+      "original": "I require pillow.",
+      "clean": "i require pillow"
+    },
+    {
+      "original": "I require rest please.",
+      "clean": "i require rest please"
+    },
+    {
+      "original": "I require rest thank you.",
+      "clean": "i require rest thank you"
+    },
+    {
+      "original": "I require rest immediately.",
+      "clean": "i require rest immediately"
+    },
+    {
+      "original": "I require rest now.",
+      "clean": "i require rest now"
+    },
+    {
+      "original": "I require rest urgently.",
+      "clean": "i require rest urgently"
+    },
+    {
+      "original": "I require rest.",
+      "clean": "i require rest"
+    },
+    {
+      "original": "I require assistance please.",
+      "clean": "i require assistance please"
+    },
+    {
+      "original": "I require assistance thank you.",
+      "clean": "i require assistance thank you"
+    },
+    {
+      "original": "I require assistance immediately.",
+      "clean": "i require assistance immediately"
+    },
+    {
+      "original": "I require assistance now.",
+      "clean": "i require assistance now"
+    },
+    {
+      "original": "I require assistance urgently.",
+      "clean": "i require assistance urgently"
+    },
+    {
+      "original": "I require assistance.",
+      "clean": "i require assistance"
+    },
+    {
+      "original": "I require bathroom please.",
+      "clean": "i require bathroom please"
+    },
+    {
+      "original": "I require bathroom thank you.",
+      "clean": "i require bathroom thank you"
+    },
+    {
+      "original": "I require bathroom immediately.",
+      "clean": "i require bathroom immediately"
+    },
+    {
+      "original": "I require bathroom now.",
+      "clean": "i require bathroom now"
+    },
+    {
+      "original": "I require bathroom urgently.",
+      "clean": "i require bathroom urgently"
+    },
+    {
+      "original": "I require bathroom.",
+      "clean": "i require bathroom"
+    },
+    {
+      "original": "I desire water please.",
+      "clean": "i desire water please"
+    },
+    {
+      "original": "I desire water thank you.",
+      "clean": "i desire water thank you"
+    },
+    {
+      "original": "I desire water immediately.",
+      "clean": "i desire water immediately"
+    },
+    {
+      "original": "I desire water now.",
+      "clean": "i desire water now"
+    },
+    {
+      "original": "I desire water urgently.",
+      "clean": "i desire water urgently"
+    },
+    {
+      "original": "I desire water.",
+      "clean": "i desire water"
+    },
+    {
+      "original": "I desire food please.",
+      "clean": "i desire food please"
+    },
+    {
+      "original": "I desire food thank you.",
+      "clean": "i desire food thank you"
+    },
+    {
+      "original": "I desire food immediately.",
+      "clean": "i desire food immediately"
+    },
+    {
+      "original": "I desire food now.",
+      "clean": "i desire food now"
+    },
+    {
+      "original": "I desire food urgently.",
+      "clean": "i desire food urgently"
+    },
+    {
+      "original": "I desire food.",
+      "clean": "i desire food"
+    },
+    {
+      "original": "I desire help please.",
+      "clean": "i desire help please"
+    },
+    {
+      "original": "I desire help thank you.",
+      "clean": "i desire help thank you"
+    },
+    {
+      "original": "I desire help immediately.",
+      "clean": "i desire help immediately"
+    },
+    {
+      "original": "I desire help now.",
+      "clean": "i desire help now"
+    },
+    {
+      "original": "I desire help urgently.",
+      "clean": "i desire help urgently"
+    },
+    {
+      "original": "I desire help.",
+      "clean": "i desire help"
+    },
+    {
+      "original": "I desire medicine please.",
+      "clean": "i desire medicine please"
+    },
+    {
+      "original": "I desire medicine thank you.",
+      "clean": "i desire medicine thank you"
+    },
+    {
+      "original": "I desire medicine immediately.",
+      "clean": "i desire medicine immediately"
+    },
+    {
+      "original": "I desire medicine now.",
+      "clean": "i desire medicine now"
+    },
+    {
+      "original": "I desire medicine urgently.",
+      "clean": "i desire medicine urgently"
+    },
+    {
+      "original": "I desire medicine.",
+      "clean": "i desire medicine"
+    },
+    {
+      "original": "I desire blanket please.",
+      "clean": "i desire blanket please"
+    },
+    {
+      "original": "I desire blanket thank you.",
+      "clean": "i desire blanket thank you"
+    },
+    {
+      "original": "I desire blanket immediately.",
+      "clean": "i desire blanket immediately"
+    },
+    {
+      "original": "I desire blanket now.",
+      "clean": "i desire blanket now"
+    },
+    {
+      "original": "I desire blanket urgently.",
+      "clean": "i desire blanket urgently"
+    },
+    {
+      "original": "I desire blanket.",
+      "clean": "i desire blanket"
+    },
+    {
+      "original": "I desire pillow please.",
+      "clean": "i desire pillow please"
+    },
+    {
+      "original": "I desire pillow thank you.",
+      "clean": "i desire pillow thank you"
+    },
+    {
+      "original": "I desire pillow immediately.",
+      "clean": "i desire pillow immediately"
+    },
+    {
+      "original": "I desire pillow now.",
+      "clean": "i desire pillow now"
+    },
+    {
+      "original": "I desire pillow urgently.",
+      "clean": "i desire pillow urgently"
+    },
+    {
+      "original": "I desire pillow.",
+      "clean": "i desire pillow"
+    },
+    {
+      "original": "I desire rest please.",
+      "clean": "i desire rest please"
+    },
+    {
+      "original": "I desire rest thank you.",
+      "clean": "i desire rest thank you"
+    },
+    {
+      "original": "I desire rest immediately.",
+      "clean": "i desire rest immediately"
+    },
+    {
+      "original": "I desire rest now.",
+      "clean": "i desire rest now"
+    },
+    {
+      "original": "I desire rest urgently.",
+      "clean": "i desire rest urgently"
+    },
+    {
+      "original": "I desire rest.",
+      "clean": "i desire rest"
+    },
+    {
+      "original": "I desire assistance please.",
+      "clean": "i desire assistance please"
+    },
+    {
+      "original": "I desire assistance thank you.",
+      "clean": "i desire assistance thank you"
+    },
+    {
+      "original": "I desire assistance immediately.",
+      "clean": "i desire assistance immediately"
+    },
+    {
+      "original": "I desire assistance now.",
+      "clean": "i desire assistance now"
+    },
+    {
+      "original": "I desire assistance urgently.",
+      "clean": "i desire assistance urgently"
+    },
+    {
+      "original": "I desire assistance.",
+      "clean": "i desire assistance"
+    },
+    {
+      "original": "I desire bathroom please.",
+      "clean": "i desire bathroom please"
+    },
+    {
+      "original": "I desire bathroom thank you.",
+      "clean": "i desire bathroom thank you"
+    },
+    {
+      "original": "I desire bathroom immediately.",
+      "clean": "i desire bathroom immediately"
+    },
+    {
+      "original": "I desire bathroom now.",
+      "clean": "i desire bathroom now"
+    },
+    {
+      "original": "I desire bathroom urgently.",
+      "clean": "i desire bathroom urgently"
+    },
+    {
+      "original": "I desire bathroom.",
+      "clean": "i desire bathroom"
+    },
+    {
+      "original": "We need water please.",
+      "clean": "we need water please"
+    },
+    {
+      "original": "We need water thank you.",
+      "clean": "we need water thank you"
+    },
+    {
+      "original": "We need water immediately.",
+      "clean": "we need water immediately"
+    },
+    {
+      "original": "We need water now.",
+      "clean": "we need water now"
+    },
+    {
+      "original": "We need water urgently.",
+      "clean": "we need water urgently"
+    },
+    {
+      "original": "We need water.",
+      "clean": "we need water"
+    },
+    {
+      "original": "We need food please.",
+      "clean": "we need food please"
+    },
+    {
+      "original": "We need food thank you.",
+      "clean": "we need food thank you"
+    },
+    {
+      "original": "We need food immediately.",
+      "clean": "we need food immediately"
+    },
+    {
+      "original": "We need food now.",
+      "clean": "we need food now"
+    },
+    {
+      "original": "We need food urgently.",
+      "clean": "we need food urgently"
+    },
+    {
+      "original": "We need food.",
+      "clean": "we need food"
+    },
+    {
+      "original": "We need help please.",
+      "clean": "we need help please"
+    },
+    {
+      "original": "We need help thank you.",
+      "clean": "we need help thank you"
+    },
+    {
+      "original": "We need help immediately.",
+      "clean": "we need help immediately"
+    },
+    {
+      "original": "We need help now.",
+      "clean": "we need help now"
+    },
+    {
+      "original": "We need help urgently.",
+      "clean": "we need help urgently"
+    },
+    {
+      "original": "We need help.",
+      "clean": "we need help"
+    },
+    {
+      "original": "We need medicine please.",
+      "clean": "we need medicine please"
+    },
+    {
+      "original": "We need medicine thank you.",
+      "clean": "we need medicine thank you"
+    },
+    {
+      "original": "We need medicine immediately.",
+      "clean": "we need medicine immediately"
+    },
+    {
+      "original": "We need medicine now.",
+      "clean": "we need medicine now"
+    },
+    {
+      "original": "We need medicine urgently.",
+      "clean": "we need medicine urgently"
+    },
+    {
+      "original": "We need medicine.",
+      "clean": "we need medicine"
+    },
+    {
+      "original": "We need blanket please.",
+      "clean": "we need blanket please"
+    },
+    {
+      "original": "We need blanket thank you.",
+      "clean": "we need blanket thank you"
+    },
+    {
+      "original": "We need blanket immediately.",
+      "clean": "we need blanket immediately"
+    },
+    {
+      "original": "We need blanket now.",
+      "clean": "we need blanket now"
+    },
+    {
+      "original": "We need blanket urgently.",
+      "clean": "we need blanket urgently"
+    },
+    {
+      "original": "We need blanket.",
+      "clean": "we need blanket"
+    },
+    {
+      "original": "We need pillow please.",
+      "clean": "we need pillow please"
+    },
+    {
+      "original": "We need pillow thank you.",
+      "clean": "we need pillow thank you"
+    },
+    {
+      "original": "We need pillow immediately.",
+      "clean": "we need pillow immediately"
+    },
+    {
+      "original": "We need pillow now.",
+      "clean": "we need pillow now"
+    },
+    {
+      "original": "We need pillow urgently.",
+      "clean": "we need pillow urgently"
+    },
+    {
+      "original": "We need pillow.",
+      "clean": "we need pillow"
+    },
+    {
+      "original": "We need rest please.",
+      "clean": "we need rest please"
+    },
+    {
+      "original": "We need rest thank you.",
+      "clean": "we need rest thank you"
+    },
+    {
+      "original": "We need rest immediately.",
+      "clean": "we need rest immediately"
+    },
+    {
+      "original": "We need rest now.",
+      "clean": "we need rest now"
+    },
+    {
+      "original": "We need rest urgently.",
+      "clean": "we need rest urgently"
+    },
+    {
+      "original": "We need rest.",
+      "clean": "we need rest"
+    },
+    {
+      "original": "We need assistance please.",
+      "clean": "we need assistance please"
+    },
+    {
+      "original": "We need assistance thank you.",
+      "clean": "we need assistance thank you"
+    },
+    {
+      "original": "We need assistance immediately.",
+      "clean": "we need assistance immediately"
+    },
+    {
+      "original": "We need assistance now.",
+      "clean": "we need assistance now"
+    },
+    {
+      "original": "We need assistance urgently.",
+      "clean": "we need assistance urgently"
+    },
+    {
+      "original": "We need assistance.",
+      "clean": "we need assistance"
+    },
+    {
+      "original": "We need bathroom please.",
+      "clean": "we need bathroom please"
+    },
+    {
+      "original": "We need bathroom thank you.",
+      "clean": "we need bathroom thank you"
+    },
+    {
+      "original": "We need bathroom immediately.",
+      "clean": "we need bathroom immediately"
+    },
+    {
+      "original": "We need bathroom now.",
+      "clean": "we need bathroom now"
+    },
+    {
+      "original": "We need bathroom urgently.",
+      "clean": "we need bathroom urgently"
+    },
+    {
+      "original": "We need bathroom.",
+      "clean": "we need bathroom"
+    },
+    {
+      "original": "We want water please.",
+      "clean": "we want water please"
+    },
+    {
+      "original": "We want water thank you.",
+      "clean": "we want water thank you"
+    },
+    {
+      "original": "We want water immediately.",
+      "clean": "we want water immediately"
+    },
+    {
+      "original": "We want water now.",
+      "clean": "we want water now"
+    },
+    {
+      "original": "We want water urgently.",
+      "clean": "we want water urgently"
+    },
+    {
+      "original": "We want water.",
+      "clean": "we want water"
+    },
+    {
+      "original": "We want food please.",
+      "clean": "we want food please"
+    },
+    {
+      "original": "We want food thank you.",
+      "clean": "we want food thank you"
+    },
+    {
+      "original": "We want food immediately.",
+      "clean": "we want food immediately"
+    },
+    {
+      "original": "We want food now.",
+      "clean": "we want food now"
+    },
+    {
+      "original": "We want food urgently.",
+      "clean": "we want food urgently"
+    },
+    {
+      "original": "We want food.",
+      "clean": "we want food"
+    },
+    {
+      "original": "We want help please.",
+      "clean": "we want help please"
+    },
+    {
+      "original": "We want help thank you.",
+      "clean": "we want help thank you"
+    },
+    {
+      "original": "We want help immediately.",
+      "clean": "we want help immediately"
+    },
+    {
+      "original": "We want help now.",
+      "clean": "we want help now"
+    },
+    {
+      "original": "We want help urgently.",
+      "clean": "we want help urgently"
+    },
+    {
+      "original": "We want help.",
+      "clean": "we want help"
+    },
+    {
+      "original": "We want medicine please.",
+      "clean": "we want medicine please"
+    },
+    {
+      "original": "We want medicine thank you.",
+      "clean": "we want medicine thank you"
+    },
+    {
+      "original": "We want medicine immediately.",
+      "clean": "we want medicine immediately"
+    },
+    {
+      "original": "We want medicine now.",
+      "clean": "we want medicine now"
+    },
+    {
+      "original": "We want medicine urgently.",
+      "clean": "we want medicine urgently"
+    },
+    {
+      "original": "We want medicine.",
+      "clean": "we want medicine"
+    },
+    {
+      "original": "We want blanket please.",
+      "clean": "we want blanket please"
+    },
+    {
+      "original": "We want blanket thank you.",
+      "clean": "we want blanket thank you"
+    },
+    {
+      "original": "We want blanket immediately.",
+      "clean": "we want blanket immediately"
+    },
+    {
+      "original": "We want blanket now.",
+      "clean": "we want blanket now"
+    },
+    {
+      "original": "We want blanket urgently.",
+      "clean": "we want blanket urgently"
+    },
+    {
+      "original": "We want blanket.",
+      "clean": "we want blanket"
+    },
+    {
+      "original": "We want pillow please.",
+      "clean": "we want pillow please"
+    },
+    {
+      "original": "We want pillow thank you.",
+      "clean": "we want pillow thank you"
+    },
+    {
+      "original": "We want pillow immediately.",
+      "clean": "we want pillow immediately"
+    },
+    {
+      "original": "We want pillow now.",
+      "clean": "we want pillow now"
+    },
+    {
+      "original": "We want pillow urgently.",
+      "clean": "we want pillow urgently"
+    },
+    {
+      "original": "We want pillow.",
+      "clean": "we want pillow"
+    },
+    {
+      "original": "We want rest please.",
+      "clean": "we want rest please"
+    },
+    {
+      "original": "We want rest thank you.",
+      "clean": "we want rest thank you"
+    },
+    {
+      "original": "We want rest immediately.",
+      "clean": "we want rest immediately"
+    },
+    {
+      "original": "We want rest now.",
+      "clean": "we want rest now"
+    },
+    {
+      "original": "We want rest urgently.",
+      "clean": "we want rest urgently"
+    },
+    {
+      "original": "We want rest.",
+      "clean": "we want rest"
+    },
+    {
+      "original": "We want assistance please.",
+      "clean": "we want assistance please"
+    },
+    {
+      "original": "We want assistance thank you.",
+      "clean": "we want assistance thank you"
+    },
+    {
+      "original": "We want assistance immediately.",
+      "clean": "we want assistance immediately"
+    },
+    {
+      "original": "We want assistance now.",
+      "clean": "we want assistance now"
+    },
+    {
+      "original": "We want assistance urgently.",
+      "clean": "we want assistance urgently"
+    },
+    {
+      "original": "We want assistance.",
+      "clean": "we want assistance"
+    },
+    {
+      "original": "We want bathroom please.",
+      "clean": "we want bathroom please"
+    },
+    {
+      "original": "We want bathroom thank you.",
+      "clean": "we want bathroom thank you"
+    },
+    {
+      "original": "We want bathroom immediately.",
+      "clean": "we want bathroom immediately"
+    },
+    {
+      "original": "We want bathroom now.",
+      "clean": "we want bathroom now"
+    },
+    {
+      "original": "We want bathroom urgently.",
+      "clean": "we want bathroom urgently"
+    },
+    {
+      "original": "We want bathroom.",
+      "clean": "we want bathroom"
+    },
+    {
+      "original": "We require water please.",
+      "clean": "we require water please"
+    },
+    {
+      "original": "We require water thank you.",
+      "clean": "we require water thank you"
+    },
+    {
+      "original": "We require water immediately.",
+      "clean": "we require water immediately"
+    },
+    {
+      "original": "We require water now.",
+      "clean": "we require water now"
+    },
+    {
+      "original": "We require water urgently.",
+      "clean": "we require water urgently"
+    },
+    {
+      "original": "We require water.",
+      "clean": "we require water"
+    },
+    {
+      "original": "We require food please.",
+      "clean": "we require food please"
+    },
+    {
+      "original": "We require food thank you.",
+      "clean": "we require food thank you"
+    },
+    {
+      "original": "We require food immediately.",
+      "clean": "we require food immediately"
+    },
+    {
+      "original": "We require food now.",
+      "clean": "we require food now"
+    },
+    {
+      "original": "We require food urgently.",
+      "clean": "we require food urgently"
+    },
+    {
+      "original": "We require food.",
+      "clean": "we require food"
+    },
+    {
+      "original": "We require help please.",
+      "clean": "we require help please"
+    },
+    {
+      "original": "We require help thank you.",
+      "clean": "we require help thank you"
+    },
+    {
+      "original": "We require help immediately.",
+      "clean": "we require help immediately"
+    },
+    {
+      "original": "We require help now.",
+      "clean": "we require help now"
+    },
+    {
+      "original": "We require help urgently.",
+      "clean": "we require help urgently"
+    },
+    {
+      "original": "We require help.",
+      "clean": "we require help"
+    },
+    {
+      "original": "We require medicine please.",
+      "clean": "we require medicine please"
+    },
+    {
+      "original": "We require medicine thank you.",
+      "clean": "we require medicine thank you"
+    },
+    {
+      "original": "We require medicine immediately.",
+      "clean": "we require medicine immediately"
+    },
+    {
+      "original": "We require medicine now.",
+      "clean": "we require medicine now"
+    },
+    {
+      "original": "We require medicine urgently.",
+      "clean": "we require medicine urgently"
+    },
+    {
+      "original": "We require medicine.",
+      "clean": "we require medicine"
+    },
+    {
+      "original": "We require blanket please.",
+      "clean": "we require blanket please"
+    },
+    {
+      "original": "We require blanket thank you.",
+      "clean": "we require blanket thank you"
+    },
+    {
+      "original": "We require blanket immediately.",
+      "clean": "we require blanket immediately"
+    },
+    {
+      "original": "We require blanket now.",
+      "clean": "we require blanket now"
+    },
+    {
+      "original": "We require blanket urgently.",
+      "clean": "we require blanket urgently"
+    },
+    {
+      "original": "We require blanket.",
+      "clean": "we require blanket"
+    },
+    {
+      "original": "We require pillow please.",
+      "clean": "we require pillow please"
+    },
+    {
+      "original": "We require pillow thank you.",
+      "clean": "we require pillow thank you"
+    },
+    {
+      "original": "We require pillow immediately.",
+      "clean": "we require pillow immediately"
+    },
+    {
+      "original": "We require pillow now.",
+      "clean": "we require pillow now"
+    },
+    {
+      "original": "We require pillow urgently.",
+      "clean": "we require pillow urgently"
+    },
+    {
+      "original": "We require pillow.",
+      "clean": "we require pillow"
+    },
+    {
+      "original": "We require rest please.",
+      "clean": "we require rest please"
+    },
+    {
+      "original": "We require rest thank you.",
+      "clean": "we require rest thank you"
+    },
+    {
+      "original": "We require rest immediately.",
+      "clean": "we require rest immediately"
+    },
+    {
+      "original": "We require rest now.",
+      "clean": "we require rest now"
+    },
+    {
+      "original": "We require rest urgently.",
+      "clean": "we require rest urgently"
+    },
+    {
+      "original": "We require rest.",
+      "clean": "we require rest"
+    },
+    {
+      "original": "We require assistance please.",
+      "clean": "we require assistance please"
+    },
+    {
+      "original": "We require assistance thank you.",
+      "clean": "we require assistance thank you"
+    },
+    {
+      "original": "We require assistance immediately.",
+      "clean": "we require assistance immediately"
+    },
+    {
+      "original": "We require assistance now.",
+      "clean": "we require assistance now"
+    },
+    {
+      "original": "We require assistance urgently.",
+      "clean": "we require assistance urgently"
+    },
+    {
+      "original": "We require assistance.",
+      "clean": "we require assistance"
+    },
+    {
+      "original": "We require bathroom please.",
+      "clean": "we require bathroom please"
+    },
+    {
+      "original": "We require bathroom thank you.",
+      "clean": "we require bathroom thank you"
+    },
+    {
+      "original": "We require bathroom immediately.",
+      "clean": "we require bathroom immediately"
+    },
+    {
+      "original": "We require bathroom now.",
+      "clean": "we require bathroom now"
+    },
+    {
+      "original": "We require bathroom urgently.",
+      "clean": "we require bathroom urgently"
+    },
+    {
+      "original": "We require bathroom.",
+      "clean": "we require bathroom"
+    },
+    {
+      "original": "We desire water please.",
+      "clean": "we desire water please"
+    },
+    {
+      "original": "We desire water thank you.",
+      "clean": "we desire water thank you"
+    },
+    {
+      "original": "We desire water immediately.",
+      "clean": "we desire water immediately"
+    },
+    {
+      "original": "We desire water now.",
+      "clean": "we desire water now"
+    },
+    {
+      "original": "We desire water urgently.",
+      "clean": "we desire water urgently"
+    },
+    {
+      "original": "We desire water.",
+      "clean": "we desire water"
+    },
+    {
+      "original": "We desire food please.",
+      "clean": "we desire food please"
+    },
+    {
+      "original": "We desire food thank you.",
+      "clean": "we desire food thank you"
+    },
+    {
+      "original": "We desire food immediately.",
+      "clean": "we desire food immediately"
+    },
+    {
+      "original": "We desire food now.",
+      "clean": "we desire food now"
+    },
+    {
+      "original": "We desire food urgently.",
+      "clean": "we desire food urgently"
+    },
+    {
+      "original": "We desire food.",
+      "clean": "we desire food"
+    },
+    {
+      "original": "We desire help please.",
+      "clean": "we desire help please"
+    },
+    {
+      "original": "We desire help thank you.",
+      "clean": "we desire help thank you"
+    },
+    {
+      "original": "We desire help immediately.",
+      "clean": "we desire help immediately"
+    },
+    {
+      "original": "We desire help now.",
+      "clean": "we desire help now"
+    },
+    {
+      "original": "We desire help urgently.",
+      "clean": "we desire help urgently"
+    },
+    {
+      "original": "We desire help.",
+      "clean": "we desire help"
+    },
+    {
+      "original": "We desire medicine please.",
+      "clean": "we desire medicine please"
+    },
+    {
+      "original": "We desire medicine thank you.",
+      "clean": "we desire medicine thank you"
+    },
+    {
+      "original": "We desire medicine immediately.",
+      "clean": "we desire medicine immediately"
+    },
+    {
+      "original": "We desire medicine now.",
+      "clean": "we desire medicine now"
+    },
+    {
+      "original": "We desire medicine urgently.",
+      "clean": "we desire medicine urgently"
+    },
+    {
+      "original": "We desire medicine.",
+      "clean": "we desire medicine"
+    },
+    {
+      "original": "We desire blanket please.",
+      "clean": "we desire blanket please"
+    },
+    {
+      "original": "We desire blanket thank you.",
+      "clean": "we desire blanket thank you"
+    },
+    {
+      "original": "We desire blanket immediately.",
+      "clean": "we desire blanket immediately"
+    },
+    {
+      "original": "We desire blanket now.",
+      "clean": "we desire blanket now"
+    },
+    {
+      "original": "We desire blanket urgently.",
+      "clean": "we desire blanket urgently"
+    },
+    {
+      "original": "We desire blanket.",
+      "clean": "we desire blanket"
+    },
+    {
+      "original": "We desire pillow please.",
+      "clean": "we desire pillow please"
+    },
+    {
+      "original": "We desire pillow thank you.",
+      "clean": "we desire pillow thank you"
+    },
+    {
+      "original": "We desire pillow immediately.",
+      "clean": "we desire pillow immediately"
+    },
+    {
+      "original": "We desire pillow now.",
+      "clean": "we desire pillow now"
+    },
+    {
+      "original": "We desire pillow urgently.",
+      "clean": "we desire pillow urgently"
+    },
+    {
+      "original": "We desire pillow.",
+      "clean": "we desire pillow"
+    },
+    {
+      "original": "We desire rest please.",
+      "clean": "we desire rest please"
+    },
+    {
+      "original": "We desire rest thank you.",
+      "clean": "we desire rest thank you"
+    },
+    {
+      "original": "We desire rest immediately.",
+      "clean": "we desire rest immediately"
+    },
+    {
+      "original": "We desire rest now.",
+      "clean": "we desire rest now"
+    },
+    {
+      "original": "We desire rest urgently.",
+      "clean": "we desire rest urgently"
+    },
+    {
+      "original": "We desire rest.",
+      "clean": "we desire rest"
+    },
+    {
+      "original": "We desire assistance please.",
+      "clean": "we desire assistance please"
+    },
+    {
+      "original": "We desire assistance thank you.",
+      "clean": "we desire assistance thank you"
+    },
+    {
+      "original": "We desire assistance immediately.",
+      "clean": "we desire assistance immediately"
+    },
+    {
+      "original": "We desire assistance now.",
+      "clean": "we desire assistance now"
+    },
+    {
+      "original": "We desire assistance urgently.",
+      "clean": "we desire assistance urgently"
+    },
+    {
+      "original": "We desire assistance.",
+      "clean": "we desire assistance"
+    },
+    {
+      "original": "We desire bathroom please.",
+      "clean": "we desire bathroom please"
+    },
+    {
+      "original": "We desire bathroom thank you.",
+      "clean": "we desire bathroom thank you"
+    },
+    {
+      "original": "We desire bathroom immediately.",
+      "clean": "we desire bathroom immediately"
+    },
+    {
+      "original": "We desire bathroom now.",
+      "clean": "we desire bathroom now"
+    },
+    {
+      "original": "We desire bathroom urgently.",
+      "clean": "we desire bathroom urgently"
+    },
+    {
+      "original": "We desire bathroom.",
+      "clean": "we desire bathroom"
+    },
+    {
+      "original": "They need water please.",
+      "clean": "they need water please"
+    },
+    {
+      "original": "They need water thank you.",
+      "clean": "they need water thank you"
+    },
+    {
+      "original": "They need water immediately.",
+      "clean": "they need water immediately"
+    },
+    {
+      "original": "They need water now.",
+      "clean": "they need water now"
+    },
+    {
+      "original": "They need water urgently.",
+      "clean": "they need water urgently"
+    },
+    {
+      "original": "They need water.",
+      "clean": "they need water"
+    },
+    {
+      "original": "They need food please.",
+      "clean": "they need food please"
+    },
+    {
+      "original": "They need food thank you.",
+      "clean": "they need food thank you"
+    },
+    {
+      "original": "They need food immediately.",
+      "clean": "they need food immediately"
+    },
+    {
+      "original": "They need food now.",
+      "clean": "they need food now"
+    },
+    {
+      "original": "They need food urgently.",
+      "clean": "they need food urgently"
+    },
+    {
+      "original": "They need food.",
+      "clean": "they need food"
+    },
+    {
+      "original": "They need help please.",
+      "clean": "they need help please"
+    },
+    {
+      "original": "They need help thank you.",
+      "clean": "they need help thank you"
+    },
+    {
+      "original": "They need help immediately.",
+      "clean": "they need help immediately"
+    },
+    {
+      "original": "They need help now.",
+      "clean": "they need help now"
+    },
+    {
+      "original": "They need help urgently.",
+      "clean": "they need help urgently"
+    },
+    {
+      "original": "They need help.",
+      "clean": "they need help"
+    },
+    {
+      "original": "They need medicine please.",
+      "clean": "they need medicine please"
+    },
+    {
+      "original": "They need medicine thank you.",
+      "clean": "they need medicine thank you"
+    },
+    {
+      "original": "They need medicine immediately.",
+      "clean": "they need medicine immediately"
+    },
+    {
+      "original": "They need medicine now.",
+      "clean": "they need medicine now"
+    },
+    {
+      "original": "They need medicine urgently.",
+      "clean": "they need medicine urgently"
+    },
+    {
+      "original": "They need medicine.",
+      "clean": "they need medicine"
+    },
+    {
+      "original": "They need blanket please.",
+      "clean": "they need blanket please"
+    },
+    {
+      "original": "They need blanket thank you.",
+      "clean": "they need blanket thank you"
+    },
+    {
+      "original": "They need blanket immediately.",
+      "clean": "they need blanket immediately"
+    },
+    {
+      "original": "They need blanket now.",
+      "clean": "they need blanket now"
+    },
+    {
+      "original": "They need blanket urgently.",
+      "clean": "they need blanket urgently"
+    },
+    {
+      "original": "They need blanket.",
+      "clean": "they need blanket"
+    },
+    {
+      "original": "They need pillow please.",
+      "clean": "they need pillow please"
+    },
+    {
+      "original": "They need pillow thank you.",
+      "clean": "they need pillow thank you"
+    },
+    {
+      "original": "They need pillow immediately.",
+      "clean": "they need pillow immediately"
+    },
+    {
+      "original": "They need pillow now.",
+      "clean": "they need pillow now"
+    },
+    {
+      "original": "They need pillow urgently.",
+      "clean": "they need pillow urgently"
+    },
+    {
+      "original": "They need pillow.",
+      "clean": "they need pillow"
+    },
+    {
+      "original": "They need rest please.",
+      "clean": "they need rest please"
+    },
+    {
+      "original": "They need rest thank you.",
+      "clean": "they need rest thank you"
+    },
+    {
+      "original": "They need rest immediately.",
+      "clean": "they need rest immediately"
+    },
+    {
+      "original": "They need rest now.",
+      "clean": "they need rest now"
+    },
+    {
+      "original": "They need rest urgently.",
+      "clean": "they need rest urgently"
+    },
+    {
+      "original": "They need rest.",
+      "clean": "they need rest"
+    },
+    {
+      "original": "They need assistance please.",
+      "clean": "they need assistance please"
+    },
+    {
+      "original": "They need assistance thank you.",
+      "clean": "they need assistance thank you"
+    },
+    {
+      "original": "They need assistance immediately.",
+      "clean": "they need assistance immediately"
+    },
+    {
+      "original": "They need assistance now.",
+      "clean": "they need assistance now"
+    },
+    {
+      "original": "They need assistance urgently.",
+      "clean": "they need assistance urgently"
+    },
+    {
+      "original": "They need assistance.",
+      "clean": "they need assistance"
+    },
+    {
+      "original": "They need bathroom please.",
+      "clean": "they need bathroom please"
+    },
+    {
+      "original": "They need bathroom thank you.",
+      "clean": "they need bathroom thank you"
+    },
+    {
+      "original": "They need bathroom immediately.",
+      "clean": "they need bathroom immediately"
+    },
+    {
+      "original": "They need bathroom now.",
+      "clean": "they need bathroom now"
+    },
+    {
+      "original": "They need bathroom urgently.",
+      "clean": "they need bathroom urgently"
+    },
+    {
+      "original": "They need bathroom.",
+      "clean": "they need bathroom"
+    },
+    {
+      "original": "They want water please.",
+      "clean": "they want water please"
+    },
+    {
+      "original": "They want water thank you.",
+      "clean": "they want water thank you"
+    },
+    {
+      "original": "They want water immediately.",
+      "clean": "they want water immediately"
+    },
+    {
+      "original": "They want water now.",
+      "clean": "they want water now"
+    },
+    {
+      "original": "They want water urgently.",
+      "clean": "they want water urgently"
+    },
+    {
+      "original": "They want water.",
+      "clean": "they want water"
+    },
+    {
+      "original": "They want food please.",
+      "clean": "they want food please"
+    },
+    {
+      "original": "They want food thank you.",
+      "clean": "they want food thank you"
+    },
+    {
+      "original": "They want food immediately.",
+      "clean": "they want food immediately"
+    },
+    {
+      "original": "They want food now.",
+      "clean": "they want food now"
+    },
+    {
+      "original": "They want food urgently.",
+      "clean": "they want food urgently"
+    },
+    {
+      "original": "They want food.",
+      "clean": "they want food"
+    },
+    {
+      "original": "They want help please.",
+      "clean": "they want help please"
+    },
+    {
+      "original": "They want help thank you.",
+      "clean": "they want help thank you"
+    },
+    {
+      "original": "They want help immediately.",
+      "clean": "they want help immediately"
+    },
+    {
+      "original": "They want help now.",
+      "clean": "they want help now"
+    },
+    {
+      "original": "They want help urgently.",
+      "clean": "they want help urgently"
+    },
+    {
+      "original": "They want help.",
+      "clean": "they want help"
+    },
+    {
+      "original": "They want medicine please.",
+      "clean": "they want medicine please"
+    },
+    {
+      "original": "They want medicine thank you.",
+      "clean": "they want medicine thank you"
+    },
+    {
+      "original": "They want medicine immediately.",
+      "clean": "they want medicine immediately"
+    },
+    {
+      "original": "They want medicine now.",
+      "clean": "they want medicine now"
+    },
+    {
+      "original": "They want medicine urgently.",
+      "clean": "they want medicine urgently"
+    },
+    {
+      "original": "They want medicine.",
+      "clean": "they want medicine"
+    },
+    {
+      "original": "They want blanket please.",
+      "clean": "they want blanket please"
+    },
+    {
+      "original": "They want blanket thank you.",
+      "clean": "they want blanket thank you"
+    },
+    {
+      "original": "They want blanket immediately.",
+      "clean": "they want blanket immediately"
+    },
+    {
+      "original": "They want blanket now.",
+      "clean": "they want blanket now"
+    },
+    {
+      "original": "They want blanket urgently.",
+      "clean": "they want blanket urgently"
+    },
+    {
+      "original": "They want blanket.",
+      "clean": "they want blanket"
+    },
+    {
+      "original": "They want pillow please.",
+      "clean": "they want pillow please"
+    },
+    {
+      "original": "They want pillow thank you.",
+      "clean": "they want pillow thank you"
+    },
+    {
+      "original": "They want pillow immediately.",
+      "clean": "they want pillow immediately"
+    },
+    {
+      "original": "They want pillow now.",
+      "clean": "they want pillow now"
+    },
+    {
+      "original": "They want pillow urgently.",
+      "clean": "they want pillow urgently"
+    },
+    {
+      "original": "They want pillow.",
+      "clean": "they want pillow"
+    },
+    {
+      "original": "They want rest please.",
+      "clean": "they want rest please"
+    },
+    {
+      "original": "They want rest thank you.",
+      "clean": "they want rest thank you"
+    },
+    {
+      "original": "They want rest immediately.",
+      "clean": "they want rest immediately"
+    },
+    {
+      "original": "They want rest now.",
+      "clean": "they want rest now"
+    },
+    {
+      "original": "They want rest urgently.",
+      "clean": "they want rest urgently"
+    },
+    {
+      "original": "They want rest.",
+      "clean": "they want rest"
+    },
+    {
+      "original": "They want assistance please.",
+      "clean": "they want assistance please"
+    },
+    {
+      "original": "They want assistance thank you.",
+      "clean": "they want assistance thank you"
+    },
+    {
+      "original": "They want assistance immediately.",
+      "clean": "they want assistance immediately"
+    },
+    {
+      "original": "They want assistance now.",
+      "clean": "they want assistance now"
+    },
+    {
+      "original": "They want assistance urgently.",
+      "clean": "they want assistance urgently"
+    },
+    {
+      "original": "They want assistance.",
+      "clean": "they want assistance"
+    },
+    {
+      "original": "They want bathroom please.",
+      "clean": "they want bathroom please"
+    },
+    {
+      "original": "They want bathroom thank you.",
+      "clean": "they want bathroom thank you"
+    },
+    {
+      "original": "They want bathroom immediately.",
+      "clean": "they want bathroom immediately"
+    },
+    {
+      "original": "They want bathroom now.",
+      "clean": "they want bathroom now"
+    },
+    {
+      "original": "They want bathroom urgently.",
+      "clean": "they want bathroom urgently"
+    },
+    {
+      "original": "They want bathroom.",
+      "clean": "they want bathroom"
+    },
+    {
+      "original": "They require water please.",
+      "clean": "they require water please"
+    },
+    {
+      "original": "They require water thank you.",
+      "clean": "they require water thank you"
+    },
+    {
+      "original": "They require water immediately.",
+      "clean": "they require water immediately"
+    },
+    {
+      "original": "They require water now.",
+      "clean": "they require water now"
+    },
+    {
+      "original": "They require water urgently.",
+      "clean": "they require water urgently"
+    },
+    {
+      "original": "They require water.",
+      "clean": "they require water"
+    },
+    {
+      "original": "They require food please.",
+      "clean": "they require food please"
+    },
+    {
+      "original": "They require food thank you.",
+      "clean": "they require food thank you"
+    },
+    {
+      "original": "They require food immediately.",
+      "clean": "they require food immediately"
+    },
+    {
+      "original": "They require food now.",
+      "clean": "they require food now"
+    },
+    {
+      "original": "They require food urgently.",
+      "clean": "they require food urgently"
+    },
+    {
+      "original": "They require food.",
+      "clean": "they require food"
+    },
+    {
+      "original": "They require help please.",
+      "clean": "they require help please"
+    },
+    {
+      "original": "They require help thank you.",
+      "clean": "they require help thank you"
+    },
+    {
+      "original": "They require help immediately.",
+      "clean": "they require help immediately"
+    },
+    {
+      "original": "They require help now.",
+      "clean": "they require help now"
+    },
+    {
+      "original": "They require help urgently.",
+      "clean": "they require help urgently"
+    },
+    {
+      "original": "They require help.",
+      "clean": "they require help"
+    },
+    {
+      "original": "They require medicine please.",
+      "clean": "they require medicine please"
+    },
+    {
+      "original": "They require medicine thank you.",
+      "clean": "they require medicine thank you"
+    },
+    {
+      "original": "They require medicine immediately.",
+      "clean": "they require medicine immediately"
+    },
+    {
+      "original": "They require medicine now.",
+      "clean": "they require medicine now"
+    },
+    {
+      "original": "They require medicine urgently.",
+      "clean": "they require medicine urgently"
+    },
+    {
+      "original": "They require medicine.",
+      "clean": "they require medicine"
+    },
+    {
+      "original": "They require blanket please.",
+      "clean": "they require blanket please"
+    },
+    {
+      "original": "They require blanket thank you.",
+      "clean": "they require blanket thank you"
+    },
+    {
+      "original": "They require blanket immediately.",
+      "clean": "they require blanket immediately"
+    },
+    {
+      "original": "They require blanket now.",
+      "clean": "they require blanket now"
+    },
+    {
+      "original": "They require blanket urgently.",
+      "clean": "they require blanket urgently"
+    },
+    {
+      "original": "They require blanket.",
+      "clean": "they require blanket"
+    },
+    {
+      "original": "They require pillow please.",
+      "clean": "they require pillow please"
+    },
+    {
+      "original": "They require pillow thank you.",
+      "clean": "they require pillow thank you"
+    },
+    {
+      "original": "They require pillow immediately.",
+      "clean": "they require pillow immediately"
+    },
+    {
+      "original": "They require pillow now.",
+      "clean": "they require pillow now"
+    },
+    {
+      "original": "They require pillow urgently.",
+      "clean": "they require pillow urgently"
+    },
+    {
+      "original": "They require pillow.",
+      "clean": "they require pillow"
+    },
+    {
+      "original": "They require rest please.",
+      "clean": "they require rest please"
+    },
+    {
+      "original": "They require rest thank you.",
+      "clean": "they require rest thank you"
+    },
+    {
+      "original": "They require rest immediately.",
+      "clean": "they require rest immediately"
+    },
+    {
+      "original": "They require rest now.",
+      "clean": "they require rest now"
+    },
+    {
+      "original": "They require rest urgently.",
+      "clean": "they require rest urgently"
+    },
+    {
+      "original": "They require rest.",
+      "clean": "they require rest"
+    },
+    {
+      "original": "They require assistance please.",
+      "clean": "they require assistance please"
+    },
+    {
+      "original": "They require assistance thank you.",
+      "clean": "they require assistance thank you"
+    },
+    {
+      "original": "They require assistance immediately.",
+      "clean": "they require assistance immediately"
+    },
+    {
+      "original": "They require assistance now.",
+      "clean": "they require assistance now"
+    },
+    {
+      "original": "They require assistance urgently.",
+      "clean": "they require assistance urgently"
+    },
+    {
+      "original": "They require assistance.",
+      "clean": "they require assistance"
+    },
+    {
+      "original": "They require bathroom please.",
+      "clean": "they require bathroom please"
+    },
+    {
+      "original": "They require bathroom thank you.",
+      "clean": "they require bathroom thank you"
+    },
+    {
+      "original": "They require bathroom immediately.",
+      "clean": "they require bathroom immediately"
+    },
+    {
+      "original": "They require bathroom now.",
+      "clean": "they require bathroom now"
+    },
+    {
+      "original": "They require bathroom urgently.",
+      "clean": "they require bathroom urgently"
+    },
+    {
+      "original": "They require bathroom.",
+      "clean": "they require bathroom"
+    },
+    {
+      "original": "They desire water please.",
+      "clean": "they desire water please"
+    },
+    {
+      "original": "They desire water thank you.",
+      "clean": "they desire water thank you"
+    },
+    {
+      "original": "They desire water immediately.",
+      "clean": "they desire water immediately"
+    },
+    {
+      "original": "They desire water now.",
+      "clean": "they desire water now"
+    },
+    {
+      "original": "They desire water urgently.",
+      "clean": "they desire water urgently"
+    },
+    {
+      "original": "They desire water.",
+      "clean": "they desire water"
+    },
+    {
+      "original": "They desire food please.",
+      "clean": "they desire food please"
+    },
+    {
+      "original": "They desire food thank you.",
+      "clean": "they desire food thank you"
+    },
+    {
+      "original": "They desire food immediately.",
+      "clean": "they desire food immediately"
+    },
+    {
+      "original": "They desire food now.",
+      "clean": "they desire food now"
+    },
+    {
+      "original": "They desire food urgently.",
+      "clean": "they desire food urgently"
+    },
+    {
+      "original": "They desire food.",
+      "clean": "they desire food"
+    },
+    {
+      "original": "They desire help please.",
+      "clean": "they desire help please"
+    },
+    {
+      "original": "They desire help thank you.",
+      "clean": "they desire help thank you"
+    },
+    {
+      "original": "They desire help immediately.",
+      "clean": "they desire help immediately"
+    },
+    {
+      "original": "They desire help now.",
+      "clean": "they desire help now"
+    },
+    {
+      "original": "They desire help urgently.",
+      "clean": "they desire help urgently"
+    },
+    {
+      "original": "They desire help.",
+      "clean": "they desire help"
+    },
+    {
+      "original": "They desire medicine please.",
+      "clean": "they desire medicine please"
+    },
+    {
+      "original": "They desire medicine thank you.",
+      "clean": "they desire medicine thank you"
+    },
+    {
+      "original": "They desire medicine immediately.",
+      "clean": "they desire medicine immediately"
+    },
+    {
+      "original": "They desire medicine now.",
+      "clean": "they desire medicine now"
+    },
+    {
+      "original": "They desire medicine urgently.",
+      "clean": "they desire medicine urgently"
+    },
+    {
+      "original": "They desire medicine.",
+      "clean": "they desire medicine"
+    },
+    {
+      "original": "They desire blanket please.",
+      "clean": "they desire blanket please"
+    },
+    {
+      "original": "They desire blanket thank you.",
+      "clean": "they desire blanket thank you"
+    },
+    {
+      "original": "They desire blanket immediately.",
+      "clean": "they desire blanket immediately"
+    },
+    {
+      "original": "They desire blanket now.",
+      "clean": "they desire blanket now"
+    },
+    {
+      "original": "They desire blanket urgently.",
+      "clean": "they desire blanket urgently"
+    },
+    {
+      "original": "They desire blanket.",
+      "clean": "they desire blanket"
+    },
+    {
+      "original": "They desire pillow please.",
+      "clean": "they desire pillow please"
+    },
+    {
+      "original": "They desire pillow thank you.",
+      "clean": "they desire pillow thank you"
+    },
+    {
+      "original": "They desire pillow immediately.",
+      "clean": "they desire pillow immediately"
+    },
+    {
+      "original": "They desire pillow now.",
+      "clean": "they desire pillow now"
+    },
+    {
+      "original": "They desire pillow urgently.",
+      "clean": "they desire pillow urgently"
+    },
+    {
+      "original": "They desire pillow.",
+      "clean": "they desire pillow"
+    },
+    {
+      "original": "They desire rest please.",
+      "clean": "they desire rest please"
+    },
+    {
+      "original": "They desire rest thank you.",
+      "clean": "they desire rest thank you"
+    },
+    {
+      "original": "They desire rest immediately.",
+      "clean": "they desire rest immediately"
+    },
+    {
+      "original": "They desire rest now.",
+      "clean": "they desire rest now"
+    },
+    {
+      "original": "They desire rest urgently.",
+      "clean": "they desire rest urgently"
+    },
+    {
+      "original": "They desire rest.",
+      "clean": "they desire rest"
+    },
+    {
+      "original": "They desire assistance please.",
+      "clean": "they desire assistance please"
+    },
+    {
+      "original": "They desire assistance thank you.",
+      "clean": "they desire assistance thank you"
+    },
+    {
+      "original": "They desire assistance immediately.",
+      "clean": "they desire assistance immediately"
+    },
+    {
+      "original": "They desire assistance now.",
+      "clean": "they desire assistance now"
+    },
+    {
+      "original": "They desire assistance urgently.",
+      "clean": "they desire assistance urgently"
+    },
+    {
+      "original": "They desire assistance.",
+      "clean": "they desire assistance"
+    },
+    {
+      "original": "They desire bathroom please.",
+      "clean": "they desire bathroom please"
+    },
+    {
+      "original": "They desire bathroom thank you.",
+      "clean": "they desire bathroom thank you"
+    },
+    {
+      "original": "They desire bathroom immediately.",
+      "clean": "they desire bathroom immediately"
+    },
+    {
+      "original": "They desire bathroom now.",
+      "clean": "they desire bathroom now"
+    },
+    {
+      "original": "They desire bathroom urgently.",
+      "clean": "they desire bathroom urgently"
+    },
+    {
+      "original": "They desire bathroom.",
+      "clean": "they desire bathroom"
+    },
+    {
+      "original": "Please give me water please.",
+      "clean": "please give me water please"
+    },
+    {
+      "original": "Please give me water thank you.",
+      "clean": "please give me water thank you"
+    },
+    {
+      "original": "Please give me water immediately.",
+      "clean": "please give me water immediately"
+    },
+    {
+      "original": "Please give me water now.",
+      "clean": "please give me water now"
+    },
+    {
+      "original": "Please give me water urgently.",
+      "clean": "please give me water urgently"
+    },
+    {
+      "original": "Please give me water.",
+      "clean": "please give me water"
+    },
+    {
+      "original": "Please give me food please.",
+      "clean": "please give me food please"
+    },
+    {
+      "original": "Please give me food thank you.",
+      "clean": "please give me food thank you"
+    },
+    {
+      "original": "Please give me food immediately.",
+      "clean": "please give me food immediately"
+    },
+    {
+      "original": "Please give me food now.",
+      "clean": "please give me food now"
+    },
+    {
+      "original": "Please give me food urgently.",
+      "clean": "please give me food urgently"
+    },
+    {
+      "original": "Please give me food.",
+      "clean": "please give me food"
+    },
+    {
+      "original": "Please give me help please.",
+      "clean": "please give me help please"
+    },
+    {
+      "original": "Please give me help thank you.",
+      "clean": "please give me help thank you"
+    },
+    {
+      "original": "Please give me help immediately.",
+      "clean": "please give me help immediately"
+    },
+    {
+      "original": "Please give me help now.",
+      "clean": "please give me help now"
+    },
+    {
+      "original": "Please give me help urgently.",
+      "clean": "please give me help urgently"
+    },
+    {
+      "original": "Please give me help.",
+      "clean": "please give me help"
+    },
+    {
+      "original": "Please give me medicine please.",
+      "clean": "please give me medicine please"
+    },
+    {
+      "original": "Please give me medicine thank you.",
+      "clean": "please give me medicine thank you"
+    },
+    {
+      "original": "Please give me medicine immediately.",
+      "clean": "please give me medicine immediately"
+    },
+    {
+      "original": "Please give me medicine now.",
+      "clean": "please give me medicine now"
+    },
+    {
+      "original": "Please give me medicine urgently.",
+      "clean": "please give me medicine urgently"
+    },
+    {
+      "original": "Please give me medicine.",
+      "clean": "please give me medicine"
+    },
+    {
+      "original": "Please give me blanket please.",
+      "clean": "please give me blanket please"
+    },
+    {
+      "original": "Please give me blanket thank you.",
+      "clean": "please give me blanket thank you"
+    },
+    {
+      "original": "Please give me blanket immediately.",
+      "clean": "please give me blanket immediately"
+    },
+    {
+      "original": "Please give me blanket now.",
+      "clean": "please give me blanket now"
+    },
+    {
+      "original": "Please give me blanket urgently.",
+      "clean": "please give me blanket urgently"
+    },
+    {
+      "original": "Please give me blanket.",
+      "clean": "please give me blanket"
+    },
+    {
+      "original": "Please give me pillow please.",
+      "clean": "please give me pillow please"
+    },
+    {
+      "original": "Please give me pillow thank you.",
+      "clean": "please give me pillow thank you"
+    },
+    {
+      "original": "Please give me pillow immediately.",
+      "clean": "please give me pillow immediately"
+    },
+    {
+      "original": "Please give me pillow now.",
+      "clean": "please give me pillow now"
+    },
+    {
+      "original": "Please give me pillow urgently.",
+      "clean": "please give me pillow urgently"
+    },
+    {
+      "original": "Please give me pillow.",
+      "clean": "please give me pillow"
+    },
+    {
+      "original": "Please give me rest please.",
+      "clean": "please give me rest please"
+    },
+    {
+      "original": "Please give me rest thank you.",
+      "clean": "please give me rest thank you"
+    },
+    {
+      "original": "Please give me rest immediately.",
+      "clean": "please give me rest immediately"
+    },
+    {
+      "original": "Please give me rest now.",
+      "clean": "please give me rest now"
+    },
+    {
+      "original": "Please give me rest urgently.",
+      "clean": "please give me rest urgently"
+    },
+    {
+      "original": "Please give me rest.",
+      "clean": "please give me rest"
+    },
+    {
+      "original": "Please give me assistance please.",
+      "clean": "please give me assistance please"
+    },
+    {
+      "original": "Please give me assistance thank you.",
+      "clean": "please give me assistance thank you"
+    },
+    {
+      "original": "Please give me assistance immediately.",
+      "clean": "please give me assistance immediately"
+    },
+    {
+      "original": "Please give me assistance now.",
+      "clean": "please give me assistance now"
+    },
+    {
+      "original": "Please give me assistance urgently.",
+      "clean": "please give me assistance urgently"
+    },
+    {
+      "original": "Please give me assistance.",
+      "clean": "please give me assistance"
+    },
+    {
+      "original": "Please give me bathroom please.",
+      "clean": "please give me bathroom please"
+    },
+    {
+      "original": "Please give me bathroom thank you.",
+      "clean": "please give me bathroom thank you"
+    },
+    {
+      "original": "Please give me bathroom immediately.",
+      "clean": "please give me bathroom immediately"
+    },
+    {
+      "original": "Please give me bathroom now.",
+      "clean": "please give me bathroom now"
+    },
+    {
+      "original": "Please give me bathroom urgently.",
+      "clean": "please give me bathroom urgently"
+    },
+    {
+      "original": "Please give me bathroom.",
+      "clean": "please give me bathroom"
+    }
+  ],
+  "meta": {
+    "corpusSize": 775,
+    "trainedAt": "2026-08-13T18:47:32.691Z",
+    "version": "1.0.0"
+  }
+}
