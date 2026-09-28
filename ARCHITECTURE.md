@@ -23,7 +23,6 @@ Node server (server.ts, Express)
 ```
 Miniproject-main/
 ├── .github/workflows/ci.yml      # CI: install → type-check → build
-├── .claude/launch.json           # local dev launch config
 ├── public/
 │   ├── models/                   # MediaPipe .task models (face, hand)
 │   │   ├── face_landmarker.task
