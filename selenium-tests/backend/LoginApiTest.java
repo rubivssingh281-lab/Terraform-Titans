@@ -4,7 +4,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class LoginApiTest {
-    public static void main(String[] args) throws Exception {
+    public static void main(String args[]) throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         
         String json = "{\"username\":\"testuser\",\"password\":\"testpass\"}";
@@ -19,5 +19,6 @@ public class LoginApiTest {
         
         assert response.statusCode() == 200;
         assert response.body().contains("sessionToken");
+
     }
 }
