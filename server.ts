@@ -1,10 +1,11 @@
+// Load .env before anything else: database.ts reads DATABASE_PATH when it is imported.
+import "dotenv/config";
 import express from "express";
 import path from "path";
-import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
-import dotenv from "dotenv";
 import crypto from "node:crypto";
 import os from "node:os";
+import { createServer as createViteServer } from "vite";
 import {
   initDatabase,
   getRecentPhrases,
@@ -37,8 +38,6 @@ import {
   getSupportRequests
 } from "./database.ts";
 import completionModel from "./src/data/completion_model.json";
-
-dotenv.config();
 
 // Initialize Database schema & default data
 initDatabase();
@@ -122,6 +121,24 @@ const authenticateToken = (req: any, res: any, next: any) => {
   }
 };
 
+// Attaches req.patient when a valid session token is present, but never blocks
+// the request. Used where anonymous access must keep working (e.g. SOS alerts).
+const optionalAuth = (req: any, _res: any, next: any) => {
+  try {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    if (token) {
+      const session = getSession(token) as any;
+      if (session && new Date(session.expires_at) >= new Date()) {
+        req.patient = session;
+      }
+    }
+  } catch (err) {
+    console.error("Optional authentication failed:", err);
+  }
+  next();
+};
+
 // Initialize Gemini AI Client
 const getGeminiClient = () => {
   const apiKey = process.env.API_KEY || process.env.GEMINI_API_KEY;
@@ -134,11 +151,11 @@ const getGeminiClient = () => {
 
 // ---------------- REST API ENDPOINTS ----------------
 
-// --- Recent Phrases History ---
-app.get("/api/phrases", (req, res) => {
+// --- Recent Phrases History (private to the logged-in patient) ---
+app.get("/api/phrases", authenticateToken, (req: any, res) => {
   try {
     const limit = req.query.limit ? parseInt(req.query.limit as string) : 20;
-    const phrases = getRecentPhrases(limit);
+    const phrases = getRecentPhrases(req.patient.id, limit);
     return res.json(phrases);
   } catch (err: any) {
     console.error("Error fetching phrases:", err);
@@ -146,13 +163,13 @@ app.get("/api/phrases", (req, res) => {
   }
 });
 
-app.post("/api/phrases", authenticateToken, (req, res) => {
+app.post("/api/phrases", authenticateToken, (req: any, res) => {
   try {
     const { text, mode } = req.body;
     if (!text || !mode) {
       return res.status(400).json({ error: "Text and mode are required" });
     }
-    const newPhrase = addRecentPhrase(text, mode);
+    const newPhrase = addRecentPhrase(req.patient.id, text, mode);
     return res.status(201).json(newPhrase);
   } catch (err: any) {
     console.error("Error adding phrase:", err);
@@ -160,10 +177,10 @@ app.post("/api/phrases", authenticateToken, (req, res) => {
   }
 });
 
-app.delete("/api/phrases/:id", authenticateToken, (req, res) => {
+app.delete("/api/phrases/:id", authenticateToken, (req: any, res) => {
   try {
     const { id } = req.params;
-    deleteRecentPhrase(id);
+    deleteRecentPhrase(req.patient.id, id);
     return res.json({ success: true, message: `Phrase ${id} deleted` });
   } catch (err: any) {
     console.error("Error deleting phrase:", err);
@@ -171,9 +188,9 @@ app.delete("/api/phrases/:id", authenticateToken, (req, res) => {
   }
 });
 
-app.delete("/api/phrases", authenticateToken, (req, res) => {
+app.delete("/api/phrases", authenticateToken, (req: any, res) => {
   try {
-    clearRecentPhrases();
+    clearRecentPhrases(req.patient.id);
     return res.json({ success: true, message: "All phrase history cleared" });
   } catch (err: any) {
     console.error("Error clearing phrases:", err);
@@ -192,7 +209,7 @@ app.get("/api/quick-phrases", (req, res) => {
   }
 });
 
-app.post("/api/quick-phrases", (req, res) => {
+app.post("/api/quick-phrases", authenticateToken, (req, res) => {
   try {
     const { label, morse, category } = req.body;
     if (!label || !morse) {
@@ -206,7 +223,7 @@ app.post("/api/quick-phrases", (req, res) => {
   }
 });
 
-app.delete("/api/quick-phrases/:id", (req, res) => {
+app.delete("/api/quick-phrases/:id", authenticateToken, (req, res) => {
   try {
     const { id } = req.params;
     deleteQuickPhrase(id);
@@ -228,7 +245,7 @@ app.get("/api/categories", (req, res) => {
   }
 });
 
-app.post("/api/categories", (req, res) => {
+app.post("/api/categories", authenticateToken, (req, res) => {
   try {
     const { name } = req.body;
     if (!name) {
@@ -242,7 +259,7 @@ app.post("/api/categories", (req, res) => {
   }
 });
 
-app.post("/api/categories/:id/phrases", (req, res) => {
+app.post("/api/categories/:id/phrases", authenticateToken, (req, res) => {
   try {
     const categoryId = parseInt(req.params.id);
     const { text } = req.body;
@@ -422,10 +439,16 @@ app.post("/api/auth/forgot-password", (req, res) => {
     console.log(`✉️ EXPIRES AT: ${new Date(expiresAt).toLocaleTimeString()}`);
     console.log("✉️✉️✉️✉️✉️✉️✉️✉️✉️✉️✉️✉️✉️✉️✉️✉️✉️✉️✉️✉️✉️\n");
 
+    // Returning the OTP to the browser is a convenience for local development
+    // only; in production it would let anyone reset any account. A demo deploy
+    // with no email service can opt in explicitly with EXPOSE_RESET_OTP=true.
+    const exposeOtp = process.env.NODE_ENV !== "production" || process.env.EXPOSE_RESET_OTP === "true";
     return res.json({
       success: true,
-      message: "Password reset OTP code generated and dispatched.",
-      devOtp: otp // Returned directly to simplify verification and testing
+      message: exposeOtp
+        ? "Password reset OTP code generated."
+        : "Password reset code generated. Ask your administrator for the code from the server log.",
+      ...(exposeOtp ? { devOtp: otp } : {})
     });
   } catch (err: any) {
     console.error("Forgot password request error:", err);
@@ -480,10 +503,9 @@ app.post("/api/auth/reset-password", (req, res) => {
 });
 
 // --- Save Patient Profile Details ---
-app.post("/api/auth/profile", authenticateToken, (req, res) => {
+app.post("/api/auth/profile", authenticateToken, (req: any, res) => {
   try {
     const {
-      id,
       name,
       age,
       medical_id,
@@ -495,12 +517,14 @@ app.post("/api/auth/profile", authenticateToken, (req, res) => {
       commit_delay
     } = req.body;
 
-    if (!id || !name) {
-      return res.status(400).json({ error: "Patient ID and Name are required." });
+    if (!name) {
+      return res.status(400).json({ error: "Name is required." });
     }
 
+    // Always update the patient who owns the session token — never an id from
+    // the request body, which would let one patient overwrite another's profile.
     const updated = updatePatientProfile(
-      Number(id),
+      Number(req.patient.id),
       name,
       Number(age || 0),
       medical_id || "",

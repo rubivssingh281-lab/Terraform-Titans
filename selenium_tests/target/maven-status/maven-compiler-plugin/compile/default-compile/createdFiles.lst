@@ -1,0 +1,6 @@
+PatientNameShownAfterLoginTest.class
+ActiveTabHighlightTest.class
+UnauthenticatedUserSeesLoginTest.class
+RegisterApiTest.class
+RemoteSessionTest.class
+LoginApiTest.class

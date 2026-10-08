@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: echolytix
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Where the SQLite database file lives. On the free plan this is the
+      # container's ephemeral disk (data resets on redeploy). For persistent
+      # accounts, switch to a paid instance, uncomment the `disk:` block below,
+      # and set DATABASE_PATH to /data/echolytix.db.
+      # - key: DATABASE_PATH
+      #   value: /data/echolytix.db
+      - key: FRONTEND_URL
+        sync: false   # Set to your deployed frontend URL (CORS)
+      - key: API_KEY
+        sync: false   # Optional Gemini API key
+    # Persistent disk (paid plans only) — uncomment for durable user accounts:
+    # disk:
+    #   name: echolytix-data
+    #   mountPath: /data
+    #   sizeGB: 1

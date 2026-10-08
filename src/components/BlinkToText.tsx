@@ -52,6 +52,11 @@ export const BlinkToText: React.FC<BlinkToTextProps> = ({ onAddPhraseHistory, re
   // EAR smoothing buffers (moving average) to suppress single-frame noise.
   const leftEarBufferRef = useRef<number[]>([]);
   const rightEarBufferRef = useRef<number[]>([]);
+  // Per-eye adaptive open-eye baseline. Blinks are detected as a relative drop
+  // from each eye's own baseline, so it works for wide eyes and naturally narrow
+  // (e.g. monolid / thin) eyes alike — no fixed absolute threshold.
+  const leftBaselineRef = useRef<number>(0);
+  const rightBaselineRef = useRef<number>(0);
   // Wink episode start time for sustained-wink (backspace) detection.
   const winkStartRef = useRef<number>(0);
 
@@ -112,23 +117,31 @@ export const BlinkToText: React.FC<BlinkToTextProps> = ({ onAddPhraseHistory, re
         const modelUrl = window.location.origin + "/models/face_landmarker.task";
         const fallbackModelUrl = "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task";
 
-        let landmarkerInstance;
-        try {
-          console.log("Attempting to load FaceLandmarker from local path: ", modelUrl);
-          landmarkerInstance = await vision.FaceLandmarker.createFromOptions(filesetResolver, {
-            baseOptions: { modelAssetPath: modelUrl, delegate: "GPU" },
-            runningMode: "VIDEO",
-            outputFaceBlendshapes: false
-          });
-        } catch (localErr) {
-          console.warn("Failed to load local face model, trying fallback GCS model...", localErr);
+        // Try local+GPU, then local+CPU, then remote+GPU, then remote+CPU so the
+        // tracker still loads on machines without a working GPU/WebGL delegate.
+        const attempts: { url: string; delegate: 'GPU' | 'CPU' }[] = [
+          { url: modelUrl, delegate: 'GPU' },
+          { url: modelUrl, delegate: 'CPU' },
+          { url: fallbackModelUrl, delegate: 'GPU' },
+          { url: fallbackModelUrl, delegate: 'CPU' },
+        ];
+        let landmarkerInstance: any = null;
+        let lastErr: any = null;
+        for (const attempt of attempts) {
           if (!active) return;
-          landmarkerInstance = await vision.FaceLandmarker.createFromOptions(filesetResolver, {
-            baseOptions: { modelAssetPath: fallbackModelUrl, delegate: "GPU" },
-            runningMode: "VIDEO",
-            outputFaceBlendshapes: false
-          });
+          try {
+            landmarkerInstance = await vision.FaceLandmarker.createFromOptions(filesetResolver, {
+              baseOptions: { modelAssetPath: attempt.url, delegate: attempt.delegate },
+              runningMode: "VIDEO",
+              outputFaceBlendshapes: false
+            });
+            break;
+          } catch (e) {
+            lastErr = e;
+            console.warn(`FaceLandmarker load failed (${attempt.delegate}) from ${attempt.url}, trying next...`, e);
+          }
         }
+        if (!landmarkerInstance) throw lastErr || new Error("FaceLandmarker failed to load.");
 
         if (!active) {
           if (landmarkerInstance) landmarkerInstance.close();
@@ -165,7 +178,7 @@ export const BlinkToText: React.FC<BlinkToTextProps> = ({ onAddPhraseHistory, re
     const processVideoFrame = () => {
       if (!active) return;
 
-      if (useRealWebcam && videoRef.current && videoRef.current.readyState === 4 && landmarkerRef.current) {
+      if (useRealWebcam && videoRef.current && videoRef.current.readyState >= 2 && videoRef.current.videoWidth > 0 && landmarkerRef.current) {
         try {
           const timestamp = performance.now();
           const results = landmarkerRef.current.detectForVideo(videoRef.current, timestamp);
@@ -596,8 +609,13 @@ export const BlinkToText: React.FC<BlinkToTextProps> = ({ onAddPhraseHistory, re
       setFaceDetected(true);
 
       const dist = (p1: any, p2: any) => Math.hypot(p1.x - p2.x, p1.y - p2.y);
-      const leftEARRaw = dist(landmarks[386], landmarks[374]) / dist(landmarks[362], landmarks[263]);
-      const rightEARRaw = dist(landmarks[159], landmarks[145]) / dist(landmarks[33], landmarks[133]);
+      // Eye-aspect-ratio using two vertical distances per eye (more stable than one).
+      const leftEARRaw =
+        (dist(landmarks[386], landmarks[374]) + dist(landmarks[385], landmarks[380])) /
+        (2 * dist(landmarks[362], landmarks[263]));
+      const rightEARRaw =
+        (dist(landmarks[159], landmarks[145]) + dist(landmarks[160], landmarks[144])) /
+        (2 * dist(landmarks[33], landmarks[133]));
 
       // Moving-average smoothing (last 3 frames) to reject single-frame jitter.
       const pushAvg = (buf: number[], v: number) => {
@@ -615,16 +633,25 @@ export const BlinkToText: React.FC<BlinkToTextProps> = ({ onAddPhraseHistory, re
         drawEyeContours(ctx, landmarks, canvas.width, canvas.height);
       }
 
-      // Load custom patient threshold (default to 0.18 if not set)
-      const savedThreshold = localStorage.getItem('profile_blink_threshold');
-      const blinkThreshold = savedThreshold ? parseFloat(savedThreshold) : 0.18;
-      // Hysteresis: a slightly higher threshold is used to re-open, so an eye
-      // hovering right at the boundary doesn't flicker open/closed every frame.
-      const reopenThreshold = blinkThreshold * 1.25;
+      // Adaptive open-eye baseline per eye. It rises quickly toward higher EAR
+      // (eye open) and decays only very slowly while open, so it settles on each
+      // person's true open-eye value — whether that is 0.35 (wide) or 0.15 (thin).
+      const updateBaseline = (ref: React.MutableRefObject<number>, ear: number, wasOpen: boolean) => {
+        if (ref.current === 0) { ref.current = ear; return ear; }
+        if (ear > ref.current) ref.current = ref.current * 0.9 + ear * 0.1;
+        else if (wasOpen) ref.current = ref.current * 0.997 + ear * 0.003;
+        return ref.current;
+      };
+      const leftBase = updateBaseline(leftBaselineRef, leftEAR, leftEyeOpen);
+      const rightBase = updateBaseline(rightBaselineRef, rightEAR, rightEyeOpen);
 
-      // Per-eye closed state with hysteresis, tracked via the smoothed EAR.
-      const leftClosed = leftEyeOpen ? leftEAR < blinkThreshold : leftEAR < reopenThreshold;
-      const rightClosed = rightEyeOpen ? rightEAR < blinkThreshold : rightEAR < reopenThreshold;
+      // A blink is a relative drop to ~68% of the person's own baseline, with a
+      // higher reopen fraction as hysteresis so a half-open eye doesn't flicker.
+      const closedRatio = 0.68;
+      const reopenRatio = 0.80;
+
+      const leftClosed = leftEyeOpen ? leftEAR < leftBase * closedRatio : leftEAR < leftBase * reopenRatio;
+      const rightClosed = rightEyeOpen ? rightEAR < rightBase * closedRatio : rightEAR < rightBase * reopenRatio;
       setLeftEyeOpen(!leftClosed);
       setRightEyeOpen(!rightClosed);
 
@@ -687,6 +714,8 @@ export const BlinkToText: React.FC<BlinkToTextProps> = ({ onAddPhraseHistory, re
       setRightEyeOpen(true);
       leftEarBufferRef.current = [];
       rightEarBufferRef.current = [];
+      leftBaselineRef.current = 0;
+      rightBaselineRef.current = 0;
       wasClosedRef.current = false;
       winkStartRef.current = 0;
     }

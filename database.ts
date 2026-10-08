@@ -72,16 +72,25 @@ export function initDatabase() {
     );
   `);
 
-  // Recent Spoken Phrases Table
+  // Recent Spoken Phrases Table (private per patient)
   db.exec(`
     CREATE TABLE IF NOT EXISTS recent_phrases (
       id TEXT PRIMARY KEY,
+      patient_id INTEGER,
       text TEXT NOT NULL,
       mode TEXT NOT NULL,
       timestamp TEXT NOT NULL,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE CASCADE
     );
   `);
+
+  // Migration: databases created before phrase history was per-patient lack
+  // the patient_id column. Add it in place so existing data is preserved.
+  const phraseColumns = db.prepare('PRAGMA table_info(recent_phrases)').all() as { name: string }[];
+  if (!phraseColumns.some((col) => col.name === 'patient_id')) {
+    db.exec('ALTER TABLE recent_phrases ADD COLUMN patient_id INTEGER');
+  }
 
   // Quick Morse & Assistive Phrases Table
   db.exec(`
@@ -196,17 +205,26 @@ function seedDefaultData() {
     );
   }
 
-  // Seed Recent Phrases
+  // The first patient is the seeded demo account; demo history belongs to it.
+  const demoPatient = db.prepare('SELECT id FROM patients ORDER BY id LIMIT 1').get() as { id: number } | undefined;
+
+  // Seed Recent Phrases for the demo account
   const phraseCountRow = db.prepare('SELECT COUNT(*) as count FROM recent_phrases').get() as { count: number | bigint };
   const phraseCount = Number(phraseCountRow?.count || 0);
-  if (phraseCount === 0) {
+  if (phraseCount === 0 && demoPatient) {
     const insertRecent = db.prepare(
-      'INSERT INTO recent_phrases (id, text, mode, timestamp) VALUES (?, ?, ?, ?)'
+      'INSERT INTO recent_phrases (id, patient_id, text, mode, timestamp) VALUES (?, ?, ?, ?, ?)'
     );
-    insertRecent.run('1', '"I need some water please"', 'Blink', '2 mins ago');
-    insertRecent.run('2', '"Hello, how are you today?"', 'Sign', '1 hr ago');
-    insertRecent.run('3', '"Please turn on the light"', 'Morse', '3 hrs ago');
-    insertRecent.run('4', '"Thank you for your assistance"', 'TTS', '5 hrs ago');
+    insertRecent.run(crypto.randomUUID(), demoPatient.id, '"I need some water please"', 'Blink', '');
+    insertRecent.run(crypto.randomUUID(), demoPatient.id, '"Hello, how are you today?"', 'Sign', '');
+    insertRecent.run(crypto.randomUUID(), demoPatient.id, '"Please turn on the light"', 'Morse', '');
+    insertRecent.run(crypto.randomUUID(), demoPatient.id, '"Thank you for your assistance"', 'TTS', '');
+  }
+
+  // History saved before the per-patient migration has no owner; assign it to
+  // the demo account so it stays visible instead of silently disappearing.
+  if (demoPatient) {
+    db.prepare('UPDATE recent_phrases SET patient_id = ? WHERE patient_id IS NULL').run(demoPatient.id);
   }
 
   // Seed Quick Morse Phrases
@@ -323,27 +341,45 @@ export function updatePatientProfile(
 }
 
 // Recent Phrases
-export function getRecentPhrases(limit = 20) {
-  const stmt = db.prepare('SELECT id, text, mode, timestamp FROM recent_phrases ORDER BY created_at DESC LIMIT ?');
-  return stmt.all(limit);
+// Human-friendly age of a row, computed from its UTC `created_at` at read time
+// (so history shows "5 mins ago", "2 hrs ago" … instead of a frozen label).
+function formatRelativeTime(createdAt: string | null | undefined): string {
+  if (!createdAt) return '';
+  const created = new Date(createdAt.includes('T') ? createdAt : createdAt.replace(' ', 'T') + 'Z');
+  const seconds = Math.max(0, Math.floor((Date.now() - created.getTime()) / 1000));
+  if (isNaN(seconds) || seconds < 60) return 'Just now';
+  const plural = (n: number, unit: string) => `${n} ${unit}${n === 1 ? '' : 's'} ago`;
+  if (seconds < 3600) return plural(Math.floor(seconds / 60), 'min');
+  if (seconds < 86400) return plural(Math.floor(seconds / 3600), 'hr');
+  return plural(Math.floor(seconds / 86400), 'day');
 }
 
-export function addRecentPhrase(text: string, mode: string) {
-  const id = Date.now().toString();
-  const timestamp = 'Just now';
-  const stmt = db.prepare('INSERT INTO recent_phrases (id, text, mode, timestamp) VALUES (?, ?, ?, ?)');
-  stmt.run(id, text, mode, timestamp);
-  return { id, text, mode, timestamp };
+export function getRecentPhrases(patientId: number, limit = 20) {
+  const stmt = db.prepare(`
+    SELECT id, text, mode, created_at FROM recent_phrases
+    WHERE patient_id = ?
+    ORDER BY created_at DESC, rowid DESC
+    LIMIT ?
+  `);
+  const rows = stmt.all(patientId, limit) as { id: string; text: string; mode: string; created_at: string }[];
+  return rows.map(({ created_at, ...row }) => ({ ...row, timestamp: formatRelativeTime(created_at) }));
 }
 
-export function deleteRecentPhrase(id: string) {
-  const stmt = db.prepare('DELETE FROM recent_phrases WHERE id = ?');
-  return stmt.run(id);
+export function addRecentPhrase(patientId: number, text: string, mode: string) {
+  const id = crypto.randomUUID();
+  const stmt = db.prepare('INSERT INTO recent_phrases (id, patient_id, text, mode, timestamp) VALUES (?, ?, ?, ?, ?)');
+  stmt.run(id, patientId, text, mode, '');
+  return { id, text, mode, timestamp: 'Just now' };
 }
 
-export function clearRecentPhrases() {
-  const stmt = db.prepare('DELETE FROM recent_phrases');
-  return stmt.run();
+export function deleteRecentPhrase(patientId: number, id: string) {
+  const stmt = db.prepare('DELETE FROM recent_phrases WHERE id = ? AND patient_id = ?');
+  return stmt.run(id, patientId);
+}
+
+export function clearRecentPhrases(patientId: number) {
+  const stmt = db.prepare('DELETE FROM recent_phrases WHERE patient_id = ?');
+  return stmt.run(patientId);
 }
 
 // Quick Phrases
@@ -415,15 +451,16 @@ export function createSosAlert(patientId: number | null, message: string, latitu
   return { success: true, timestamp };
 }
 
-export function getRecentSosAlerts(limit = 10) {
+export function getRecentSosAlerts(patientId: number, limit = 10) {
   const query = db.prepare(`
     SELECT s.*, p.name as patient_name, p.caregiver_name, p.caregiver_phone, p.emergency_email
     FROM sos_alerts s
     LEFT JOIN patients p ON s.patient_id = p.id
+    WHERE s.patient_id = ?
     ORDER BY s.timestamp DESC
     LIMIT ?
   `);
-  return query.all(limit);
+  return query.all(patientId, limit);
 }
 
 // User Registration

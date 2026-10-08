@@ -3,6 +3,7 @@ import { SIGN_CAMERA_FEED_URL } from '../data';
 import { speakText, playBeep } from '../utils/sound';
 import { sendRemoteEvent } from '../utils/remote';
 import { classifyGesture, FingerStates } from '../utils/gesture';
+import { HandGlyph, GESTURE_GLYPHS } from './HandGlyph';
 
 const EMPTY_FINGERS: FingerStates = { thumb: false, index: false, middle: false, ring: false, pinky: false };
 const FINGER_LABELS: { key: keyof FingerStates; label: string }[] = [
@@ -126,29 +127,34 @@ export const SignLanguage: React.FC<SignLanguageProps> = ({ onAddPhraseHistory, 
         const modelUrl = window.location.origin + "/models/hand_landmarker.task";
         const fallbackModelUrl = "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task";
 
-        let landmarkerInstance;
-        try {
-          console.log("Attempting to load HandLandmarker from local path: ", modelUrl);
-          landmarkerInstance = await vision.HandLandmarker.createFromOptions(filesetResolver, {
-            baseOptions: {
-              modelAssetPath: modelUrl,
-              delegate: "GPU"
-            },
-            runningMode: "VIDEO",
-            numHands: 1
-          });
-        } catch (localErr) {
-          console.warn("Failed to load local model, trying fallback GCS model...", localErr);
+        // Try local+GPU, then local+CPU, then remote+GPU, then remote+CPU so the
+        // tracker still loads on machines without a working GPU/WebGL delegate.
+        const attempts: { url: string; delegate: 'GPU' | 'CPU' }[] = [
+          { url: modelUrl, delegate: 'GPU' },
+          { url: modelUrl, delegate: 'CPU' },
+          { url: fallbackModelUrl, delegate: 'GPU' },
+          { url: fallbackModelUrl, delegate: 'CPU' },
+        ];
+        let landmarkerInstance: any = null;
+        let lastErr: any = null;
+        for (const attempt of attempts) {
           if (!active) return;
-          landmarkerInstance = await vision.HandLandmarker.createFromOptions(filesetResolver, {
-            baseOptions: {
-              modelAssetPath: fallbackModelUrl,
-              delegate: "GPU"
-            },
-            runningMode: "VIDEO",
-            numHands: 1
-          });
+          try {
+            landmarkerInstance = await vision.HandLandmarker.createFromOptions(filesetResolver, {
+              baseOptions: { modelAssetPath: attempt.url, delegate: attempt.delegate },
+              runningMode: "VIDEO",
+              numHands: 1,
+              minHandDetectionConfidence: 0.4,
+              minHandPresenceConfidence: 0.4,
+              minTrackingConfidence: 0.4
+            });
+            break;
+          } catch (e) {
+            lastErr = e;
+            console.warn(`HandLandmarker load failed (${attempt.delegate}) from ${attempt.url}, trying next...`, e);
+          }
         }
+        if (!landmarkerInstance) throw lastErr || new Error("HandLandmarker failed to load.");
 
         if (!active) {
           if (landmarkerInstance) landmarkerInstance.close();
@@ -204,7 +210,7 @@ export const SignLanguage: React.FC<SignLanguageProps> = ({ onAddPhraseHistory, 
     const processVideoFrame = () => {
       if (!active) return;
 
-      if (useRealWebcam && videoRef.current && videoRef.current.readyState === 4 && landmarkerRef.current) {
+      if (useRealWebcam && videoRef.current && videoRef.current.readyState >= 2 && videoRef.current.videoWidth > 0 && landmarkerRef.current) {
         try {
           const timestamp = performance.now();
           const results = landmarkerRef.current.detectForVideo(videoRef.current, timestamp);
@@ -389,9 +395,9 @@ export const SignLanguage: React.FC<SignLanguageProps> = ({ onAddPhraseHistory, 
       setFingerStates(prediction.fingers);
       setHandDetected(true);
 
-      // Require both a confident single-frame match and temporal stability.
-      const stable = smoothGesture(prediction.confidence >= 0.6 ? prediction.gesture : 'None');
-      const filteredGesture = stable !== 'None' && prediction.confidence >= 0.6 ? stable : 'None';
+      // Require both a confident single-frame match (>= 80%) and temporal stability.
+      const stable = smoothGesture(prediction.confidence >= 0.8 ? prediction.gesture : 'None');
+      const filteredGesture = stable !== 'None' && prediction.confidence >= 0.8 ? stable : 'None';
 
       if (filteredGesture !== 'None') {
         if (activeGestureRef.current !== filteredGesture) {
@@ -504,8 +510,6 @@ export const SignLanguage: React.FC<SignLanguageProps> = ({ onAddPhraseHistory, 
     }
   };
 
-  const matchedGesture = phraseCheatSheet.find(item => item.label === currentGesture);
-  const gestureSymbol = matchedGesture ? matchedGesture.symbol : '👋';
 
   return (
     <main className="p-4 md:p-6 max-w-[1280px] mx-auto w-full flex flex-col pb-28 md:pb-12 gap-5 animate-fade-in">
@@ -767,8 +771,10 @@ export const SignLanguage: React.FC<SignLanguageProps> = ({ onAddPhraseHistory, 
             <div className="mb-4">
               <span className="text-[10px] font-mono-code text-slate-500 block mb-2">CURRENT GESTURE</span>
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-[#EFE8D8] border border-[#E6DDC9] flex items-center justify-center text-2xl shadow-inner animate-pulse">
-                  {gestureSymbol}
+                <div className="w-12 h-12 rounded-xl bg-[#EFE8D8] border border-[#E6DDC9] flex items-center justify-center shadow-inner">
+                  {currentGesture !== 'None' && GESTURE_GLYPHS[currentGesture]
+                    ? <HandGlyph {...GESTURE_GLYPHS[currentGesture]} className="w-9 h-9" />
+                    : <span className="material-symbols-outlined text-slate-400 text-xl">front_hand</span>}
                 </div>
                 <div>
                   <div className="font-mono-code text-2xl font-bold text-emerald-600 tracking-wider">
@@ -869,7 +875,7 @@ export const SignLanguage: React.FC<SignLanguageProps> = ({ onAddPhraseHistory, 
                         : 'bg-[#EFE8D8] border-[#E6DDC9] hover:border-indigo-500/40'
                     }`}
                   >
-                    <span className="text-lg">{item.symbol}</span>
+                    <HandGlyph {...(GESTURE_GLYPHS[item.label] || GESTURE_GLYPHS.HELLO)} className="w-7 h-7" />
                     <span className="font-mono-code text-[8px] text-slate-800 truncate w-full mt-0.5">{item.label}</span>
                   </button>
                 );
