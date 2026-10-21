@@ -6,7 +6,6 @@ import org.junit.Test;
 import org.openqa.selenium.JavascriptExecutor;
 public class ValidateInvalidRemoteSessionCodeTest extends BaseTest {
 
-    }
 
     private Map<String, Object> executeFetchScript(String script) {
         return (Map<String, Object>) ((JavascriptExecutor) driver).executeAsyncScript(script);

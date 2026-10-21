@@ -22,4 +22,10 @@ msasl_subset_index.json
 videos/
 videos_msasl/
 extracted_landmarks_cache*.json
+# Maven build artifacts
+target/
+**/target/
+*.class
 
+# IDE configuration
+.idea/runConfigurations/

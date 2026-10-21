@@ -1,15 +1,16 @@
 package com.echolytix.pages;
 
+import com.echolytix.config.LocatorReader;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public class DashboardPage extends BasePage {
 
-    // Unique Dashboard locators (only present when logged in)
-    private final By dashboardSignCard = By.xpath("//button[.//span[contains(text(), 'Sign Gestures')]]");
-    private final By signOutButton = By.xpath("//button[contains(., 'Sign Out')]");
-    private final By patientHubBadge = By.xpath("//div[contains(text(), 'PATIENT HUB ACTIVATED')]");
-    private final By navSignButton = By.xpath("//nav//button[contains(., 'Sign') and not(contains(., 'Sign Out'))]");
+    // Unique Dashboard locators loaded dynamically from centralized locator.properties
+    private final By dashboardSignCard = LocatorReader.getBy("dashboard.sign.card");
+    private final By signOutButton = LocatorReader.getBy("dashboard.signout.button");
+    private final By patientHubBadge = LocatorReader.getBy("dashboard.patient.hub.badge");
+    private final By navSignButton = LocatorReader.getBy("nav.sign.button");
 
     public DashboardPage(WebDriver driver) {
         super(driver);

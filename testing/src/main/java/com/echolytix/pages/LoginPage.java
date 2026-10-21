@@ -1,20 +1,21 @@
 package com.echolytix.pages;
 
 import com.echolytix.config.ConfigReader;
+import com.echolytix.config.LocatorReader;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class LoginPage extends BasePage {
 
-    // Locators strictly scoped to the authentication form to prevent matching dashboard fields
-    private final By emailInput = By.xpath("//form[.//button[@type='submit']]//input[@type='email']");
-    private final By passwordInput = By.xpath("//form[.//button[@type='submit']]//input[@type='password'] | //input[@type='password']");
-    private final By authorizeButton = By.xpath("//button[@type='submit' and (contains(., 'AUTHORIZE') or contains(., 'VERIFYING'))]");
-    private final By autoFillButton = By.xpath("//button[contains(., 'Auto-fill Testing Credentials')]");
-    private final By loadingSpinner = By.xpath("//*[contains(text(), 'ESTABLISHING SECURE CONNECTION')]");
-    private final By dashboardSignOut = By.xpath("//button[contains(., 'Sign Out')]");
-    private final By dashboardSignCard = By.xpath("//button[.//span[contains(text(), 'Sign Gestures')]]");
+    // Locators loaded dynamically from centralized locator.properties
+    private final By emailInput = LocatorReader.getBy("login.email.input");
+    private final By passwordInput = LocatorReader.getBy("login.password.input");
+    private final By authorizeButton = LocatorReader.getBy("login.authorize.button");
+    private final By autoFillButton = LocatorReader.getBy("login.autofill.button");
+    private final By loadingSpinner = LocatorReader.getBy("login.loading.spinner");
+    private final By dashboardSignOut = LocatorReader.getBy("login.dashboard.signout");
+    private final By dashboardSignCard = LocatorReader.getBy("login.dashboard.signcard");
 
     public LoginPage(WebDriver driver) {
         super(driver);

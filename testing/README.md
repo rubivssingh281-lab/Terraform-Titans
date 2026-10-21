@@ -13,28 +13,42 @@ d:\testing
 ├── run-tests.bat                                # Windows 1-click test runner script
 ├── src
 │   ├── main
-│   │   └── java
-│   │       └── com/echolytix
-│   │           ├── config
-│   │           │   └── ConfigReader.java        # Loads config.properties & environment properties
-│   │           ├── driver
-│   │           │   └── DriverManager.java       # ThreadLocal WebDriver manager with camera permissions
-│   │           └── pages
-│   │               ├── BasePage.java            # Reusable Selenium interaction & wait methods
-│   │               ├── LoginPage.java           # Login page / AuthPortal elements and actions
-│   │               ├── DashboardPage.java       # Dashboard navigation to Hand Sign feature
-│   │               └── HandSignGesturePage.java # Complete Page Object for Hand Sign Gesture feature
+│   │   ├── java
+│   │   │   └── com/echolytix
+│   │   │       ├── config
+│   │   │       │   ├── ConfigReader.java        # Loads config.properties & environment properties
+│   │   │       │   └── LocatorReader.java       # DevOps Object Repository Reader for locator.properties
+│   │   │       ├── driver
+│   │   │       │   └── DriverManager.java       # ThreadLocal WebDriver manager with camera permissions
+│   │   │       └── pages
+│   │   │           ├── BasePage.java            # Reusable Selenium interaction & wait methods
+│   │   │           ├── LoginPage.java           # Login page / AuthPortal elements and actions
+│   │   │           ├── DashboardPage.java       # Dashboard navigation to Hand Sign feature
+│   │   │           └── HandSignGesturePage.java # Complete Page Object for Hand Sign Gesture feature
+│   │   └── resources
+│   │       └── locator.properties               # Centralized Object Repository for all XPaths / locators
 │   └── test
 │       ├── java
 │       │   └── com/echolytix
 │       │       ├── base
 │       │       │   └── BaseTest.java            # Driver lifecycle and auth navigation helpers
 │       │       └── tests
-│       │           └── HandSignGestureTest.java # 10 TestNG test cases for Hand Sign Gesture
+│       │           ├── HandSignGestureTest.java # 10 TestNG test cases for Hand Sign Gesture
+│       │           └── LocatorReaderTest.java   # Automated verification of centralized locators
 │       └── resources
-│           └── config.properties                # App URL, browser, timeout & demo credentials
+│           ├── config.properties                # App URL, browser, timeout & demo credentials
+│           └── locator.properties               # Test classpath Object Repository
 └── README.md
 ```
+
+### 🎯 DevOps Centralized Locator Management (`locator.properties`)
+All UI XPaths and element selectors are centralized in `locator.properties`:
+- **Single Source of Truth**: Update a selector in `locator.properties` once; all Page Objects and tests update automatically without code changes or multiple Git commits.
+- **CI/CD Dynamic Overrides**: Override any locator in Jenkins / GitHub Actions without committing:
+  ```bash
+  mvn test -Dlogin.email.input="//custom-xpath"
+  ```
+- **Dynamic Parameterized XPaths**: Supports placeholders (`%s`) for parameterized elements (e.g. cheat sheet buttons, finger signal badges).
 
 ---
 

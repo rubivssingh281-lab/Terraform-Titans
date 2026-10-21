@@ -1,5 +1,6 @@
 package com.echolytix.pages;
 
+import com.echolytix.config.LocatorReader;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -7,38 +8,38 @@ import org.openqa.selenium.WebElement;
 public class HandSignGesturePage extends BasePage {
 
     // Header & Section Locators
-    private final By translationHeading = By.xpath("//h2[contains(., 'Translation')]");
-    private final By gestureEngineTitle = By.xpath("//div[contains(text(), 'Geometric Gesture Engine')]");
-    private final By handDetectBadge = By.xpath("//span[contains(text(), 'Hand Detected') or contains(text(), 'No Hand')]");
+    private final By translationHeading = LocatorReader.getBy("handsign.translation.heading");
+    private final By gestureEngineTitle = LocatorReader.getBy("handsign.gesture.engine.title");
+    private final By handDetectBadge = LocatorReader.getBy("handsign.hand.detect.badge");
 
     // Gesture & Output Locators
-    private final By currentGestureValue = By.xpath("//span[text()='CURRENT GESTURE']/following-sibling::div//div[contains(@class, 'text-2xl')]");
-    private final By constructedPhraseContainer = By.xpath("//span[text()='CONSTRUCTED PHRASE']/following-sibling::div/div[1]");
+    private final By currentGestureValue = LocatorReader.getBy("handsign.current.gesture.value");
+    private final By constructedPhraseContainer = LocatorReader.getBy("handsign.constructed.phrase.container");
 
     // HUD Metrics
-    private final By confidenceValue = By.xpath("//span[text()='CONFIDENCE']/following-sibling::span");
-    private final By fpsValue = By.xpath("//span[text()='FPS']/following-sibling::span");
+    private final By confidenceValue = LocatorReader.getBy("handsign.confidence.value");
+    private final By fpsValue = LocatorReader.getBy("handsign.fps.value");
 
     // Camera Controls
-    private final By webcamToggleButton = By.xpath("//button[contains(., 'Use Real Webcam') or contains(., 'Close Camera')]");
-    private final By skeletonCheckbox = By.xpath("//label[contains(., 'Skeleton Overlay')]//input[@type='checkbox']");
+    private final By webcamToggleButton = LocatorReader.getBy("handsign.webcam.toggle.button");
+    private final By skeletonCheckbox = LocatorReader.getBy("handsign.skeleton.checkbox");
 
-    // Voice & Speech Controls (Scoped directly to label parents)
-    private final By voiceSelectDropdown = By.xpath("//div[contains(., 'Voice Selection')]/select");
-    private final By speedRateSlider = By.xpath("//span[text()='Speed Rate']/ancestor::div[1]/following-sibling::input[@type='range']");
-    private final By speedRateDisplay = By.xpath("//span[text()='Speed Rate']/following-sibling::span");
-    private final By pitchSlider = By.xpath("//span[text()='Pitch']/ancestor::div[1]/following-sibling::input[@type='range']");
-    private final By pitchDisplay = By.xpath("//span[text()='Pitch']/following-sibling::span");
+    // Voice & Speech Controls
+    private final By voiceSelectDropdown = LocatorReader.getBy("handsign.voice.select.dropdown");
+    private final By speedRateSlider = LocatorReader.getBy("handsign.speed.rate.slider");
+    private final By speedRateDisplay = LocatorReader.getBy("handsign.speed.rate.display");
+    private final By pitchSlider = LocatorReader.getBy("handsign.pitch.slider");
+    private final By pitchDisplay = LocatorReader.getBy("handsign.pitch.display");
 
     // Action Buttons
-    private final By deleteWordButton = By.xpath("//button[contains(., 'Delete Word')]");
-    private final By clearAllButton = By.xpath("//button[contains(., 'Clear All')]");
-    private final By submitButton = By.xpath("//button[contains(., 'Submit')]");
-    private final By aiCompleteButton = By.xpath("//button[contains(., 'AI Complete')]");
-    private final By speakOutputButton = By.xpath("//button[@title='Speak Output']");
+    private final By deleteWordButton = LocatorReader.getBy("handsign.delete.word.button");
+    private final By clearAllButton = LocatorReader.getBy("handsign.clear.all.button");
+    private final By submitButton = LocatorReader.getBy("handsign.submit.button");
+    private final By aiCompleteButton = LocatorReader.getBy("handsign.ai.complete.button");
+    private final By speakOutputButton = LocatorReader.getBy("handsign.speak.output.button");
 
     // Cheat Sheet Header
-    private final By cheatSheetHeader = By.xpath("//h3[contains(., 'Gesture Cheat Sheet')]");
+    private final By cheatSheetHeader = LocatorReader.getBy("handsign.cheat.sheet.header");
 
     public HandSignGesturePage(WebDriver driver) {
         super(driver);
@@ -73,10 +74,7 @@ public class HandSignGesturePage extends BasePage {
      * Click a gesture from the Gesture Cheat Sheet (e.g. "HELLO", "HELP", "YES", etc.)
      */
     public void selectGesture(String gestureName) {
-        By gestureButtonLocator = By.xpath(
-                String.format("//h3[contains(., 'Gesture Cheat Sheet')]/following-sibling::div//button[.//span[text()='%s'] or contains(., '%s')]",
-                        gestureName, gestureName)
-        );
+        By gestureButtonLocator = LocatorReader.getBy("handsign.cheat.sheet.gesture.button", gestureName, gestureName);
         jsClick(gestureButtonLocator);
 
         // Wait until Current Gesture displays this gesture name to ensure React state has rendered
@@ -201,7 +199,7 @@ public class HandSignGesturePage extends BasePage {
     }
 
     public boolean isFingerSignalDisplayed(String fingerName) {
-        By locator = By.xpath(String.format("//span[text()='Live Finger Signal']/following-sibling::div//span[text()='%s']", fingerName));
+        By locator = LocatorReader.getBy("handsign.live.finger.signal", fingerName);
         return isDisplayed(locator, 3);
     }
 }

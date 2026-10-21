@@ -79,4 +79,29 @@ public abstract class BasePage {
     protected Object executeScript(String script, Object... args) {
         return ((JavascriptExecutor) driver).executeScript(script, args);
     }
+
+    // --- DevOps Centralized Locator Helpers ---
+    protected By getLocator(String key) {
+        return com.echolytix.config.LocatorReader.getBy(key);
+    }
+
+    protected By getLocator(String key, Object... args) {
+        return com.echolytix.config.LocatorReader.getBy(key, args);
+    }
+
+    protected void clickByLocator(String key) {
+        click(getLocator(key));
+    }
+
+    protected void jsClickByLocator(String key) {
+        jsClick(getLocator(key));
+    }
+
+    protected void typeByLocator(String key, String text) {
+        type(getLocator(key), text);
+    }
+
+    protected String getTextByLocator(String key) {
+        return getText(getLocator(key));
+    }
 }

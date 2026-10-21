@@ -27,12 +27,12 @@ export const BottomNavBar: React.FC<BottomNavBarProps> = ({ currentTab, onSelect
 
       {/* Sign */}
       <button
-        onClick={() => isLoggedIn ? onSelectTab('sign') : onSelectTab('dashboard')}
+        onClick={() => onSelectTab('sign')}
         className={`flex flex-col items-center justify-center px-3 py-1.5 rounded-full transition-all ${
           currentTab === 'sign'
             ? 'bg-indigo-600 text-white font-bold shadow-[0_0_12px_rgba(99,102,241,0.4)]'
             : 'text-slate-500 hover:text-slate-900'
-        } ${!isLoggedIn ? 'opacity-60' : ''}`}
+        }`}
       >
         <span className="material-symbols-outlined text-xl mb-0.5">
           {!isLoggedIn ? 'lock' : 'front_hand'}
