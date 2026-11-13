@@ -612,7 +612,7 @@ app.post("/api/emergency/sos", (req, res) => {
 app.get("/api/emergency/sos", (req, res) => {
   try {
     const limit = req.query.limit ? parseInt(req.query.limit as string) : 10;
-    const alerts = getRecentSosAlerts(limit);
+    const alerts = getRecentSosAlerts(null, limit);
     return res.json(alerts);
   } catch (err: any) {
     console.error("Error fetching SOS logs:", err);

@@ -451,16 +451,17 @@ export function createSosAlert(patientId: number | null, message: string, latitu
   return { success: true, timestamp };
 }
 
-export function getRecentSosAlerts(patientId: number, limit = 10) {
+export function getRecentSosAlerts(patientId: number | null = null, limit = 10) {
+  const patientFilter = patientId === null ? "" : "WHERE s.patient_id = ?";
   const query = db.prepare(`
     SELECT s.*, p.name as patient_name, p.caregiver_name, p.caregiver_phone, p.emergency_email
     FROM sos_alerts s
     LEFT JOIN patients p ON s.patient_id = p.id
-    WHERE s.patient_id = ?
+    ${patientFilter}
     ORDER BY s.timestamp DESC
     LIMIT ?
   `);
-  return query.all(patientId, limit);
+  return patientId === null ? query.all(limit) : query.all(patientId, limit);
 }
 
 // User Registration

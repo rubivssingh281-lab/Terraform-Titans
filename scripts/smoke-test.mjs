@@ -91,6 +91,8 @@ async function main() {
     });
   }
 
+  const contentUser = await registerAndLogin('content');
+
   // ---------- Public content APIs ----------
   await check('GET /api/quick-phrases', async () => {
     const r = await api('GET', '/api/quick-phrases');
@@ -98,9 +100,9 @@ async function main() {
   });
 
   await check('POST + DELETE /api/quick-phrases', async () => {
-    const created = await api('POST', '/api/quick-phrases', { label: `Smoke ${unique()}`, morse: '... --- ...', category: 'Test' });
+    const created = await api('POST', '/api/quick-phrases', { label: `Smoke ${unique()}`, morse: '... --- ...', category: 'Test' }, contentUser.token);
     assert(created.status === 201 && created.data.id, `create HTTP ${created.status}`);
-    const del = await api('DELETE', `/api/quick-phrases/${created.data.id}`);
+    const del = await api('DELETE', `/api/quick-phrases/${created.data.id}`, null, contentUser.token);
     assert(del.status === 200, `delete HTTP ${del.status}`);
   });
 
@@ -110,9 +112,9 @@ async function main() {
   });
 
   await check('POST /api/categories + add phrase to category', async () => {
-    const cat = await api('POST', '/api/categories', { name: `Smoke ${unique()}` });
+    const cat = await api('POST', '/api/categories', { name: `Smoke ${unique()}` }, contentUser.token);
     assert(cat.status === 201 && cat.data.id, `category HTTP ${cat.status}`);
-    const phrase = await api('POST', `/api/categories/${cat.data.id}/phrases`, { text: 'Smoke phrase' });
+    const phrase = await api('POST', `/api/categories/${cat.data.id}/phrases`, { text: 'Smoke phrase' }, contentUser.token);
     assert(phrase.status === 201, `phrase HTTP ${phrase.status}`);
   });
 
