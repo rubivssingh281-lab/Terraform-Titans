@@ -66,28 +66,36 @@ app.use((req, res, next) => {
     "http://127.0.0.1:3000",
     "http://127.0.0.1:5173"
   ];
-  
+
   if (process.env.FRONTEND_URL) {
-    allowedOrigins.push(process.env.FRONTEND_URL.replace(/\/$/, ""));
+    allowedOrigins.push(
+      ...process.env.FRONTEND_URL
+        .split(",")
+        .map((configuredOrigin) => configuredOrigin.trim().replace(/\/$/, ""))
+        .filter(Boolean)
+    );
   }
 
-  // Allow localhost origins, the configured production FRONTEND_URL, or any origin during development.
-  const isAllowed = origin && (allowedOrigins.includes(origin) || process.env.NODE_ENV !== "production");
-
-  if (isAllowed) {
-    res.header("Access-Control-Allow-Origin", origin);
-  } else {
-    // Return restricted fallback origin if not allowed
-    res.header("Access-Control-Allow-Origin", process.env.FRONTEND_URL || "http://localhost:3000");
-  }
-  
   res.header("Access-Control-Allow-Credentials", "true");
   res.header("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS, POST, PUT, DELETE");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-  
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(200);
+
+  if (!origin) {
+    return next();
   }
+
+  res.header("Vary", "Origin");
+  if (allowedOrigins.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin);
+  }
+
+  if (req.method === "OPTIONS") {
+    if (!allowedOrigins.includes(origin)) {
+      return res.status(403).json({ error: "Origin is not allowed." });
+    }
+    return res.sendStatus(204);
+  }
+
   next();
 });
 
