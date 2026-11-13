@@ -19,9 +19,14 @@ public abstract class UiTestBase {
   void openApp() {
     ChromeOptions options = new ChromeOptions();
     options.addArguments("--window-size=1440,1000", "--disable-notifications");
+    if (Boolean.getBoolean("headless")) {
+      options.addArguments("--headless=new", "--no-sandbox", "--disable-dev-shm-usage");
+    }
     driver = new ChromeDriver(options);
     wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-    driver.get(System.getProperty("app.url", "http://localhost:3000/"));
+    driver.get(System.getProperty("app.url", "http://localhost:3000/").replaceAll("/+$", ""));
+    wait.until(d -> "complete".equals(((org.openqa.selenium.JavascriptExecutor) d)
+        .executeScript("return document.readyState")));
     wait.until(d -> !d.findElements(By.cssSelector("form")).isEmpty()
         || !d.findElements(By.cssSelector("header")).isEmpty());
   }
@@ -47,6 +52,17 @@ public abstract class UiTestBase {
   }
 
   private String xpathText(String text) {
-    return "'" + text.replace("'", "&apos;") + "'";
+    if (!text.contains("'")) {
+      return "'" + text + "'";
+    }
+    String[] parts = text.split("'", -1);
+    StringBuilder expression = new StringBuilder("concat(");
+    for (int i = 0; i < parts.length; i++) {
+      if (i > 0) {
+        expression.append(", \"'\", ");
+      }
+      expression.append("'").append(parts[i]).append("'");
+    }
+    return expression.append(")").toString();
   }
 }

@@ -24,7 +24,19 @@ class NavigationUiTests extends UiTestBase {
     WebElement sign = driver.findElement(By.xpath("//header//button[normalize-space()='Sign']"));
     sign.click();
     assertTrue(sign.getAttribute("class").contains("indigo-500/15"), "Sign tab should have indigo active styling");
+    assertEquals("page", sign.getAttribute("aria-current"), "Active tab should expose aria-current");
     WebElement dashboard = driver.findElement(By.xpath("//header//button[normalize-space()='Dashboard']"));
     assertFalse(dashboard.getAttribute("class").contains("indigo-500/15"), "Other tabs should be neutral");
+    assertNull(dashboard.getAttribute("aria-current"), "Inactive tab should not expose aria-current");
+  }
+
+  @Test
+  @DisplayName("Unauthenticated mobile navigation keeps protected tabs locked")
+  void mobileProtectedNavigationRemainsOnLogin() {
+    driver.manage().window().setSize(new org.openqa.selenium.Dimension(390, 844));
+    WebElement sign = driver.findElement(By.xpath("//nav[@aria-label='Mobile navigation']//button[.//span[normalize-space()='Sign']]"));
+    assertEquals("true", sign.getAttribute("aria-disabled"));
+    sign.click();
+    assertTrue(visibleText("AUTHORIZE PATIENT"), "Protected mobile navigation must not bypass login");
   }
 }
