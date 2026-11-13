@@ -23,6 +23,7 @@ class NavigationUiTests extends UiTestBase {
     signInWithDemoAccount();
     WebElement sign = driver.findElement(By.xpath("//header//button[contains(normalize-space(.), 'Sign')]"));
     sign.click();
+    wait.until(d -> "page".equals(sign.getAttribute("aria-current")));
     assertTrue(sign.getAttribute("class").contains("indigo-500/15"), "Sign tab should have indigo active styling");
     assertEquals("page", sign.getAttribute("aria-current"), "Active tab should expose aria-current");
     WebElement dashboard = driver.findElement(By.xpath("//header//button[contains(normalize-space(.), 'Dashboard')]"));
