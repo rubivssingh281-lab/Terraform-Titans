@@ -20,7 +20,12 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <header className="bg-[#FFFDF8]/90 backdrop-blur-xl border-b border-[#E6DDC9] sticky top-0 z-50 flex justify-between items-center px-4 md:px-8 h-16 w-full">
       {/* Brand & User Profile */}
-      <div className="flex items-center gap-3 cursor-pointer" onClick={() => onSelectTab('dashboard')}>
+      <button
+        type="button"
+        className="flex items-center gap-3 cursor-pointer text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#FFFDF8] rounded-lg"
+        onClick={() => onSelectTab('dashboard')}
+        aria-label="Go to dashboard"
+      >
         <div className="w-10 h-10 rounded-full overflow-hidden border border-[#E6DDC9] hover:border-indigo-500 transition-colors">
           <img
             src={USER_AVATAR_URL}
@@ -39,12 +44,13 @@ export const Header: React.FC<HeaderProps> = ({
             {isLoggedIn && patientName ? `Patient Profile: ${patientName}` : "No Voice Should Go Unheard"}
           </span>
         </div>
-      </div>
+      </button>
 
       {/* Desktop Navigation Links */}
-      <nav className="hidden md:flex items-center gap-1 lg:gap-2">
+      <nav className="hidden md:flex items-center gap-1 lg:gap-2" aria-label="Primary navigation">
         <button
           onClick={() => onSelectTab('dashboard')}
+          aria-current={currentTab === 'dashboard' ? 'page' : undefined}
           className={`px-3.5 py-1.5 rounded-full text-xs font-mono-code font-semibold transition-all flex items-center gap-1.5 ${
             currentTab === 'dashboard'
               ? 'bg-indigo-500/15 text-indigo-600 border border-indigo-500/30 shadow-[0_0_12px_rgba(99,102,241,0.15)]'
@@ -56,6 +62,8 @@ export const Header: React.FC<HeaderProps> = ({
         </button>
         <button
           onClick={() => isLoggedIn ? onSelectTab('blink') : onSelectTab('dashboard')}
+          aria-current={currentTab === 'blink' ? 'page' : undefined}
+          aria-disabled={!isLoggedIn}
           className={`px-3.5 py-1.5 rounded-full text-xs font-mono-code font-semibold transition-all flex items-center gap-1.5 ${
             currentTab === 'blink'
               ? 'bg-indigo-500/15 text-indigo-600 border border-indigo-500/30 shadow-[0_0_12px_rgba(99,102,241,0.15)]'
@@ -69,6 +77,8 @@ export const Header: React.FC<HeaderProps> = ({
         </button>
         <button
           onClick={() => isLoggedIn ? onSelectTab('sign') : onSelectTab('dashboard')}
+          aria-current={currentTab === 'sign' ? 'page' : undefined}
+          aria-disabled={!isLoggedIn}
           className={`px-3.5 py-1.5 rounded-full text-xs font-mono-code font-semibold transition-all flex items-center gap-1.5 ${
             currentTab === 'sign'
               ? 'bg-indigo-500/15 text-indigo-600 border border-indigo-500/30 shadow-[0_0_12px_rgba(99,102,241,0.15)]'
@@ -82,6 +92,8 @@ export const Header: React.FC<HeaderProps> = ({
         </button>
         <button
           onClick={() => isLoggedIn ? onSelectTab('morse') : onSelectTab('dashboard')}
+          aria-current={currentTab === 'morse' ? 'page' : undefined}
+          aria-disabled={!isLoggedIn}
           className={`px-3.5 py-1.5 rounded-full text-xs font-mono-code font-semibold transition-all flex items-center gap-1.5 ${
             currentTab === 'morse'
               ? 'bg-indigo-500/15 text-indigo-600 border border-indigo-500/30 shadow-[0_0_12px_rgba(99,102,241,0.15)]'
@@ -95,6 +107,8 @@ export const Header: React.FC<HeaderProps> = ({
         </button>
         <button
           onClick={() => isLoggedIn ? onSelectTab('tts') : onSelectTab('dashboard')}
+          aria-current={currentTab === 'tts' ? 'page' : undefined}
+          aria-disabled={!isLoggedIn}
           className={`px-3.5 py-1.5 rounded-full text-xs font-mono-code font-semibold transition-all flex items-center gap-1.5 ${
             currentTab === 'tts'
               ? 'bg-indigo-500/15 text-indigo-600 border border-indigo-500/30 shadow-[0_0_12px_rgba(99,102,241,0.15)]'
@@ -108,6 +122,8 @@ export const Header: React.FC<HeaderProps> = ({
         </button>
         <button
           onClick={() => isLoggedIn ? onSelectTab('remote') : onSelectTab('dashboard')}
+          aria-current={currentTab === 'remote' ? 'page' : undefined}
+          aria-disabled={!isLoggedIn}
           className={`px-3.5 py-1.5 rounded-full text-xs font-mono-code font-semibold transition-all flex items-center gap-1.5 ${
             currentTab === 'remote'
               ? 'bg-indigo-500/15 text-indigo-600 border border-indigo-500/30 shadow-[0_0_12px_rgba(99,102,241,0.15)]'
@@ -124,6 +140,8 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Emergency SOS Trigger */}
       <button
         onClick={isLoggedIn ? onOpenSos : () => onSelectTab('dashboard')}
+        aria-label={isLoggedIn ? 'Open emergency SOS' : 'Sign in to use emergency SOS'}
+        aria-disabled={!isLoggedIn}
         className={`bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 border border-rose-500/30 rounded-full px-4 py-1.5 font-mono-code text-xs font-bold tracking-widest flex items-center gap-1.5 transition-all active:scale-95 shadow-[0_0_12px_rgba(244,63,94,0.15)] ${
           !isLoggedIn ? 'opacity-60 cursor-not-allowed' : ''
         }`}

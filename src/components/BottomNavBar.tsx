@@ -9,10 +9,12 @@ interface BottomNavBarProps {
 
 export const BottomNavBar: React.FC<BottomNavBarProps> = ({ currentTab, onSelectTab, isLoggedIn }) => {
   return (
-    <nav className="md:hidden bg-[#FFFDF8]/95 backdrop-blur-2xl fixed bottom-0 left-0 w-full rounded-t-xl z-50 border-t border-[#E6DDC9] shadow-[0_-4px_20px_rgba(0,0,0,0.5)] flex justify-around items-center h-20 px-2 pb-safe">
+    <nav aria-label="Mobile navigation" className="md:hidden bg-[#FFFDF8]/95 backdrop-blur-2xl fixed bottom-0 left-0 w-full rounded-t-xl z-50 border-t border-[#E6DDC9] shadow-[0_-4px_20px_rgba(0,0,0,0.5)] flex justify-around items-center h-20 px-2 pb-safe">
       {/* Blink */}
       <button
         onClick={() => isLoggedIn ? onSelectTab('blink') : onSelectTab('dashboard')}
+        aria-current={currentTab === 'blink' ? 'page' : undefined}
+        aria-disabled={!isLoggedIn}
         className={`flex flex-col items-center justify-center px-3 py-1.5 rounded-full transition-all ${
           currentTab === 'blink'
             ? 'bg-indigo-600 text-white font-bold shadow-[0_0_12px_rgba(99,102,241,0.4)]'
@@ -27,7 +29,9 @@ export const BottomNavBar: React.FC<BottomNavBarProps> = ({ currentTab, onSelect
 
       {/* Sign */}
       <button
-        onClick={() => onSelectTab('sign')}
+        onClick={() => isLoggedIn ? onSelectTab('sign') : onSelectTab('dashboard')}
+        aria-current={currentTab === 'sign' ? 'page' : undefined}
+        aria-disabled={!isLoggedIn}
         className={`flex flex-col items-center justify-center px-3 py-1.5 rounded-full transition-all ${
           currentTab === 'sign'
             ? 'bg-indigo-600 text-white font-bold shadow-[0_0_12px_rgba(99,102,241,0.4)]'
@@ -43,6 +47,8 @@ export const BottomNavBar: React.FC<BottomNavBarProps> = ({ currentTab, onSelect
       {/* Morse */}
       <button
         onClick={() => isLoggedIn ? onSelectTab('morse') : onSelectTab('dashboard')}
+        aria-current={currentTab === 'morse' ? 'page' : undefined}
+        aria-disabled={!isLoggedIn}
         className={`flex flex-col items-center justify-center px-3 py-1.5 rounded-full transition-all ${
           currentTab === 'morse'
             ? 'bg-indigo-600 text-white font-bold shadow-[0_0_12px_rgba(99,102,241,0.4)]'
@@ -58,6 +64,8 @@ export const BottomNavBar: React.FC<BottomNavBarProps> = ({ currentTab, onSelect
       {/* TTS */}
       <button
         onClick={() => isLoggedIn ? onSelectTab('tts') : onSelectTab('dashboard')}
+        aria-current={currentTab === 'tts' ? 'page' : undefined}
+        aria-disabled={!isLoggedIn}
         className={`flex flex-col items-center justify-center px-3 py-1.5 rounded-full transition-all ${
           currentTab === 'tts'
             ? 'bg-indigo-600 text-white font-bold shadow-[0_0_12px_rgba(99,102,241,0.4)]'
@@ -73,6 +81,8 @@ export const BottomNavBar: React.FC<BottomNavBarProps> = ({ currentTab, onSelect
       {/* Remote */}
       <button
         onClick={() => isLoggedIn ? onSelectTab('remote') : onSelectTab('dashboard')}
+        aria-current={currentTab === 'remote' ? 'page' : undefined}
+        aria-disabled={!isLoggedIn}
         className={`flex flex-col items-center justify-center px-3 py-1.5 rounded-full transition-all ${
           currentTab === 'remote'
             ? 'bg-indigo-600 text-white font-bold shadow-[0_0_12px_rgba(99,102,241,0.4)]'
