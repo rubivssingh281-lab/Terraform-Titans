@@ -37,7 +37,8 @@ public abstract class UiTestBase {
   }
 
   protected WebElement button(String label) {
-    return wait.until(d -> d.findElement(By.xpath("//button[normalize-space()=" + xpathText(label) + "]")));
+    return wait.until(d -> d.findElement(By.xpath("//button[contains(normalize-space(.), "
+        + xpathText(label) + ")]")));
   }
 
   protected boolean visibleText(String text) {
