@@ -23,6 +23,7 @@ class NavigationUiTests extends UiTestBase {
     signInWithDemoAccount();
     By signLocator = By.xpath(
         "//nav[@aria-label='Primary navigation']//button[contains(normalize-space(.), 'Sign')]");
+    wait.until(d -> !"true".equals(d.findElement(signLocator).getAttribute("aria-disabled")));
     WebElement sign = driver.findElement(signLocator);
     sign.click();
     wait.until(d -> "page".equals(d.findElement(signLocator).getAttribute("aria-current")));
