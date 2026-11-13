@@ -21,10 +21,12 @@ class NavigationUiTests extends UiTestBase {
   @Test @DisplayName("Current Sign tab is highlighted")
   void activeSignTabUsesIndigoStyle() {
     signInWithDemoAccount();
-    WebElement sign = driver.findElement(By.xpath(
-        "//nav[@aria-label='Primary navigation']//button[contains(normalize-space(.), 'Sign')]"));
+    By signLocator = By.xpath(
+        "//nav[@aria-label='Primary navigation']//button[contains(normalize-space(.), 'Sign')]");
+    WebElement sign = driver.findElement(signLocator);
     sign.click();
-    wait.until(d -> "page".equals(sign.getAttribute("aria-current")));
+    wait.until(d -> "page".equals(d.findElement(signLocator).getAttribute("aria-current")));
+    sign = driver.findElement(signLocator);
     assertTrue(sign.getAttribute("class").contains("indigo-500/15"), "Sign tab should have indigo active styling");
     assertEquals("page", sign.getAttribute("aria-current"), "Active tab should expose aria-current");
     WebElement dashboard = driver.findElement(By.xpath(
