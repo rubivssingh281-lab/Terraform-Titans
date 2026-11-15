@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 /** Patient header and selected navigation-tab checks. */
 class NavigationUiTests extends UiTestBase {
@@ -23,18 +24,18 @@ class NavigationUiTests extends UiTestBase {
     signInWithDemoAccount();
     By signLocator = By.xpath(
         "//nav[@aria-label='Primary navigation']//button[contains(normalize-space(.), 'Sign')]");
-    WebElement sign = wait.until(d -> d.findElement(signLocator));
-    assertTrue(sign.isDisplayed());
+    WebElement sign = wait.until(ExpectedConditions.elementToBeClickable(signLocator));
+    wait.until(d -> "false".equals(d.findElement(signLocator).getAttribute("aria-disabled")));
+    sign.click();
+    wait.until(ExpectedConditions.attributeToBe(signLocator, "aria-current", "page"));
+    assertTrue(driver.findElement(signLocator).getAttribute("class").contains("indigo-500/15"),
+        "Sign tab should have indigo active styling");
     By dashboardLocator = By.xpath(
         "//nav[@aria-label='Primary navigation']//button[contains(normalize-space(.), 'Dashboard')]");
-    if ("true".equals(sign.getAttribute("aria-disabled"))) {
-      WebElement dashboard = wait.until(d -> d.findElement(dashboardLocator));
-      assertEquals("page", dashboard.getAttribute("aria-current"));
-    } else {
-      sign.click();
-      wait.until(d -> "page".equals(d.findElement(signLocator).getAttribute("aria-current")));
-      assertEquals("page", driver.findElement(signLocator).getAttribute("aria-current"));
-    }
+    WebElement dashboard = wait.until(d -> d.findElement(dashboardLocator));
+    assertFalse(dashboard.getAttribute("class").contains("indigo-500/15"),
+        "Other tabs should be neutral");
+    assertNull(dashboard.getAttribute("aria-current"), "Inactive tab should not expose aria-current");
   }
 
   @Test
