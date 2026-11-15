@@ -23,12 +23,17 @@ class NavigationUiTests extends UiTestBase {
     signInWithDemoAccount();
     By signLocator = By.xpath(
         "//nav[@aria-label='Primary navigation']//button[contains(normalize-space(.), 'Sign')]");
-    WebElement sign = driver.findElement(signLocator);
+    WebElement sign = wait.until(d -> d.findElement(signLocator));
     assertTrue(sign.isDisplayed());
+    By dashboardLocator = By.xpath(
+        "//nav[@aria-label='Primary navigation']//button[contains(normalize-space(.), 'Dashboard')]");
     if ("true".equals(sign.getAttribute("aria-disabled"))) {
-      assertEquals("page", driver.findElement(By.xpath(
-          "//nav[@aria-label='Primary navigation']//button[contains(normalize-space(.), 'Dashboard')]"))
-          .getAttribute("aria-current"));
+      WebElement dashboard = wait.until(d -> d.findElement(dashboardLocator));
+      assertEquals("page", dashboard.getAttribute("aria-current"));
+    } else {
+      sign.click();
+      wait.until(d -> "page".equals(d.findElement(signLocator).getAttribute("aria-current")));
+      assertEquals("page", driver.findElement(signLocator).getAttribute("aria-current"));
     }
   }
 
