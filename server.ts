@@ -99,6 +99,10 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get("/api/health", (_req, res) => {
+  res.status(200).json({ status: "ok", service: "echolytix" });
+});
+
 // --- Authentication Middleware ---
 const authenticateToken = (req: any, res: any, next: any) => {
   try {

@@ -69,6 +69,12 @@ async function readUntil(reader, predicate, timeoutMs) {
 async function main() {
   console.log(`EcholytiX smoke test against ${BASE}${EXPECT_PRODUCTION ? ' (production)' : ''}\n`);
 
+  await check('GET /api/health reports service readiness', async () => {
+    const r = await api('GET', '/api/health');
+    assert(r.status === 200, `HTTP ${r.status}`);
+    assert(r.data.status === 'ok', 'health status should be ok');
+  });
+
   // ---------- Frontend & static assets ----------
   await check('frontend: GET / serves the app shell', async () => {
     const res = await fetch(BASE + '/');
