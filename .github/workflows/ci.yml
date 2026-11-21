@@ -55,6 +55,11 @@ jobs:
           java-version: "17"
           cache: maven
 
+      - name: Set up Chrome
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
+
       - name: Install dependencies
         run: npm ci
 
@@ -74,3 +79,11 @@ jobs:
 
       - name: Run Selenium tests
         run: mvn --batch-mode --file selenium-tests/ui/pom.xml test -Dapp.url=http://127.0.0.1:3000 -Dheadless=true
+
+      - name: Upload Selenium reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: selenium-surefire-reports
+          path: selenium-tests/ui/target/surefire-reports/
+          if-no-files-found: ignore
