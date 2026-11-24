@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Universal Remote CI Verification Script for EcholytiX.
- * Queries GitHub Actions API using native Node.js fetch to monitor the remote workflow run.
+ * Queries GitHub Actions API using native Node.js fetch with Git credentials to monitor remote workflow runs.
  */
 import { execSync } from 'node:child_process';
 
@@ -18,7 +18,7 @@ function getGitInfo() {
         repoSlug = `${match[1]}/${match[2]}`;
       }
     } catch {
-      // Fallback to default repo
+      // Fallback
     }
 
     return { sha, branch, repoSlug };
@@ -28,30 +28,51 @@ function getGitInfo() {
   }
 }
 
-async function verifyRemoteCi(targetSha, maxWaitSec = 180, intervalSec = 6) {
+function getAuthToken() {
+  if (process.env.GITHUB_TOKEN) return process.env.GITHUB_TOKEN;
+  if (process.env.GH_TOKEN) return process.env.GH_TOKEN;
+  try {
+    const creds = execSync('git credential fill', {
+      input: 'protocol=https\nhost=github.com\n\n',
+      encoding: 'utf-8',
+    });
+    const match = creds.match(/password=(.+)/);
+    if (match) return match[1].trim();
+  } catch {
+    // Ignore
+  }
+  return null;
+}
+
+async function verifyRemoteCi(targetSha, maxWaitSec = 240, intervalSec = 6) {
   const { sha, branch, repoSlug } = getGitInfo();
   const commitSha = targetSha || sha;
+  const token = getAuthToken();
 
   console.log('='.repeat(65));
   console.log(' [UNIVERSAL CI GATE] Checking Remote GitHub Actions Status');
   console.log(` Target Repository : ${repoSlug}`);
   console.log(` Branch            : ${branch}`);
   console.log(` Commit SHA        : ${commitSha.slice(0, 8)}`);
+  console.log(` Auth Token        : ${token ? 'Authenticated (5000 req/hr)' : 'Unauthenticated (rate-limited)'}`);
   console.log('='.repeat(65));
 
   const apiUrl = `https://api.github.com/repos/${repoSlug}/actions/runs?head_sha=${commitSha}`;
+  const headers = {
+    'User-Agent': 'Antigravity-CI-Verifier',
+    'Accept': 'application/vnd.github.v3+json',
+  };
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+
   const startTime = Date.now();
   let attempt = 0;
 
   while (Date.now() - startTime < maxWaitSec * 1000) {
     attempt++;
     try {
-      const res = await fetch(apiUrl, {
-        headers: {
-          'User-Agent': 'Antigravity-CI-Verifier',
-          'Accept': 'application/vnd.github.v3+json',
-        },
-      });
+      const res = await fetch(apiUrl, { headers });
 
       if (!res.ok) {
         console.warn(`[*] (Attempt ${attempt}) GitHub API response: ${res.status}`);

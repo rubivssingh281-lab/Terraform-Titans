@@ -49,6 +49,7 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Desktop Navigation Links */}
       <nav className="hidden md:flex items-center gap-1 lg:gap-2" aria-label="Primary navigation">
         <button
+          type="button"
           onClick={() => onSelectTab('dashboard')}
           aria-current={currentTab === 'dashboard' ? 'page' : undefined}
           className={`px-3.5 py-1.5 rounded-full text-xs font-mono-code font-semibold transition-all flex items-center gap-1.5 ${
@@ -61,7 +62,8 @@ export const Header: React.FC<HeaderProps> = ({
           Dashboard
         </button>
         <button
-          onClick={() => isLoggedIn ? onSelectTab('blink') : onSelectTab('dashboard')}
+          type="button"
+          onClick={() => onSelectTab('blink')}
           aria-current={currentTab === 'blink' ? 'page' : undefined}
           aria-disabled={!isLoggedIn}
           className={`px-3.5 py-1.5 rounded-full text-xs font-mono-code font-semibold transition-all flex items-center gap-1.5 ${
@@ -76,7 +78,8 @@ export const Header: React.FC<HeaderProps> = ({
           Blink
         </button>
         <button
-          onClick={() => isLoggedIn ? onSelectTab('sign') : onSelectTab('dashboard')}
+          type="button"
+          onClick={() => onSelectTab('sign')}
           aria-current={currentTab === 'sign' ? 'page' : undefined}
           aria-disabled={!isLoggedIn}
           className={`px-3.5 py-1.5 rounded-full text-xs font-mono-code font-semibold transition-all flex items-center gap-1.5 ${
@@ -91,7 +94,8 @@ export const Header: React.FC<HeaderProps> = ({
           Sign
         </button>
         <button
-          onClick={() => isLoggedIn ? onSelectTab('morse') : onSelectTab('dashboard')}
+          type="button"
+          onClick={() => onSelectTab('morse')}
           aria-current={currentTab === 'morse' ? 'page' : undefined}
           aria-disabled={!isLoggedIn}
           className={`px-3.5 py-1.5 rounded-full text-xs font-mono-code font-semibold transition-all flex items-center gap-1.5 ${
@@ -106,7 +110,8 @@ export const Header: React.FC<HeaderProps> = ({
           Morse
         </button>
         <button
-          onClick={() => isLoggedIn ? onSelectTab('tts') : onSelectTab('dashboard')}
+          type="button"
+          onClick={() => onSelectTab('tts')}
           aria-current={currentTab === 'tts' ? 'page' : undefined}
           aria-disabled={!isLoggedIn}
           className={`px-3.5 py-1.5 rounded-full text-xs font-mono-code font-semibold transition-all flex items-center gap-1.5 ${
@@ -121,7 +126,8 @@ export const Header: React.FC<HeaderProps> = ({
           TTS
         </button>
         <button
-          onClick={() => isLoggedIn ? onSelectTab('remote') : onSelectTab('dashboard')}
+          type="button"
+          onClick={() => onSelectTab('remote')}
           aria-current={currentTab === 'remote' ? 'page' : undefined}
           aria-disabled={!isLoggedIn}
           className={`px-3.5 py-1.5 rounded-full text-xs font-mono-code font-semibold transition-all flex items-center gap-1.5 ${
