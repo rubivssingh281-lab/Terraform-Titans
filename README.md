@@ -131,12 +131,19 @@ docker run -p 3000:3000 echolytix
 ## Detailed Project Structure
 
 ```text
-Miniproject-main/
-├── .github/workflows/    # CI Pipeline (Type-checking and build verification)
+Terraform-Titans/
+├── .github/workflows/    # CI Pipeline (Type-checking, build verification & Selenium)
+├── docs/                 # Architecture, ML specifications, team roles & test matrices
+│   ├── ARCHITECTURE.md
+│   ├── DIVISION_OF_WORK.md
+│   ├── ML_GUIDE.md
+│   ├── PROJECT_DOCUMENTATION.md
+│   └── Test-Case file.xlsx
 ├── public/               
 │   ├── models/           # Pre-compiled MediaPipe .task models (face_landmarker, hand_landmarker)
 │   └── wasm/             # MediaPipe WASM runtime binaries (SIMD + non-SIMD)
-├── scripts/              # Independent tooling for ML model training and synthetic data generation
+├── scripts/              # Build utilities, ML training routines & smoke test suite
+├── selenium-tests/       # Automated browser regression test suites (JUnit & Selenium)
 ├── src/                  
 │   ├── components/       # Core UI modules: AuthPortal, Dashboard, BlinkToText, RemoteSender, etc.
 │   ├── utils/            # Core logic: gesture.ts (geometric rules), morse.ts (decoding), sound.ts
@@ -150,14 +157,26 @@ Miniproject-main/
 
 ---
 
+## Documentation Sitemap
+
+Detailed architectural blueprints and engineering specifications are organized inside the [`docs/`](docs/) directory:
+- [Architecture Blueprint](docs/ARCHITECTURE.md) — End-to-end layered architecture and data flow.
+- [Project Documentation](docs/PROJECT_DOCUMENTATION.md) — Comprehensive technical reference and specifications.
+- [ML & Vision Guide](docs/ML_GUIDE.md) — MediaPipe WASM models, gesture rules, and training scripts.
+- [Team Division of Work](docs/DIVISION_OF_WORK.md) — 20-part modular breakdown across team members.
+- [Quality Assurance & Test Cases](docs/Test-Case%20file.xlsx) — Functional test cases and traceability matrix.
+- [Contributing Guidelines](CONTRIBUTING.md) — Branch conventions and PR workflows.
+
+---
+
 ## Team, Contribution & Workflow
 
 This project is the collaborative effort of a 4-person engineering team. To ensure rapid iteration without breaking the `main` branch, work is systematically divided into distinct ownership domains.
 
 ### Guidelines for Developers
-- Code ownership and specific team responsibilities are mapped in `DIVISION_OF_WORK.md`.
+- Code ownership and specific team responsibilities are mapped in [docs/DIVISION_OF_WORK.md](docs/DIVISION_OF_WORK.md).
 - Pull request protocols, branch naming conventions, and review requirements are strictly outlined in [CONTRIBUTING.md](CONTRIBUTING.md).
-- **All PRs must pass the GitHub Actions CI pipeline** (`npm run lint` && `npm run build`) before merging to ensure `main` is always a runnable release candidate.
+- **All PRs must pass the GitHub Actions CI pipeline** (`npm run lint` && `npm run build` && `npm test`) before merging to ensure `main` is always a runnable release candidate.
 
 ---
 <div align="center">

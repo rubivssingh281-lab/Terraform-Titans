@@ -13,7 +13,7 @@ slices of the codebase). We use a **feature-branch + pull-request** workflow so 
 | Member 3 | Sign Language, Gesture AI & Dashboard | P9–P11, P17, P18 |
 | Member 4 | Backend, Realtime & DevOps | P12–P15, P20 |
 
-Full file-level mapping lives in `DIVISION_OF_WORK.md`.
+Full file-level mapping lives in [docs/DIVISION_OF_WORK.md](docs/DIVISION_OF_WORK.md).
 
 ## Branch & PR flow
 
