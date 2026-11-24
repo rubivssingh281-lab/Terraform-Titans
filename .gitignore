@@ -11,6 +11,12 @@ coverage/
 *.db
 *.db-shm
 *.db-wal
+echolytix.db
+
+# Temporary API and debug artifacts
+commit.json
+payload.json
+
 
 # Large dataset files (not needed for deployment)
 WLASL/
