@@ -35,12 +35,25 @@ import {
   deletePasswordReset,
   updatePatientPassword,
   createSupportRequest,
-  getSupportRequests
+  getSupportRequests,
+  purgeExpiredSessions,
+  purgeExpiredPasswordResets
 } from "./database.ts";
 import completionModel from "./src/data/completion_model.json";
 
 // Initialize Database schema & default data
 initDatabase();
+
+// Periodically purge expired sessions and stale password reset OTPs every 30 minutes
+const tokenCleanupTimer = setInterval(() => {
+  try {
+    purgeExpiredSessions();
+    purgeExpiredPasswordResets();
+  } catch (err) {
+    console.error("Scheduled token TTL cleanup error:", err);
+  }
+}, 30 * 60 * 1000);
+if (tokenCleanupTimer.unref) tokenCleanupTimer.unref();
 
 const app = express();
 const PORT = parseInt(process.env.PORT || "3000", 10);

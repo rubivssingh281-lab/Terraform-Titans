@@ -175,6 +175,8 @@ export function initDatabase() {
   `);
 
   seedDefaultData();
+  purgeExpiredSessions();
+  purgeExpiredPasswordResets();
 }
 
 // Seed initial data if tables are empty
@@ -497,31 +499,50 @@ export function createPatient(
   return getStmt.get(Number(info.lastInsertRowid));
 }
 
-// Session Helpers
+// Session Helpers (OWASP Session Management: token hashes stored at rest)
+function hashSessionToken(token: string): string {
+  return crypto.createHash('sha256').update(token).digest('hex');
+}
+
 export function createSession(patientId: number, token: string, expiresAt: string) {
+  const tokenHash = hashSessionToken(token);
   const stmt = db.prepare(`
     INSERT INTO sessions (token, patient_id, expires_at)
     VALUES (?, ?, ?)
   `);
-  stmt.run(token, patientId, expiresAt);
+  stmt.run(tokenHash, patientId, expiresAt);
   return { token, patientId, expiresAt };
 }
 
 export function getSession(token: string) {
+  const tokenHash = hashSessionToken(token);
   const stmt = db.prepare(`
     SELECT s.token, s.expires_at, p.id, p.email, p.name, p.age, p.medical_id, 
            p.caregiver_name, p.caregiver_phone, p.emergency_email, 
            p.tts_speed, p.blink_threshold, p.commit_delay
     FROM sessions s
     JOIN patients p ON s.patient_id = p.id
-    WHERE s.token = ?
+    WHERE s.token = ? OR s.token = ?
   `);
-  return stmt.get(token);
+  return stmt.get(tokenHash, token);
 }
 
 export function deleteSession(token: string) {
-  const stmt = db.prepare('DELETE FROM sessions WHERE token = ?');
-  return stmt.run(token);
+  const tokenHash = hashSessionToken(token);
+  const stmt = db.prepare('DELETE FROM sessions WHERE token = ? OR token = ?');
+  return stmt.run(tokenHash, token);
+}
+
+export function purgeExpiredSessions() {
+  const now = new Date().toISOString();
+  const stmt = db.prepare('DELETE FROM sessions WHERE expires_at < ?');
+  return stmt.run(now);
+}
+
+export function purgeExpiredPasswordResets() {
+  const now = new Date().toISOString();
+  const stmt = db.prepare('DELETE FROM password_resets WHERE expires_at < ?');
+  return stmt.run(now);
 }
 
 // Password Reset Helpers
