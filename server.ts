@@ -196,6 +196,88 @@ const getGeminiClient = () => {
   return new GoogleGenAI({ apiKey });
 };
 
+// --- Sliding-Window Rate Limiter Middleware (OWASP DoS & Credential-Stuffing Mitigation) ---
+interface RateLimitOptions {
+  windowMs: number;
+  max: number;
+  message?: string;
+  prefix?: string;
+}
+
+function createRateLimiter(options: RateLimitOptions) {
+  const { windowMs, max, message = "Too many requests. Please try again later.", prefix = "global" } = options;
+  const clientHits = new Map<string, number[]>();
+
+  // Periodically prune stale IP access timestamps to avoid memory leakage
+  const cleanup = setInterval(() => {
+    const now = Date.now();
+    for (const [key, timestamps] of clientHits.entries()) {
+      const active = timestamps.filter((t) => now - t < windowMs);
+      if (active.length === 0) {
+        clientHits.delete(key);
+      } else {
+        clientHits.set(key, active);
+      }
+    }
+  }, Math.max(windowMs, 60000));
+  if (cleanup.unref) cleanup.unref();
+
+  return (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    const rawIp =
+      (req.headers["x-forwarded-for"] as string)?.split(",")[0]?.trim() ||
+      req.socket.remoteAddress ||
+      "127.0.0.1";
+    const key = `${prefix}:${rawIp}`;
+    const now = Date.now();
+    const timestamps = (clientHits.get(key) || []).filter((t) => now - t < windowMs);
+
+    res.setHeader("RateLimit-Limit", max.toString());
+
+    if (timestamps.length >= max) {
+      const oldest = timestamps[0];
+      const retryAfterSec = Math.max(1, Math.ceil((oldest + windowMs - now) / 1000));
+      res.setHeader("Retry-After", retryAfterSec.toString());
+      res.setHeader("RateLimit-Remaining", "0");
+      res.setHeader("RateLimit-Reset", Math.ceil((oldest + windowMs) / 1000).toString());
+      return res.status(429).json({ error: message });
+    }
+
+    timestamps.push(now);
+    clientHits.set(key, timestamps);
+    res.setHeader("RateLimit-Remaining", (max - timestamps.length).toString());
+    res.setHeader("RateLimit-Reset", Math.ceil((now + windowMs) / 1000).toString());
+    next();
+  };
+}
+
+const authRateLimiter = createRateLimiter({
+  windowMs: 15 * 60 * 1000,
+  max: 30,
+  message: "Too many authentication attempts. Please try again after 15 minutes.",
+  prefix: "auth"
+});
+
+const otpRateLimiter = createRateLimiter({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  message: "Too many password recovery requests. Please try again after 15 minutes.",
+  prefix: "otp"
+});
+
+const sosRateLimiter = createRateLimiter({
+  windowMs: 60 * 1000,
+  max: 30,
+  message: "Distress beacon rate limit reached. Please wait a moment before sending another alert.",
+  prefix: "sos"
+});
+
+const aiRateLimiter = createRateLimiter({
+  windowMs: 60 * 1000,
+  max: 60,
+  message: "AI completion quota reached for this window. Please wait a moment.",
+  prefix: "ai"
+});
+
 // ---------------- REST API ENDPOINTS ----------------
 
 // --- Recent Phrases History (private to the logged-in patient) ---
@@ -347,7 +429,7 @@ app.put("/api/settings", authenticateToken, (req, res) => {
 });
 
 // --- User Registration / Signup ---
-app.post("/api/auth/register", (req, res) => {
+app.post("/api/auth/register", authRateLimiter, (req, res) => {
   try {
     const {
       email,
@@ -407,7 +489,7 @@ app.post("/api/auth/register", (req, res) => {
 });
 
 // --- Patient Authentication / Login ---
-app.post("/api/auth/login", (req, res) => {
+app.post("/api/auth/login", authRateLimiter, (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -463,7 +545,7 @@ app.post("/api/auth/logout", (req, res) => {
 });
 
 // --- Forgot Password OTP Request ---
-app.post("/api/auth/forgot-password", (req, res) => {
+app.post("/api/auth/forgot-password", otpRateLimiter, (req, res) => {
   try {
     const { email } = req.body;
     if (!email) {
@@ -504,7 +586,7 @@ app.post("/api/auth/forgot-password", (req, res) => {
 });
 
 // --- Reset Password with OTP ---
-app.post("/api/auth/reset-password", (req, res) => {
+app.post("/api/auth/reset-password", authRateLimiter, (req, res) => {
   try {
     const { email, otp, newPassword } = req.body;
     if (!email || !otp || !newPassword) {
@@ -622,7 +704,7 @@ app.get("/api/support", authenticateToken, (req, res) => {
 });
 
 // --- SOS Emergency Distress Signal ---
-app.post("/api/emergency/sos", (req, res) => {
+app.post("/api/emergency/sos", sosRateLimiter, (req, res) => {
   try {
     const { patientId, message, latitude, longitude } = req.body;
     
@@ -810,7 +892,7 @@ app.post("/api/remote/session/send", (req, res) => {
 });
 
 // --- AI Smart Phrase Expansion / Completion ---
-app.post("/api/ai/complete", async (req, res) => {
+app.post("/api/ai/complete", aiRateLimiter, async (req, res) => {
   try {
     const { text, mode, context } = req.body;
     if (!text || typeof text !== "string") {
