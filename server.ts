@@ -93,7 +93,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.json());
+app.use(express.json({ limit: "64kb" }));
 
 // Log all incoming requests for diagnostics
 app.use((req, res, next) => {
@@ -291,6 +291,16 @@ const aiRateLimiter = createRateLimiter({
   prefix: "ai"
 });
 
+// --- Input Sanitization & XSS Mitigation Utility ---
+function sanitizeText(input: unknown, maxLength = 500): string {
+  if (typeof input !== "string") return "";
+  return input
+    .replace(/<[^>]*>/g, "") // Strip HTML/script tags
+    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, "") // Neutralize ASCII control characters
+    .trim()
+    .slice(0, maxLength);
+}
+
 // ---------------- REST API ENDPOINTS ----------------
 
 // --- Recent Phrases History (private to the logged-in patient) ---
@@ -311,7 +321,12 @@ app.post("/api/phrases", authenticateToken, (req: any, res) => {
     if (!text || !mode) {
       return res.status(400).json({ error: "Text and mode are required" });
     }
-    const newPhrase = addRecentPhrase(req.patient.id, text, mode);
+    const cleanText = sanitizeText(text, 500);
+    const cleanMode = sanitizeText(mode, 50);
+    if (!cleanText || !cleanMode) {
+      return res.status(400).json({ error: "Valid non-empty text and mode are required" });
+    }
+    const newPhrase = addRecentPhrase(req.patient.id, cleanText, cleanMode);
     return res.status(201).json(newPhrase);
   } catch (err: any) {
     console.error("Error adding phrase:", err);
@@ -357,7 +372,10 @@ app.post("/api/quick-phrases", authenticateToken, (req, res) => {
     if (!label || !morse) {
       return res.status(400).json({ error: "Label and morse pattern are required" });
     }
-    const newQuick = addQuickPhrase(label, morse, category);
+    const cleanLabel = sanitizeText(label, 100);
+    const cleanMorse = sanitizeText(morse, 100);
+    const cleanCategory = category ? sanitizeText(category, 50) : undefined;
+    const newQuick = addQuickPhrase(cleanLabel, cleanMorse, cleanCategory);
     return res.status(201).json(newQuick);
   } catch (err: any) {
     console.error("Error adding quick phrase:", err);
@@ -393,7 +411,11 @@ app.post("/api/categories", authenticateToken, (req, res) => {
     if (!name) {
       return res.status(400).json({ error: "Category name is required" });
     }
-    const newCat = addCategory(name);
+    const cleanName = sanitizeText(name, 100);
+    if (!cleanName) {
+      return res.status(400).json({ error: "Category name cannot be empty" });
+    }
+    const newCat = addCategory(cleanName);
     return res.status(201).json(newCat);
   } catch (err: any) {
     console.error("Error adding category:", err);
@@ -408,7 +430,11 @@ app.post("/api/categories/:id/phrases", authenticateToken, (req, res) => {
     if (!text || isNaN(categoryId)) {
       return res.status(400).json({ error: "Valid category ID and phrase text are required" });
     }
-    const result = addPhraseToCategory(categoryId, text);
+    const cleanText = sanitizeText(text, 500);
+    if (!cleanText) {
+      return res.status(400).json({ error: "Phrase text cannot be empty" });
+    }
+    const result = addPhraseToCategory(categoryId, cleanText);
     return res.status(201).json(result);
   } catch (err: any) {
     console.error("Error adding phrase to category:", err);
@@ -663,16 +689,25 @@ app.post("/api/auth/profile", authenticateToken, (req: any, res) => {
       return res.status(400).json({ error: "Name is required." });
     }
 
+    const cleanName = sanitizeText(name, 100);
+    if (!cleanName) {
+      return res.status(400).json({ error: "Name cannot be empty." });
+    }
+    const cleanMedicalId = medical_id ? sanitizeText(medical_id, 100) : "";
+    const cleanCaregiverName = caregiver_name ? sanitizeText(caregiver_name, 100) : "";
+    const cleanCaregiverPhone = caregiver_phone ? sanitizeText(caregiver_phone, 50) : "";
+    const cleanEmergencyEmail = emergency_email ? sanitizeText(emergency_email, 150) : "";
+
     // Always update the patient who owns the session token — never an id from
     // the request body, which would let one patient overwrite another's profile.
     const updated = updatePatientProfile(
       Number(req.patient.id),
-      name,
+      cleanName,
       Number(age || 0),
-      medical_id || "",
-      caregiver_name || "",
-      caregiver_phone || "",
-      emergency_email || "",
+      cleanMedicalId,
+      cleanCaregiverName,
+      cleanCaregiverPhone,
+      cleanEmergencyEmail,
       Number(tts_speed || 1.0),
       Number(blink_threshold || 0.18),
       Number(commit_delay || 1800)
@@ -697,7 +732,10 @@ app.post("/api/support", (req, res) => {
     if (!emailRegex.test(email)) {
       return res.status(400).json({ error: "Please enter a valid email address." });
     }
-    const request = createSupportRequest(name, email, message);
+    const cleanName = sanitizeText(name, 100);
+    const cleanEmail = sanitizeText(email, 150);
+    const cleanMessage = sanitizeText(message, 2000);
+    const request = createSupportRequest(cleanName, cleanEmail, cleanMessage);
     return res.status(201).json(request);
   } catch (err: any) {
     console.error("Support feedback submission error:", err);
@@ -720,20 +758,32 @@ app.get("/api/support", authenticateToken, (req, res) => {
 app.post("/api/emergency/sos", sosRateLimiter, (req, res) => {
   try {
     const { patientId, message, latitude, longitude } = req.body;
-    
+
+    const lat = latitude !== undefined && latitude !== null ? Number(latitude) : 0;
+    const lng = longitude !== undefined && longitude !== null ? Number(longitude) : 0;
+
+    // Validate geographic coordinate boundaries (-90 <= lat <= 90, -180 <= lng <= 180)
+    if (isNaN(lat) || lat < -90 || lat > 90 || isNaN(lng) || lng < -180 || lng > 180) {
+      return res.status(400).json({
+        error: "Invalid geographic coordinates. Latitude must be between -90 and 90, longitude between -180 and 180."
+      });
+    }
+
+    const cleanMessage = sanitizeText(message || "SOS Assistance Required", 500);
+
     // Conspicuously log distress beacon in server output
     console.log("\n🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨");
     console.log(`🚨 EMERGENCY DISTRESS SIGNAL RECEIVED AT ${new Date().toLocaleTimeString()}`);
     console.log(`🚨 PATIENT ID: ${patientId || "GUEST"}`);
-    console.log(`🚨 MESSAGE: "${message}"`);
-    console.log(`🚨 POSITION: Latitude ${latitude || "Unknown"}, Longitude ${longitude || "Unknown"}`);
+    console.log(`🚨 MESSAGE: "${cleanMessage}"`);
+    console.log(`🚨 POSITION: Latitude ${lat}, Longitude ${lng}`);
     console.log("🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨\n");
 
     const result = createSosAlert(
       patientId ? Number(patientId) : null,
-      message || "SOS Assistance Required",
-      latitude ? Number(latitude) : 0,
-      longitude ? Number(longitude) : 0
+      cleanMessage,
+      lat,
+      lng
     );
 
     return res.status(201).json(result);

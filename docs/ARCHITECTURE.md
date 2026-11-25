@@ -100,4 +100,30 @@ echolytix.db*          # local SQLite database + WAL/SHM
 - **Client → API:** components `fetch('/api/...')`; the same server answers.
 - **Vision:** components lazy-load MediaPipe from `public/wasm`, run landmarkers on the
   webcam, and classify locally — no video leaves the browser.
-```
+
+## Cybersecurity & Threat Mitigation Architecture
+
+EcholytiX adheres to OWASP ASVS, OWASP API Security Top 10, and NIST CSF 2.0 defense-in-depth principles:
+
+1. **HTTP Defense-in-Depth & Content Security Policy (CSP)**:
+   - Security headers enforced on all responses: `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy: camera=(self), microphone=(), geolocation=(self)`.
+   - Strict Content Security Policy fine-tuned for client-side assistive AI: permits MediaPipe WASM runtime (`wasm-unsafe-eval`, `unsafe-eval`, `blob:`, Google Storage model weights) while strictly forbidding object embedding (`object-src 'none'`) and unauthorized frame ancestry (`frame-ancestors 'none'`).
+   - Strict-Transport-Security (HSTS) with 1-year max age and subdomains enforced under TLS connections.
+   - Technology fingerprinting disabled via `app.disable('x-powered-by')`.
+
+2. **Adaptive Sliding-Window Rate Limiting (DoS & Credential-Stuffing Mitigation)**:
+   - Tiered in-memory sliding-window limiters with automated memory pruning:
+     - Authentication routes (`/api/auth/login`, `/api/auth/register`, `/api/auth/reset-password`): 30 req / 15 min per IP.
+     - Password recovery OTP route (`/api/auth/forgot-password`): 10 req / 15 min per IP.
+     - Emergency distress beacon (`/api/emergency/sos`): 30 req / 1 min per IP.
+     - Generative AI completion (`/api/ai/complete`): 60 req / 1 min per IP.
+   - Compliant with RFC 6585 with standard `RateLimit-*` and `Retry-After` headers.
+
+3. **Session Hardening & Cryptographic Hashing at Rest**:
+   - Bearer session tokens are hashed at rest with SHA-256 (`crypto.createHash('sha256')`). Even in the event of persistent SQLite database disclosure, raw bearer tokens cannot be recovered or hijacked.
+   - Automated TTL pruning routines (`purgeExpiredSessions()`, `purgeExpiredPasswordResets()`) run on boot and on 30-minute cycles to eliminate stale tokens and expired recovery OTPs.
+
+4. **Input Sanitization, Bounds Checking & Payload Protection**:
+   - Explicit JSON request body size limitation (`64kb`) prevents heap memory exhaustion attacks.
+   - Centralized text sanitization neutralizes HTML/script tags and strips dangerous ASCII control characters before persisting user-generated phrases, profiles, or support messages.
+   - Geographic coordinates in SOS emergency alerts enforce strict geometric bounds (`-90 <= lat <= 90`, `-180 <= lng <= 180`).
