@@ -45,6 +45,41 @@ initDatabase();
 const app = express();
 const PORT = parseInt(process.env.PORT || "3000", 10);
 
+// Disable technology fingerprinting header
+app.disable("x-powered-by");
+
+// Defense-in-depth HTTP security headers middleware (OWASP ASVS / NIST CSF 2.0)
+app.use((req, res, next) => {
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  res.setHeader("X-Frame-Options", "DENY");
+  res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+  res.setHeader("Permissions-Policy", "camera=(self), microphone=(), geolocation=(self)");
+
+  // Content Security Policy (tuned for assistive camera tracking & MediaPipe WASM execution)
+  const cspDirectives = [
+    "default-src 'self'",
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' https://cdn.jsdelivr.net https://unpkg.com",
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    "font-src 'self' https://fonts.gstatic.com data:",
+    "img-src 'self' data: blob: https:",
+    "media-src 'self' blob: data:",
+    "connect-src 'self' ws: wss: https://storage.googleapis.com https://cdn.jsdelivr.net https://unpkg.com",
+    "worker-src 'self' blob:",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "frame-ancestors 'none'",
+    "form-action 'self'"
+  ];
+  res.setHeader("Content-Security-Policy", cspDirectives.join("; "));
+
+  // Enforce HSTS when request is served over HTTPS or behind a TLS-terminating reverse proxy
+  if (req.secure || req.headers["x-forwarded-proto"] === "https") {
+    res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
+  }
+
+  next();
+});
+
 app.use(express.json());
 
 // Log all incoming requests for diagnostics
