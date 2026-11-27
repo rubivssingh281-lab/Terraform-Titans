@@ -36,6 +36,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const [commitDelay, setCommitDelay] = useState<number>(1800);
   
   const [saveSuccess, setSaveSuccess] = useState<boolean>(false);
+  const [saveError, setSaveError] = useState<string>('');
   const [isSaving, setIsSaving] = useState<boolean>(false);
 
   // Support / Feedback Form State
@@ -114,9 +115,10 @@ export const Dashboard: React.FC<DashboardProps> = ({
     e.preventDefault();
     setIsSaving(true);
     setSaveSuccess(false);
+    setSaveError('');
 
     if (!patientName.trim()) {
-      alert("Name is required.");
+      setSaveError("Name is required.");
       setIsSaving(false);
       return;
     }
@@ -162,10 +164,11 @@ export const Dashboard: React.FC<DashboardProps> = ({
           setSaveSuccess(false);
         }, 4000);
       } else {
-        alert(data.error || "Failed to update profile settings.");
+        setSaveError(data.error || "Failed to update profile settings.");
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Profile API request error:", err);
+      setSaveError("Network error while updating profile settings.");
     } finally {
       setIsSaving(false);
     }
@@ -476,6 +479,12 @@ export const Dashboard: React.FC<DashboardProps> = ({
                         <div className="text-[10px] font-mono-code text-emerald-600 flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-lg animate-fade-in">
                           <span className="material-symbols-outlined text-xs animate-bounce">check_circle</span>
                           <span>Settings successfully synchronized!</span>
+                        </div>
+                      )}
+                      {saveError && (
+                        <div className="text-[10px] font-mono-code text-rose-600 flex items-center gap-1.5 bg-rose-500/10 border border-rose-500/20 px-3 py-1.5 rounded-lg animate-fade-in">
+                          <span className="material-symbols-outlined text-xs">error</span>
+                          <span>{saveError}</span>
                         </div>
                       )}
                     </div>

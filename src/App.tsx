@@ -13,6 +13,7 @@ import { ErrorBoundary } from './components/ErrorBoundary';
 import { AuthPortal } from './components/AuthPortal';
 import { RemoteReceiver } from './components/RemoteReceiver';
 import { RemoteSender } from './components/RemoteSender';
+import { ToastContainer, ToastMessage } from './components/Toast';
 
 export default function App() {
   const [currentTab, setCurrentTab] = useState<NavTab>('dashboard');
@@ -24,6 +25,44 @@ export default function App() {
   const [patient, setPatient] = useState<any>(null);
   const [sessionToken, setSessionToken] = useState<string | null>(null);
   const [isCheckingAuth, setIsCheckingAuth] = useState<boolean>(true);
+
+  // Network Connectivity State
+  const [isOnline, setIsOnline] = useState<boolean>(
+    typeof navigator !== 'undefined' && typeof navigator.onLine === 'boolean' ? navigator.onLine : true
+  );
+
+  // Toast Notifications State
+  const [toasts, setToasts] = useState<ToastMessage[]>([]);
+
+  const addToast = (type: 'success' | 'error' | 'warning' | 'info', message: string, duration = 4000) => {
+    const id = `${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+    setToasts((prev) => [...prev.slice(-3), { id, type, message, duration }]);
+  };
+
+  const dismissToast = (id: string) => {
+    setToasts((prev) => prev.filter((t) => t.id !== id));
+  };
+
+  // Monitor Network Connectivity
+  useEffect(() => {
+    const handleOnline = () => {
+      setIsOnline(true);
+      announce('Network connection restored. Syncing active.');
+      addToast('success', 'Connection restored — System back online.');
+    };
+    const handleOffline = () => {
+      setIsOnline(false);
+      announce('Network connection offline. Vision models running on-device.');
+      addToast('warning', 'Network offline — Local vision & TTS remain active.');
+    };
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
 
   // Assistive Accessibility Live Region State
   const [liveAnnouncement, setLiveAnnouncement] = useState<string>('');
@@ -339,6 +378,18 @@ export default function App() {
         patientName={patient?.name}
       />
 
+      {/* Network Offline Alert Banner */}
+      {!isOnline && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="bg-amber-500/90 backdrop-blur-md text-amber-950 px-4 py-2 text-xs font-mono-code font-bold flex items-center justify-center gap-2 border-b border-amber-600/30 sticky top-16 z-40 animate-fade-in shadow-sm"
+        >
+          <span className="material-symbols-outlined text-sm">wifi_off</span>
+          <span>Offline Mode — MediaPipe vision & speech synthesis running locally on-device.</span>
+        </div>
+      )}
+
       {/* Main View Port */}
       <main id="main-content" tabIndex={-1} className="flex-1 flex flex-col focus:outline-none">
         <ErrorBoundary>
@@ -401,6 +452,9 @@ export default function App() {
           announce('Emergency SOS dialog dismissed.');
         }} />
       )}
+
+      {/* Non-blocking Toast Alerts Container */}
+      <ToastContainer toasts={toasts} onDismiss={dismissToast} />
     </div>
   );
 }
