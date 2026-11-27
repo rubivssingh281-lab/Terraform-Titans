@@ -25,6 +25,98 @@ export default function App() {
   const [sessionToken, setSessionToken] = useState<string | null>(null);
   const [isCheckingAuth, setIsCheckingAuth] = useState<boolean>(true);
 
+  // Assistive Accessibility Live Region State
+  const [liveAnnouncement, setLiveAnnouncement] = useState<string>('');
+
+  const announce = (message: string) => {
+    setLiveAnnouncement(message);
+  };
+
+  const handleSelectTab = (tab: NavTab) => {
+    setCurrentTab(tab);
+    announce(`Switched to ${tab} mode.`);
+  };
+
+  // Global Accessibility Keyboard Navigation (Alt+1..6, Alt+E, Esc)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isSosOpen) {
+        setIsSosOpen(false);
+        announce('Emergency SOS dialog dismissed.');
+        return;
+      }
+
+      // Do not intercept hotkeys when editing inputs, textareas, or contentEditable nodes
+      const activeEl = document.activeElement;
+      const isInput = activeEl && (
+        activeEl.tagName === 'INPUT' || 
+        activeEl.tagName === 'TEXTAREA' || 
+        (activeEl as HTMLElement).isContentEditable
+      );
+      if (isInput) return;
+
+      if (e.altKey && !e.ctrlKey && !e.metaKey) {
+        const key = e.key.toLowerCase();
+        if (key === '1' || key === 'd') {
+          e.preventDefault();
+          handleSelectTab('dashboard');
+        } else if (key === '2' || key === 'b') {
+          e.preventDefault();
+          if (isLoggedIn) {
+            handleSelectTab('blink');
+          } else {
+            handleSelectTab('dashboard');
+            announce('Authentication required to access Blink mode.');
+          }
+        } else if (key === '3' || key === 's') {
+          e.preventDefault();
+          if (isLoggedIn) {
+            handleSelectTab('sign');
+          } else {
+            handleSelectTab('dashboard');
+            announce('Authentication required to access Sign language mode.');
+          }
+        } else if (key === '4' || key === 'm') {
+          e.preventDefault();
+          if (isLoggedIn) {
+            handleSelectTab('morse');
+          } else {
+            handleSelectTab('dashboard');
+            announce('Authentication required to access Morse mode.');
+          }
+        } else if (key === '5' || key === 't') {
+          e.preventDefault();
+          if (isLoggedIn) {
+            handleSelectTab('tts');
+          } else {
+            handleSelectTab('dashboard');
+            announce('Authentication required to access Text-to-Speech mode.');
+          }
+        } else if (key === '6' || key === 'r') {
+          e.preventDefault();
+          if (isLoggedIn) {
+            handleSelectTab('remote');
+          } else {
+            handleSelectTab('dashboard');
+            announce('Authentication required to access Remote receiver mode.');
+          }
+        } else if (key === 'e') {
+          e.preventDefault();
+          if (isLoggedIn) {
+            setIsSosOpen(prev => {
+              const nextState = !prev;
+              announce(nextState ? 'Emergency SOS alert dialog opened.' : 'Emergency SOS dialog closed.');
+              return nextState;
+            });
+          }
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isLoggedIn, isSosOpen]);
+
   // Remote Sender State
   const [remoteSenderCode, setRemoteSenderCode] = useState<string | null>(null);
 
@@ -212,15 +304,35 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#F3EDDF] text-slate-900 font-body flex flex-col antialiased selection:bg-indigo-600 selection:text-white">
+      {/* WCAG Accessible Skip Link */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:px-4 focus:py-2 focus:bg-indigo-600 focus:text-white focus:rounded-lg focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-white text-xs font-mono-code font-bold transition-all"
+      >
+        Skip to main content
+      </a>
+
+      {/* Screen Reader ARIA Live Status Announcement Region */}
+      <div
+        id="a11y-live-region"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        className="sr-only"
+      >
+        {liveAnnouncement}
+      </div>
+
       {/* Top AppBar Header */}
       <Header
         currentTab={currentTab}
-        onSelectTab={setCurrentTab}
+        onSelectTab={handleSelectTab}
         onOpenSos={() => {
           if (isLoggedIn) {
             setIsSosOpen(true);
+            announce('Emergency SOS alert dialog opened.');
           } else {
-            setCurrentTab('dashboard');
+            handleSelectTab('dashboard');
           }
         }}
         isLoggedIn={isLoggedIn}
@@ -228,7 +340,7 @@ export default function App() {
       />
 
       {/* Main View Port */}
-      <div className="flex-1 flex flex-col">
+      <main id="main-content" tabIndex={-1} className="flex-1 flex flex-col focus:outline-none">
         <ErrorBoundary>
           {!isLoggedIn ? (
             <AuthPortal onLoginSuccess={handleLoginSuccess} />
@@ -236,7 +348,7 @@ export default function App() {
             <>
               {currentTab === 'dashboard' && (
                 <Dashboard
-                  onSelectTab={setCurrentTab}
+                  onSelectTab={handleSelectTab}
                   recentPhrases={recentPhrases}
                   patient={patient}
                   sessionToken={sessionToken}
@@ -264,24 +376,30 @@ export default function App() {
               {currentTab === 'remote' && (
                 <RemoteReceiver
                   onAddPhraseHistory={handleAddPhraseHistory}
-                  onOpenSos={() => setIsSosOpen(true)}
+                  onOpenSos={() => {
+                    setIsSosOpen(true);
+                    announce('Emergency SOS alert dialog opened.');
+                  }}
                 />
               )}
             </>
           )}
         </ErrorBoundary>
-      </div>
+      </main>
 
       {/* Floating Bottom Navigation Bar (Mobile View) */}
       <BottomNavBar 
         currentTab={currentTab} 
-        onSelectTab={setCurrentTab} 
+        onSelectTab={handleSelectTab} 
         isLoggedIn={isLoggedIn}
       />
 
       {/* Emergency SOS Modal */}
       {isLoggedIn && (
-        <SosModal isOpen={isSosOpen} onClose={() => setIsSosOpen(false)} />
+        <SosModal isOpen={isSosOpen} onClose={() => {
+          setIsSosOpen(false);
+          announce('Emergency SOS dialog dismissed.');
+        }} />
       )}
     </div>
   );

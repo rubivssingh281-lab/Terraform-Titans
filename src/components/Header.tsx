@@ -52,6 +52,7 @@ export const Header: React.FC<HeaderProps> = ({
           type="button"
           onClick={() => onSelectTab('dashboard')}
           aria-current={currentTab === 'dashboard' ? 'page' : undefined}
+          aria-keyshortcuts="Alt+1 Alt+D"
           className={`px-3.5 py-1.5 rounded-full text-xs font-mono-code font-semibold transition-all flex items-center gap-1.5 ${
             currentTab === 'dashboard'
               ? 'bg-indigo-500/15 text-indigo-600 border border-indigo-500/30 shadow-[0_0_12px_rgba(99,102,241,0.15)]'
@@ -66,6 +67,7 @@ export const Header: React.FC<HeaderProps> = ({
           onClick={() => onSelectTab('blink')}
           aria-current={currentTab === 'blink' ? 'page' : undefined}
           aria-disabled={!isLoggedIn}
+          aria-keyshortcuts="Alt+2 Alt+B"
           className={`px-3.5 py-1.5 rounded-full text-xs font-mono-code font-semibold transition-all flex items-center gap-1.5 ${
             currentTab === 'blink'
               ? 'bg-indigo-500/15 text-indigo-600 border border-indigo-500/30 shadow-[0_0_12px_rgba(99,102,241,0.15)]'
@@ -82,6 +84,7 @@ export const Header: React.FC<HeaderProps> = ({
           onClick={() => onSelectTab('sign')}
           aria-current={currentTab === 'sign' ? 'page' : undefined}
           aria-disabled={!isLoggedIn}
+          aria-keyshortcuts="Alt+3 Alt+S"
           className={`px-3.5 py-1.5 rounded-full text-xs font-mono-code font-semibold transition-all flex items-center gap-1.5 ${
             currentTab === 'sign'
               ? 'bg-indigo-500/15 text-indigo-600 border border-indigo-500/30 shadow-[0_0_12px_rgba(99,102,241,0.15)]'
@@ -98,6 +101,7 @@ export const Header: React.FC<HeaderProps> = ({
           onClick={() => onSelectTab('morse')}
           aria-current={currentTab === 'morse' ? 'page' : undefined}
           aria-disabled={!isLoggedIn}
+          aria-keyshortcuts="Alt+4 Alt+M"
           className={`px-3.5 py-1.5 rounded-full text-xs font-mono-code font-semibold transition-all flex items-center gap-1.5 ${
             currentTab === 'morse'
               ? 'bg-indigo-500/15 text-indigo-600 border border-indigo-500/30 shadow-[0_0_12px_rgba(99,102,241,0.15)]'
@@ -114,6 +118,7 @@ export const Header: React.FC<HeaderProps> = ({
           onClick={() => onSelectTab('tts')}
           aria-current={currentTab === 'tts' ? 'page' : undefined}
           aria-disabled={!isLoggedIn}
+          aria-keyshortcuts="Alt+5 Alt+T"
           className={`px-3.5 py-1.5 rounded-full text-xs font-mono-code font-semibold transition-all flex items-center gap-1.5 ${
             currentTab === 'tts'
               ? 'bg-indigo-500/15 text-indigo-600 border border-indigo-500/30 shadow-[0_0_12px_rgba(99,102,241,0.15)]'
@@ -130,6 +135,7 @@ export const Header: React.FC<HeaderProps> = ({
           onClick={() => onSelectTab('remote')}
           aria-current={currentTab === 'remote' ? 'page' : undefined}
           aria-disabled={!isLoggedIn}
+          aria-keyshortcuts="Alt+6 Alt+R"
           className={`px-3.5 py-1.5 rounded-full text-xs font-mono-code font-semibold transition-all flex items-center gap-1.5 ${
             currentTab === 'remote'
               ? 'bg-indigo-500/15 text-indigo-600 border border-indigo-500/30 shadow-[0_0_12px_rgba(99,102,241,0.15)]'
