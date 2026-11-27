@@ -127,3 +127,20 @@ EcholytiX adheres to OWASP ASVS, OWASP API Security Top 10, and NIST CSF 2.0 def
    - Explicit JSON request body size limitation (`64kb`) prevents heap memory exhaustion attacks.
    - Centralized text sanitization neutralizes HTML/script tags and strips dangerous ASCII control characters before persisting user-generated phrases, profiles, or support messages.
    - Geographic coordinates in SOS emergency alerts enforce strict geometric bounds (`-90 <= lat <= 90`, `-180 <= lng <= 180`).
+
+## Frontend Accessibility, Resilience & UX Architecture
+
+EcholytiX adheres to WCAG 2.1 AA accessibility and progressive enhancement standards:
+
+1. **Accessibility & Keyboard Navigation**:
+   - **Skip Navigation**: Accessible "Skip to main content" link allows keyboard and screen reader users to bypass top headers directly to `#main-content`.
+   - **ARIA Live Regions**: Dedicated `aria-live="polite"` status region announces navigation state, modal interactions, and network changes to screen readers without interrupting audio output.
+   - **Hotkeys**: Global keyboard shortcuts (`Alt+1`..`6`, `Alt+D/B/S/M/T/R`, `Alt+E` for SOS, `Esc` to dismiss) accelerate tab switching for motor-impaired users with specialized switch access keyboards.
+
+2. **Network Resilience & Feedback System**:
+   - **Offline Detection**: Real-time network listener surfaces an alert banner when offline, reassuring patients that MediaPipe computer vision and speech synthesis operate purely on-device without internet access.
+   - **Non-Blocking Toasts**: Accessible toast notification system replaces blocking browser alerts, delivering status feedback on profile saves, connection changes, and rate limits.
+
+3. **Subsystem Error Recovery & High-Contrast Visual Aid**:
+   - **Dignified Error Boundary**: Gracefully isolates component crashes, protects authentication state, offers single-click subsystem restart and diagnostic export.
+   - **High-Contrast Theme**: Meets WCAG AAA 7:1 contrast ratios for patients with photophobia, cataracts, or low visual acuity, persisted in client storage.

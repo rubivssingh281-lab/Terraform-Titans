@@ -43,6 +43,22 @@ export default function App() {
     setToasts((prev) => prev.filter((t) => t.id !== id));
   };
 
+  // High-Contrast Mode State (persisted in localStorage)
+  const [isHighContrast, setIsHighContrast] = useState<boolean>(() => {
+    if (typeof localStorage === 'undefined') return false;
+    return localStorage.getItem('echolytix_high_contrast') === 'true';
+  });
+
+  const toggleHighContrast = () => {
+    setIsHighContrast((prev) => {
+      const next = !prev;
+      localStorage.setItem('echolytix_high_contrast', String(next));
+      announce(next ? 'High contrast accessibility mode activated.' : 'Standard contrast mode restored.');
+      addToast('info', next ? 'High contrast mode enabled.' : 'Standard contrast mode restored.');
+      return next;
+    });
+  };
+
   // Monitor Network Connectivity
   useEffect(() => {
     const handleOnline = () => {
@@ -88,8 +104,8 @@ export default function App() {
       // Do not intercept hotkeys when editing inputs, textareas, or contentEditable nodes
       const activeEl = document.activeElement;
       const isInput = activeEl && (
-        activeEl.tagName === 'INPUT' || 
-        activeEl.tagName === 'TEXTAREA' || 
+        activeEl.tagName === 'INPUT' ||
+        activeEl.tagName === 'TEXTAREA' ||
         (activeEl as HTMLElement).isContentEditable
       );
       if (isInput) return;
@@ -342,7 +358,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F3EDDF] text-slate-900 font-body flex flex-col antialiased selection:bg-indigo-600 selection:text-white">
+    <div className={`min-h-screen bg-[#F3EDDF] text-slate-900 font-body flex flex-col antialiased selection:bg-indigo-600 selection:text-white ${isHighContrast ? 'high-contrast' : ''}`}>
       {/* WCAG Accessible Skip Link */}
       <a
         href="#main-content"
@@ -376,6 +392,8 @@ export default function App() {
         }}
         isLoggedIn={isLoggedIn}
         patientName={patient?.name}
+        isHighContrast={isHighContrast}
+        onToggleHighContrast={toggleHighContrast}
       />
 
       {/* Network Offline Alert Banner */}
@@ -441,7 +459,7 @@ export default function App() {
       {/* Floating Bottom Navigation Bar (Mobile View) */}
       <BottomNavBar 
         currentTab={currentTab} 
-        onSelectTab={handleSelectTab} 
+        onSelectTab={handleSelectTab}
         isLoggedIn={isLoggedIn}
       />
 

@@ -23,6 +23,36 @@
   --brand: #4f46e5;     /* indigo-600 */
 }
 
+/* High-Contrast Accessibility Mode for low-vision & photophobia mitigation */
+.high-contrast {
+  --page: #0B0B0F;
+  --card: #14141E;
+  --surface: #1E1E2C;
+  --well: #0B0B0F;
+  --border: #6366F1;
+  --border-strong: #818CF8;
+  --ink: #FFFFFF;
+  --brand: #A5B4FC;
+  background-color: #0B0B0F !important;
+  color: #FFFFFF !important;
+}
+
+.high-contrast .glass-panel,
+.high-contrast .glass-panel-light {
+  background-color: #14141E !important;
+  border-color: #6366F1 !important;
+  color: #FFFFFF !important;
+}
+
+.high-contrast button:focus-visible,
+.high-contrast a:focus-visible,
+.high-contrast input:focus-visible,
+.high-contrast select:focus-visible,
+.high-contrast textarea:focus-visible {
+  outline: 3px solid #FACC15 !important;
+  outline-offset: 3px !important;
+}
+
 /* Make the humanist body face + cream ground the default for the whole page. */
 html, body {
   font-family: var(--font-body);

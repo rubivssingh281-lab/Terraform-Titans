@@ -1,59 +1,122 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import { Component, ErrorInfo, ReactNode } from 'react';
 
 interface Props {
   children: ReactNode;
+  fallbackTitle?: string;
+  onReset?: () => void;
 }
 
 interface State {
   hasError: boolean;
   error: Error | null;
   errorInfo: ErrorInfo | null;
+  copied: boolean;
 }
 
 export class ErrorBoundary extends Component<Props, State> {
   public state: State = {
     hasError: false,
     error: null,
-    errorInfo: null
+    errorInfo: null,
+    copied: false
   };
 
-  public static getDerivedStateFromError(error: Error): State {
-    return { hasError: true, error, errorInfo: null };
+  public static getDerivedStateFromError(error: Error): Partial<State> {
+    return { hasError: true, error };
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     this.setState({ errorInfo });
-    console.error("ErrorBoundary caught an error:", error, errorInfo);
+    console.error("ErrorBoundary caught an assistive module exception:", error, errorInfo);
   }
+
+  private handleCopyDiagnostics = async () => {
+    try {
+      const report = [
+        `ECHOLYTIX ASSISTIVE SUBSYSTEM ERROR REPORT`,
+        `Timestamp: ${new Date().toISOString()}`,
+        `Error: ${this.state.error?.toString()}`,
+        `Stack: ${this.state.error?.stack || 'N/A'}`,
+        `Component Stack: ${this.state.errorInfo?.componentStack || 'N/A'}`,
+        `User Agent: ${navigator.userAgent}`
+      ].join('\n\n');
+
+      await navigator.clipboard.writeText(report);
+      this.setState({ copied: true });
+      setTimeout(() => this.setState({ copied: false }), 3000);
+    } catch {
+      // Fallback if clipboard API is restricted
+    }
+  };
+
+  private handleReset = () => {
+    this.setState({ hasError: false, error: null, errorInfo: null, copied: false });
+    if (this.props.onReset) {
+      this.props.onReset();
+    }
+  };
 
   public render() {
     if (this.state.hasError) {
       return (
-        <div className="p-6 bg-rose-100 border border-rose-500/30 rounded-2xl m-6 flex flex-col gap-4 animate-fade-in max-w-[1280px] mx-auto w-full">
-          <div className="flex items-center gap-2 text-rose-600">
-            <span className="material-symbols-outlined text-2xl">error_med</span>
-            <h2 className="text-lg font-bold font-display uppercase tracking-wider">
-              Component Execution Crash
-            </h2>
+        <div
+          role="alert"
+          aria-live="assertive"
+          className="p-6 md:p-8 bg-[#FCFAF4] border border-amber-500/30 rounded-2xl m-4 md:m-8 flex flex-col gap-4 animate-fade-in max-w-3xl mx-auto w-full shadow-lg"
+        >
+          <div className="flex items-center gap-3 text-amber-700">
+            <div className="w-10 h-10 rounded-xl bg-amber-500/15 flex items-center justify-center shrink-0">
+              <span className="material-symbols-outlined text-2xl">healing</span>
+            </div>
+            <div>
+              <h2 className="text-base md:text-lg font-bold font-display uppercase tracking-wider">
+                {this.props.fallbackTitle || "Assistive Subsystem Encountered an Issue"}
+              </h2>
+              <p className="text-xs text-slate-600 font-body">
+                Your authenticated session is preserved. The assistive model or audio engine can be safely restarted.
+              </p>
+            </div>
           </div>
-          <p className="text-xs font-mono-code text-rose-500 bg-rose-500/10 p-4 rounded-xl border border-rose-500/20 overflow-auto whitespace-pre-wrap max-w-full leading-normal shadow-inner">
-            <strong>Error:</strong> {this.state.error?.toString()}
-            {"\n\n"}
-            <strong>Stack Trace:</strong>
-            {this.state.errorInfo?.componentStack || "\n  No trace available."}
-          </p>
-          <div className="flex gap-3">
+
+          <details className="bg-[#EFE8D8] border border-[#E6DDC9] rounded-xl p-3.5 text-xs font-mono-code text-slate-700">
+            <summary className="cursor-pointer font-bold select-none hover:text-indigo-600 transition-colors">
+              Technical Diagnostic Details
+            </summary>
+            <div className="mt-3 pt-3 border-t border-[#E6DDC9] flex flex-col gap-2">
+              <div className="text-rose-600 font-semibold break-words">
+                {this.state.error?.toString()}
+              </div>
+              <pre className="text-[11px] overflow-x-auto p-2.5 bg-black/5 rounded-lg whitespace-pre-wrap leading-relaxed max-h-48">
+                {this.state.errorInfo?.componentStack || this.state.error?.stack || "No additional stack trace captured."}
+              </pre>
+            </div>
+          </details>
+
+          <div className="flex flex-wrap items-center gap-2.5 pt-2">
             <button
-              onClick={() => this.setState({ hasError: false, error: null, errorInfo: null })}
-              className="px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white rounded-xl text-xs font-bold font-display transition-colors active:scale-95"
+              type="button"
+              onClick={this.handleReset}
+              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold font-display transition-all active:scale-95 shadow-sm flex items-center gap-1.5"
             >
-              Try Re-rendering
+              <span className="material-symbols-outlined text-sm">refresh</span>
+              Restart Subsystem
             </button>
             <button
-              onClick={() => window.location.reload()}
-              className="px-4 py-2 bg-[#EFE8D8] hover:bg-[#E6DDC9] border border-[#E6DDC9] text-slate-700 rounded-xl text-xs font-bold font-display transition-colors active:scale-95"
+              type="button"
+              onClick={this.handleCopyDiagnostics}
+              className="px-4 py-2 bg-[#EFE8D8] hover:bg-[#E6DDC9] border border-[#E6DDC9] text-slate-800 rounded-xl text-xs font-bold font-display transition-all active:scale-95 flex items-center gap-1.5"
             >
-              Force Reload
+              <span className="material-symbols-outlined text-sm">
+                {this.state.copied ? 'done' : 'content_copy'}
+              </span>
+              {this.state.copied ? 'Report Copied!' : 'Copy Diagnostic Report'}
+            </button>
+            <button
+              type="button"
+              onClick={() => window.location.reload()}
+              className="px-4 py-2 bg-transparent hover:bg-black/5 text-slate-600 rounded-xl text-xs font-mono-code transition-colors"
+            >
+              Reload Page
             </button>
           </div>
         </div>

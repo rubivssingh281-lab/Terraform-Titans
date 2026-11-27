@@ -8,6 +8,8 @@ interface HeaderProps {
   onOpenSos: () => void;
   isLoggedIn: boolean;
   patientName?: string;
+  isHighContrast?: boolean;
+  onToggleHighContrast?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({ 
@@ -15,7 +17,9 @@ export const Header: React.FC<HeaderProps> = ({
   onSelectTab, 
   onOpenSos,
   isLoggedIn,
-  patientName
+  patientName,
+  isHighContrast,
+  onToggleHighContrast
 }) => {
   return (
     <header className="bg-[#FFFDF8]/90 backdrop-blur-xl border-b border-[#E6DDC9] sticky top-0 z-50 flex justify-between items-center px-4 md:px-8 h-16 w-full">
@@ -149,20 +153,35 @@ export const Header: React.FC<HeaderProps> = ({
         </button>
       </nav>
 
-      {/* Emergency SOS Trigger */}
-      <button
-        onClick={isLoggedIn ? onOpenSos : () => onSelectTab('dashboard')}
-        aria-label={isLoggedIn ? 'Open emergency SOS' : 'Sign in to use emergency SOS'}
-        aria-disabled={!isLoggedIn}
-        className={`bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 border border-rose-500/30 rounded-full px-4 py-1.5 font-mono-code text-xs font-bold tracking-widest flex items-center gap-1.5 transition-all active:scale-95 shadow-[0_0_12px_rgba(244,63,94,0.15)] ${
-          !isLoggedIn ? 'opacity-60 cursor-not-allowed' : ''
-        }`}
-      >
-        <span className="material-symbols-outlined text-sm animate-pulse">
-          {!isLoggedIn ? 'lock' : 'warning'}
-        </span>
-        SOS
-      </button>
+      {/* Action Controls: Accessibility Contrast Toggle & Emergency SOS */}
+      <div className="flex items-center gap-2">
+        {onToggleHighContrast && (
+          <button
+            type="button"
+            onClick={onToggleHighContrast}
+            aria-label={isHighContrast ? "Switch to standard contrast mode" : "Switch to high contrast accessibility mode"}
+            title={isHighContrast ? "Standard Contrast" : "High Contrast"}
+            className="w-8 h-8 rounded-full border border-[#E6DDC9] hover:border-indigo-500 flex items-center justify-center text-slate-600 hover:text-indigo-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+          >
+            <span className="material-symbols-outlined text-base">contrast</span>
+          </button>
+        )}
+
+        {/* Emergency SOS Trigger */}
+        <button
+          onClick={isLoggedIn ? onOpenSos : () => onSelectTab('dashboard')}
+          aria-label={isLoggedIn ? 'Open emergency SOS' : 'Sign in to use emergency SOS'}
+          aria-disabled={!isLoggedIn}
+          className={`bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 border border-rose-500/30 rounded-full px-4 py-1.5 font-mono-code text-xs font-bold tracking-widest flex items-center gap-1.5 transition-all active:scale-95 shadow-[0_0_12px_rgba(244,63,94,0.15)] ${
+            !isLoggedIn ? 'opacity-60 cursor-not-allowed' : ''
+          }`}
+        >
+          <span className="material-symbols-outlined text-sm animate-pulse">
+            {!isLoggedIn ? 'lock' : 'warning'}
+          </span>
+          SOS
+        </button>
+      </div>
     </header>
   );
 };
