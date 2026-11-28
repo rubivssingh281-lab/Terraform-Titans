@@ -112,10 +112,14 @@ export const TextToSpeech: React.FC<TextToSpeechProps> = ({ onAddPhraseHistory, 
   const handleAddCategory = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newCategoryName.trim()) return;
+    const token = localStorage.getItem('echolytix_session_token');
     try {
       const res = await fetch('/api/categories', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+        },
         body: JSON.stringify({ name: newCategoryName.trim() })
       });
       if (res.ok) {
@@ -132,10 +136,14 @@ export const TextToSpeech: React.FC<TextToSpeechProps> = ({ onAddPhraseHistory, 
 
   const handleAddPhrase = async (catId: number) => {
     if (!newPhraseText.trim()) return;
+    const token = localStorage.getItem('echolytix_session_token');
     try {
       const res = await fetch(`/api/categories/${catId}/phrases`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+        },
         body: JSON.stringify({ text: newPhraseText.trim() })
       });
       if (res.ok) {

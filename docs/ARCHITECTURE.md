@@ -144,3 +144,8 @@ EcholytiX adheres to WCAG 2.1 AA accessibility and progressive enhancement stand
 3. **Subsystem Error Recovery & High-Contrast Visual Aid**:
    - **Dignified Error Boundary**: Gracefully isolates component crashes, protects authentication state, offers single-click subsystem restart and diagnostic export.
    - **High-Contrast Theme**: Meets WCAG AAA 7:1 contrast ratios for patients with photophobia, cataracts, or low visual acuity, persisted in client storage.
+   - **Display Text Scaling & Shortcuts Guide**: Interactive modal (`?`) provides hotkey documentation and persistent font scaling (`100%`, `115%`, `130%`).
+
+4. **Performance & Caregiver Workflows**:
+   - **Route-Level Code Splitting**: `React.lazy` and `Suspense` split heavy MediaPipe WASM and speech modules into on-demand chunks, reducing initial JavaScript bundle size.
+   - **Speech History Search & Export**: Real-time text search, modality filtering (`Blink`, `Sign`, `Morse`, `TTS`), and `.txt` transcript export in `Dashboard`.

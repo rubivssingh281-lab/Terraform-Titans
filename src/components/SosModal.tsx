@@ -167,7 +167,12 @@ export const SosModal: React.FC<SosModalProps> = ({ isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#F3EDDF]/85 backdrop-blur-md animate-fade-in">
-      <div className="bg-[#FCFAF4] max-w-lg w-full rounded-2xl border-2 border-rose-500/50 p-6 flex flex-col gap-6 shadow-[0_0_50px_rgba(244,63,94,0.25)] relative overflow-hidden">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="sos-modal-title"
+        className="bg-[#FCFAF4] max-w-lg w-full rounded-2xl border-2 border-rose-500/50 p-6 flex flex-col gap-6 shadow-[0_0_50px_rgba(244,63,94,0.25)] relative overflow-hidden"
+      >
         
         {/* Top Emergency Pulse Header */}
         <div className="flex items-center gap-3 bg-rose-500/10 p-3 rounded-xl border border-rose-500/30">
@@ -175,7 +180,7 @@ export const SosModal: React.FC<SosModalProps> = ({ isOpen, onClose }) => {
             warning
           </span>
           <div>
-            <h3 className="font-display font-extrabold text-lg text-rose-600 uppercase tracking-wider">
+            <h3 id="sos-modal-title" className="font-display font-extrabold text-lg text-rose-600 uppercase tracking-wider">
               Emergency SOS Signal
             </h3>
             <span className="font-mono-code text-xs text-rose-500">

@@ -267,9 +267,13 @@ export default function App() {
 
   // Fetch recent phrases when logged in
   useEffect(() => {
-    if (!isLoggedIn) return;
+    if (!isLoggedIn || !sessionToken) return;
 
-    fetch('/api/phrases')
+    fetch('/api/phrases', {
+      headers: {
+        'Authorization': `Bearer ${sessionToken}`
+      }
+    })
       .then(res => {
         if (res.ok) return res.json();
         throw new Error('Failed to fetch phrases');
@@ -280,7 +284,7 @@ export default function App() {
         }
       })
       .catch(err => console.warn('Could not load phrase history:', err));
-  }, [isLoggedIn]);
+  }, [isLoggedIn, sessionToken]);
 
   // Handle Login Success
   const handleLoginSuccess = (patientData: any, token: string) => {
