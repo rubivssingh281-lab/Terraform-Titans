@@ -10,6 +10,7 @@ interface HeaderProps {
   patientName?: string;
   isHighContrast?: boolean;
   onToggleHighContrast?: () => void;
+  onOpenShortcuts?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({ 
@@ -19,7 +20,8 @@ export const Header: React.FC<HeaderProps> = ({
   isLoggedIn,
   patientName,
   isHighContrast,
-  onToggleHighContrast
+  onToggleHighContrast,
+  onOpenShortcuts
 }) => {
   return (
     <header className="bg-[#FFFDF8]/90 backdrop-blur-xl border-b border-[#E6DDC9] sticky top-0 z-50 flex justify-between items-center px-4 md:px-8 h-16 w-full">
@@ -153,8 +155,21 @@ export const Header: React.FC<HeaderProps> = ({
         </button>
       </nav>
 
-      {/* Action Controls: Accessibility Contrast Toggle & Emergency SOS */}
+      {/* Action Controls: Accessibility Contrast Toggle, Shortcuts Guide & Emergency SOS */}
       <div className="flex items-center gap-2">
+        {onOpenShortcuts && (
+          <button
+            type="button"
+            onClick={onOpenShortcuts}
+            aria-label="Open keyboard shortcuts and display size guide"
+            aria-keyshortcuts="?"
+            title="Keyboard Shortcuts & Text Size (?)"
+            className="w-8 h-8 rounded-full border border-[#E6DDC9] hover:border-indigo-500 flex items-center justify-center text-slate-600 hover:text-indigo-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+          >
+            <span className="material-symbols-outlined text-base">help</span>
+          </button>
+        )}
+
         {onToggleHighContrast && (
           <button
             type="button"

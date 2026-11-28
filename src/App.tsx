@@ -6,6 +6,7 @@ import { BottomNavBar } from './components/BottomNavBar';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { AuthPortal } from './components/AuthPortal';
 import { ToastContainer, ToastMessage } from './components/Toast';
+import type { FontScale } from './components/ShortcutsModal';
 
 // Route-level code splitting for heavy assistive & MediaPipe WASM modules
 const Dashboard = lazy(() => import('./components/Dashboard').then((m) => ({ default: m.Dashboard })));
@@ -16,6 +17,7 @@ const TextToSpeech = lazy(() => import('./components/TextToSpeech').then((m) => 
 const RemoteReceiver = lazy(() => import('./components/RemoteReceiver').then((m) => ({ default: m.RemoteReceiver })));
 const RemoteSender = lazy(() => import('./components/RemoteSender').then((m) => ({ default: m.RemoteSender })));
 const SosModal = lazy(() => import('./components/SosModal').then((m) => ({ default: m.SosModal })));
+const ShortcutsModal = lazy(() => import('./components/ShortcutsModal').then((m) => ({ default: m.ShortcutsModal })));
 
 const ModuleLoader = () => (
   <div
@@ -62,6 +64,25 @@ export default function App() {
     return localStorage.getItem('echolytix_high_contrast') === 'true';
   });
 
+  // Shortcuts Modal & Font Scale State
+  const [isShortcutsOpen, setIsShortcutsOpen] = useState<boolean>(false);
+  const [fontScale, setFontScale] = useState<FontScale>(() => {
+    if (typeof localStorage === 'undefined') return '100';
+    const saved = localStorage.getItem('echolytix_font_scale');
+    return saved === '115' || saved === '130' ? saved : '100';
+  });
+
+  useEffect(() => {
+    document.documentElement.style.fontSize = `${fontScale}%`;
+  }, [fontScale]);
+
+  const handleChangeFontScale = (scale: FontScale) => {
+    setFontScale(scale);
+    localStorage.setItem('echolytix_font_scale', scale);
+    announce(`Display text size set to ${scale} percent.`);
+    addToast('info', `Display text size set to ${scale}%.`);
+  };
+
   const toggleHighContrast = () => {
     setIsHighContrast((prev) => {
       const next = !prev;
@@ -105,13 +126,20 @@ export default function App() {
     announce(`Switched to ${tab} mode.`);
   };
 
-  // Global Accessibility Keyboard Navigation (Alt+1..6, Alt+E, Esc)
+  // Global Accessibility Keyboard Navigation (Alt+1..6, Alt+E, ?, Esc)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isSosOpen) {
-        setIsSosOpen(false);
-        announce('Emergency SOS dialog dismissed.');
-        return;
+      if (e.key === 'Escape') {
+        if (isShortcutsOpen) {
+          setIsShortcutsOpen(false);
+          announce('Accessibility guide dismissed.');
+          return;
+        }
+        if (isSosOpen) {
+          setIsSosOpen(false);
+          announce('Emergency SOS dialog dismissed.');
+          return;
+        }
       }
 
       // Do not intercept hotkeys when editing inputs, textareas, or contentEditable nodes
@@ -122,6 +150,12 @@ export default function App() {
         (activeEl as HTMLElement).isContentEditable
       );
       if (isInput) return;
+
+      if (e.key === '?' && !e.altKey && !e.ctrlKey && !e.metaKey) {
+        e.preventDefault();
+        setIsShortcutsOpen((prev) => !prev);
+        return;
+      }
 
       if (e.altKey && !e.ctrlKey && !e.metaKey) {
         const key = e.key.toLowerCase();
@@ -183,7 +217,7 @@ export default function App() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isLoggedIn, isSosOpen]);
+  }, [isLoggedIn, isSosOpen, isShortcutsOpen]);
 
   // Remote Sender State
   const [remoteSenderCode, setRemoteSenderCode] = useState<string | null>(null);
@@ -409,6 +443,7 @@ export default function App() {
         patientName={patient?.name}
         isHighContrast={isHighContrast}
         onToggleHighContrast={toggleHighContrast}
+        onOpenShortcuts={() => setIsShortcutsOpen(true)}
       />
 
       {/* Network Offline Alert Banner */}
@@ -485,6 +520,18 @@ export default function App() {
             setIsSosOpen(false);
             announce('Emergency SOS dialog dismissed.');
           }} />
+        </Suspense>
+      )}
+
+      {/* Accessibility Shortcuts & Font Scale Modal */}
+      {isShortcutsOpen && (
+        <Suspense fallback={null}>
+          <ShortcutsModal
+            isOpen={isShortcutsOpen}
+            onClose={() => setIsShortcutsOpen(false)}
+            fontScale={fontScale}
+            onChangeFontScale={handleChangeFontScale}
+          />
         </Suspense>
       )}
 
