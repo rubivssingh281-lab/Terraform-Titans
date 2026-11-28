@@ -1,19 +1,32 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { NavTab, RecentPhrase } from './types';
 import { INITIAL_RECENT_PHRASES } from './data';
 import { Header } from './components/Header';
 import { BottomNavBar } from './components/BottomNavBar';
-import { Dashboard } from './components/Dashboard';
-import { BlinkToText } from './components/BlinkToText';
-import { SignLanguage } from './components/SignLanguage';
-import { MorseTranslator } from './components/MorseTranslator';
-import { TextToSpeech } from './components/TextToSpeech';
-import { SosModal } from './components/SosModal';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { AuthPortal } from './components/AuthPortal';
-import { RemoteReceiver } from './components/RemoteReceiver';
-import { RemoteSender } from './components/RemoteSender';
 import { ToastContainer, ToastMessage } from './components/Toast';
+
+// Route-level code splitting for heavy assistive & MediaPipe WASM modules
+const Dashboard = lazy(() => import('./components/Dashboard').then((m) => ({ default: m.Dashboard })));
+const BlinkToText = lazy(() => import('./components/BlinkToText').then((m) => ({ default: m.BlinkToText })));
+const SignLanguage = lazy(() => import('./components/SignLanguage').then((m) => ({ default: m.SignLanguage })));
+const MorseTranslator = lazy(() => import('./components/MorseTranslator').then((m) => ({ default: m.MorseTranslator })));
+const TextToSpeech = lazy(() => import('./components/TextToSpeech').then((m) => ({ default: m.TextToSpeech })));
+const RemoteReceiver = lazy(() => import('./components/RemoteReceiver').then((m) => ({ default: m.RemoteReceiver })));
+const RemoteSender = lazy(() => import('./components/RemoteSender').then((m) => ({ default: m.RemoteSender })));
+const SosModal = lazy(() => import('./components/SosModal').then((m) => ({ default: m.SosModal })));
+
+const ModuleLoader = () => (
+  <div
+    role="status"
+    aria-live="polite"
+    className="flex-1 flex flex-col items-center justify-center p-12 gap-3 text-slate-500 font-mono-code text-xs"
+  >
+    <span className="material-symbols-outlined text-3xl text-indigo-600 animate-spin">progress_activity</span>
+    <span>LOADING ASSISTIVE MODULE...</span>
+  </div>
+);
 
 export default function App() {
   const [currentTab, setCurrentTab] = useState<NavTab>('dashboard');
@@ -335,13 +348,15 @@ export default function App() {
   if (remoteSenderCode) {
     return (
       <ErrorBoundary>
-        <RemoteSender
-          code={remoteSenderCode}
-          onDisconnect={() => {
-            setRemoteSenderCode(null);
-            window.history.replaceState({}, document.title, window.location.pathname);
-          }}
-        />
+        <Suspense fallback={<ModuleLoader />}>
+          <RemoteSender
+            code={remoteSenderCode}
+            onDisconnect={() => {
+              setRemoteSenderCode(null);
+              window.history.replaceState({}, document.title, window.location.pathname);
+            }}
+          />
+        </Suspense>
       </ErrorBoundary>
     );
   }
@@ -414,7 +429,7 @@ export default function App() {
           {!isLoggedIn ? (
             <AuthPortal onLoginSuccess={handleLoginSuccess} />
           ) : (
-            <>
+            <Suspense fallback={<ModuleLoader />}>
               {currentTab === 'dashboard' && (
                 <Dashboard
                   onSelectTab={handleSelectTab}
@@ -451,24 +466,26 @@ export default function App() {
                   }}
                 />
               )}
-            </>
+            </Suspense>
           )}
         </ErrorBoundary>
       </main>
 
       {/* Floating Bottom Navigation Bar (Mobile View) */}
-      <BottomNavBar 
-        currentTab={currentTab} 
+      <BottomNavBar
+        currentTab={currentTab}
         onSelectTab={handleSelectTab}
         isLoggedIn={isLoggedIn}
       />
 
       {/* Emergency SOS Modal */}
-      {isLoggedIn && (
-        <SosModal isOpen={isSosOpen} onClose={() => {
-          setIsSosOpen(false);
-          announce('Emergency SOS dialog dismissed.');
-        }} />
+      {isLoggedIn && isSosOpen && (
+        <Suspense fallback={null}>
+          <SosModal isOpen={isSosOpen} onClose={() => {
+            setIsSosOpen(false);
+            announce('Emergency SOS dialog dismissed.');
+          }} />
+        </Suspense>
       )}
 
       {/* Non-blocking Toast Alerts Container */}
