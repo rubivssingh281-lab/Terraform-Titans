@@ -55,6 +55,36 @@ export const Dashboard: React.FC<DashboardProps> = ({
   // System Notifications Log State
   const [notifications, setNotifications] = useState<string[]>([]);
 
+  // Speech History Search & Filter State
+  const [historySearch, setHistorySearch] = useState<string>('');
+  const [historyModeFilter, setHistoryModeFilter] = useState<'ALL' | RecentPhrase['mode']>('ALL');
+
+  const filteredPhrases = recentPhrases.filter((item) => {
+    const matchesMode = historyModeFilter === 'ALL' || item.mode === historyModeFilter;
+    const matchesQuery =
+      !historySearch.trim() ||
+      item.text.toLowerCase().includes(historySearch.trim().toLowerCase());
+    return matchesMode && matchesQuery;
+  });
+
+  const handleExportHistory = () => {
+    if (filteredPhrases.length === 0) return;
+    const lines = [
+      `EcholytiX Speech History Transcript (${patientName || 'Patient'})`,
+      `Exported: ${new Date().toISOString()}`,
+      `Filter: ${historyModeFilter} (${filteredPhrases.length} entries)`,
+      '----------------------------------------',
+      ...filteredPhrases.map((p) => `[${p.mode}] ${p.text} (${p.timestamp || 'recorded'})`),
+    ];
+    const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `echolytix-history-${new Date().toISOString().slice(0, 10)}.txt`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
   // Sync state values when patient prop changes
   useEffect(() => {
     if (patient) {
@@ -765,28 +795,79 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
           {/* Activity Log (Speech History) */}
           <div className="bg-[#FCFAF4] p-5 rounded-2xl border border-[#E6DDC9] flex flex-col gap-3 flex-grow">
-            <h3 className="font-display font-bold text-xs text-slate-500 uppercase tracking-wider flex justify-between items-center border-b border-[#E6DDC9] pb-2">
-              <span>Speech History</span>
-              <span className="text-[9px] font-mono-code text-slate-400">{recentPhrases.length} logs</span>
-            </h3>
+            <div className="flex justify-between items-center border-b border-[#E6DDC9] pb-2">
+              <h3 className="font-display font-bold text-xs text-slate-500 uppercase tracking-wider flex items-center gap-2">
+                <span>Speech History</span>
+                <span className="text-[9px] font-mono-code text-slate-400">
+                  {filteredPhrases.length}/{recentPhrases.length}
+                </span>
+              </h3>
+              <button
+                type="button"
+                onClick={handleExportHistory}
+                disabled={filteredPhrases.length === 0}
+                aria-label="Export speech history transcript"
+                title="Export transcript (.txt)"
+                className="text-[10px] font-mono-code font-semibold text-indigo-600 hover:text-indigo-500 disabled:opacity-40 flex items-center gap-1 transition-colors"
+              >
+                <span className="material-symbols-outlined text-sm">download</span>
+                Export
+              </button>
+            </div>
+
+            {/* Search & Mode Filter Controls */}
+            <div className="flex flex-col gap-2">
+              <input
+                type="search"
+                value={historySearch}
+                onChange={(e) => setHistorySearch(e.target.value)}
+                placeholder="Search phrases..."
+                aria-label="Search speech history"
+                className="bg-[#EFE8D8] border border-[#E6DDC9] focus:border-indigo-500 rounded-lg px-2.5 py-1.5 text-[11px] font-mono-code text-slate-800 outline-none w-full"
+              />
+              <div className="flex flex-wrap gap-1" role="group" aria-label="Filter speech history by mode">
+                {(['ALL', 'Blink', 'Sign', 'Morse', 'TTS'] as const).map((mode) => {
+                  const active = historyModeFilter === mode;
+                  return (
+                    <button
+                      key={mode}
+                      type="button"
+                      aria-pressed={active}
+                      onClick={() => setHistoryModeFilter(mode)}
+                      className={`px-2 py-0.5 rounded-md text-[10px] font-mono-code font-semibold transition-colors ${
+                        active
+                          ? 'bg-indigo-600 text-white'
+                          : 'bg-[#EFE8D8] text-slate-600 hover:bg-[#E6DDC9]'
+                      }`}
+                    >
+                      {mode}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
 
             <div className="flex flex-col gap-2 max-h-[220px] overflow-y-auto pr-1">
-              {recentPhrases.map((item) => (
+              {filteredPhrases.map((item) => (
                 <div key={item.id} className="p-2.5 bg-[#EFE8D8] rounded-xl border border-[#E6DDC9] flex items-center justify-between gap-2 hover:bg-[#E6DDC9] transition-colors">
                   <div className="flex flex-col gap-0.5 truncate flex-grow">
                     <span className="text-xs font-medium text-slate-800 truncate">{item.text}</span>
                     <span className="text-[9px] font-mono-code text-slate-400 uppercase">{item.mode} • {item.timestamp}</span>
                   </div>
                   <button
+                    type="button"
+                    aria-label={`Speak ${item.text}`}
                     onClick={() => speakText(item.text.replace(/"/g, ''))}
-                    className="w-7 h-7 bg-[#FCFAF4] hover:bg-indigo-600 hover:text-white rounded-lg flex items-center justify-center text-slate-500 transition-colors border border-[#E6DDC9]"
+                    className="w-7 h-7 bg-[#FCFAF4] hover:bg-indigo-600 hover:text-white rounded-lg flex items-center justify-center text-slate-500 transition-colors border border-[#E6DDC9] shrink-0"
                   >
                     <span className="material-symbols-outlined text-sm">play_arrow</span>
                   </button>
                 </div>
               ))}
-              {recentPhrases.length === 0 && (
-                <span className="text-xs italic text-slate-400 text-center py-4">No speech logged yet.</span>
+              {filteredPhrases.length === 0 && (
+                <span className="text-xs italic text-slate-400 text-center py-4">
+                  {recentPhrases.length === 0 ? 'No speech logged yet.' : 'No matching phrases found.'}
+                </span>
               )}
             </div>
           </div>
